@@ -1,6 +1,6 @@
+import { UsuarioIdSchema, UsuarioPostSchema, UsuarioPutSchema, UsuarioPutType, UsuarioPostType } from "../../tipos/usuario.js";
 import { FastifyPluginAsync, FastifyPluginOptions } from "fastify";
 import { FastifyInstance } from "fastify/types/instance.js";
-import { UsuarioIdSchema, UsuarioPostSchema, UsuarioPutSchema, UsuarioPutType, UsuarioPostType } from "../../tipos/usuario.js";
 import { query } from "../../services/database.js";
 
 // Definición del plugin de ruta
@@ -8,10 +8,10 @@ const usuarioRoute: FastifyPluginAsync = async (
     fastify: FastifyInstance,
     opts: FastifyPluginOptions
 ): Promise<void> => {
-    // Ruta para obtener todos los usuarios
+    // Ruta para obtener todas las personas
     fastify.get("/", {
         schema: {
-            tags: ["usuario"],
+            tags: ["Usuario"],
         },
 
         onRequest: fastify.authenticate,
