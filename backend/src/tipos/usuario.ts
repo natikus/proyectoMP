@@ -6,7 +6,7 @@ export const UsuarioSchema = Type.Object({//esquema utilizado para hacer un get
     id: Type.Number(),
     nombre: Type.String({ minLength: 2, maxLength: 50 }),
     apellido: Type.String({ minLength: 2, maxLength: 50 }),
-    user: Type.String({ minLength: 2, maxLength: 50 }),
+    usuario: Type.String({ minLength: 2, maxLength: 50 }),
     cedula: Type.String({ pattern: cedulaRegex.source }),
     email: Type.String({ type: 'string', format: 'email' }),
     telefono: Type.String({ pattern: '^[0-9]{9}$' }),
@@ -19,18 +19,19 @@ export const UsuarioSchema = Type.Object({//esquema utilizado para hacer un get
 export const UsuarioPostSchema = Type.Object({//esquema utilizado para hacer un post
     nombre: Type.String({ minLength: 2, maxLength: 50 }),
     apellido: Type.String({ minLength: 2, maxLength: 50 }),
-    user: Type.String({ minLength: 2, maxLength: 50 }),
+    usuario: Type.String({ minLength: 2, maxLength: 50 }),
     cedula: Type.String({ pattern: cedulaRegex.source }),
     email: Type.String({ type: 'string', format: 'email' }),
     telefono: Type.String({ pattern: '^[0-9]{9}$' }),
     foto: Type.String(),
+    isAdmin: Type.Boolean(),
     descripcion: Type.String({ maxLength: 300 }),
     fechaCreacion: Type.Date(),
     intereses: Type.Array(Type.String()),
     contrasena: Type.String({ minLength: 8, maxLength: 20, pattern: passwordRegex.source, }),
 });
 export const UsuarioPutSchema = Type.Object({//esquema utilizado para hacer un put
-    user: Type.String({ minLength: 2, maxLength: 50 }),
+    usuario: Type.String({ minLength: 2, maxLength: 50 }),
     telefono: Type.String({ pattern: '^[0-9]{9}$' }),
     foto: Type.String(),
     descripcion: Type.String({ maxLength: 300 }),
@@ -41,7 +42,7 @@ export const UsuarioIdSchema = Type.Object({
     id: Type.Number(),
 });
 
-export type UsuarioIdSchema = Static<typeof UsuarioIdSchema>;
-export type UsuarioPostSchema = Static<typeof UsuarioPostSchema>;
-export type UsuarioPutSchema = Static<typeof UsuarioPutSchema>;
-export type UsuarioSchema = Static<typeof UsuarioSchema>;
+export type UsuarioType = Static<typeof UsuarioIdSchema>;
+export type UsuarioPostType = Static<typeof UsuarioPostSchema>;
+export type UsuarioPutType = Static<typeof UsuarioPutSchema>;
+export type UsuarioIdType = Static<typeof UsuarioSchema>;

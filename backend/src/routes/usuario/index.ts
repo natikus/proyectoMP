@@ -1,17 +1,17 @@
 import { FastifyPluginAsync, FastifyPluginOptions } from "fastify";
 import { FastifyInstance } from "fastify/types/instance.js";
-import { UsuarioIdSchema, UsuarioPostSchema, UsuarioPutSchema, UsuarioSchema } from "../../tipos/usuario.js";
+import { UsuarioIdSchema, UsuarioPostSchema, UsuarioPutSchema, UsuarioPutType, UsuarioPostType } from "../../tipos/usuario.js";
 import { query } from "../../services/database.js";
 
 // Definición del plugin de ruta
-const UsuarioRoute: FastifyPluginAsync = async (
+const usuarioRoute: FastifyPluginAsync = async (
     fastify: FastifyInstance,
     opts: FastifyPluginOptions
 ): Promise<void> => {
     // Ruta para obtener todos los usuarios
     fastify.get("/", {
         schema: {
-            tags: ["Usuario"],
+            tags: ["usuario"],
         },
 
         onRequest: fastify.authenticate,
@@ -21,7 +21,7 @@ const UsuarioRoute: FastifyPluginAsync = async (
         id,
         nombre,
         apellido,
-        user,
+        usuario,
         cedula,
         email:,
         telefono,
@@ -30,9 +30,9 @@ const UsuarioRoute: FastifyPluginAsync = async (
         descripcion,
         fechaCreacion,
         intereses,
-        FROM `);
+        FROM usuarios`);
             if (res.rows.length === 0) {
-                reply.code(404).send({ message: "No hay Usuarios registradas" });
+                reply.code(404).send({ message: "No hay usuarios registradas" });
                 return;
             }
             return res.rows;
@@ -44,17 +44,28 @@ const UsuarioRoute: FastifyPluginAsync = async (
         schema: {
             params: UsuarioPostSchema,
             tags: ["Usuario"],
-            description: "Crea una nueva Usuario",
+            description: "Crea una nuevo usuario",
         },
         preHandler: [fastify.authenticate],
         handler: async function (request, reply) {
-            const UsuarioPost = request.body as UsuarioPostSchema;
-            const res = await query(`INSERT INTO Usuarios
-            (nombre, nombre2, apellido, email, cedula, rut, contrasena)
+            const UsuarioPost = request.body as UsuarioPostType;
+            const res = await query(`INSERT INTO usuarios
+            (nombre,
+            apellido,
+            usuario,
+            cedula,
+            email:,
+            telefono,
+            foto,
+            isAdmin,
+            descripcion,
+            fechaCreacion,
+            intereses,
+            contrasena,)
             VALUES
             ('${UsuarioPost.nombre}',  
             '${UsuarioPost.apellido}', 
-            '${UsuarioPost.user}',
+            '${UsuarioPost.usuario}',
             '${UsuarioPost.cedula}', 
             '${UsuarioPost.email}', 
             '${UsuarioPost.telefono}', 
@@ -66,14 +77,14 @@ const UsuarioRoute: FastifyPluginAsync = async (
             RETURNING id;`);
             const id = res.rows[0].id;
             if (res.rows.length === 0) {
-                reply.code(404).send({ message: "Usuario no creada" });
+                reply.code(404).send({ message: "usuario no creado" });
                 return;
             }
             reply.code(201).send({ ...UsuarioPost, id });
         }
     });
 
-    // Ruta para eliminar un Usuario
+    // Ruta para eliminar un usuario
     fastify.delete("/:id", {
         schema: {
             tags: ["Usuario"],
@@ -100,7 +111,7 @@ const UsuarioRoute: FastifyPluginAsync = async (
 
         handler: async function (request, reply) {
             const { id } = request.params as { id: string };
-            const res = await query(`DELETE FROM Usuarios WHERE id = ${id};`);
+            const res = await query(`DELETE FROM usuarios WHERE id = ${id};`);
             if (res.rowCount === 0) {
                 reply.code(404).send({ message: "Usuario no encontrado" });
                 return;
@@ -113,7 +124,7 @@ const UsuarioRoute: FastifyPluginAsync = async (
     fastify.put("/:id", {
         schema: {
             tags: ["Usuario"],
-            description: "Actualiza una Usuario por ID",
+            description: "Actualiza una usuario por ID",
             params: UsuarioIdSchema,
             body: UsuarioPutSchema,
             response: {
@@ -121,7 +132,7 @@ const UsuarioRoute: FastifyPluginAsync = async (
                     type: "object",
                     properties: {
                         id: { type: "string" },
-                        user: { type: "string" },
+                        usuario: { type: "string" },
                         telefono: { type: "string" },
                         foto: { type: "string" },
                         descripcion: { type: "string" },
@@ -142,14 +153,14 @@ const UsuarioRoute: FastifyPluginAsync = async (
 
         handler: async function (request, reply) {
             const { id } = request.params as { id: string };
-            const usuarioPut = request.body as UsuarioPutSchema;
-            const res = await query(`UPDATE Usuarios
+            const usuarioPut = request.body as UsuarioPutType;
+            const res = await query(`UPDATE usuarios
         SET telefono = '${usuarioPut.telefono}',
         foto = '${usuarioPut.foto}',
         descripcion = '${usuarioPut.descripcion}',
         intereses = '${usuarioPut.intereses}',
         contrasena = '${usuarioPut.contrasena}',
-        user = '${usuarioPut.user}',
+        usuario = '${usuarioPut.usuario}',
         WHERE id = ${id}
         RETURNING id;`);
             if (res.rows.length === 0) {
@@ -173,7 +184,7 @@ const UsuarioRoute: FastifyPluginAsync = async (
                         id: { type: "string" },
                         nombre: { type: "string" },
                         apellido: { type: "string" },
-                        user: { type: "string" },
+                        usuario: { type: "string" },
                         cedula: { type: "string" },
                         email: { type: "string" },
                         telefono: { type: "string" },
@@ -199,7 +210,7 @@ const UsuarioRoute: FastifyPluginAsync = async (
         id,
         nombre,
         apellido,
-        user,
+        usuario,
         cedula,
         email:,
         telefono,
@@ -208,7 +219,7 @@ const UsuarioRoute: FastifyPluginAsync = async (
         descripcion,
         fechaCreacion,
         intereses,
-        FROM Usuarios WHERE id = ${id};`);
+        FROM usuarios WHERE id = ${id};`);
 
             if (res.rows.length === 0) {
                 reply.code(404).send({ message: "Usuario no encontrado" });
@@ -221,4 +232,4 @@ const UsuarioRoute: FastifyPluginAsync = async (
 
 };
 
-export default UsuarioRoute;
+export default usuarioRoute;
