@@ -1,5 +1,4 @@
 {
-  "extends": "fastify-tsconfig",
   "compilerOptions": {
     "outDir": "dist",
     "sourceMap": true,
@@ -11,6 +10,6 @@
   "include": [
     "src/**/*.ts",
     "src/routes/usuario/index.ts",
-    "src/tipos/fastify.ts"
+    "src/tipos/fastify.ts",
   ]
 }
