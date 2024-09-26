@@ -1,12 +1,14 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 
-export interface authenticateFunction {
+export interface AuthenticateFunction {
     (request: FastifyRequest, reply: FastifyReply): Promise<void>;
 }
 
-
-declare module "fastify" {
+declare module 'fastify' {
     interface FastifyInstance {
-        authenticate: (request: FastifyRequest, reply: FastifyReply) => Promise<void>;
+        authenticate: AuthenticateFunction;
+        verifyUserId: AuthenticateFunction;
     }
 }
+
+export default AuthenticateFunction;

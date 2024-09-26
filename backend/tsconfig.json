@@ -1,5 +1,4 @@
 {
-  "extends": "fastify-tsconfig",
   "compilerOptions": {
     "outDir": "dist",
     "sourceMap": true,
@@ -8,5 +7,9 @@
     "target": "ES2022",
     "esModuleInterop": true
   },
-  "include": ["src/**/*.ts"]
+  "include": [
+    "src/**/*.ts",
+    "src/routes/usuario/index.ts",
+    "src/tipos/fastify.ts",
+  ]
 }

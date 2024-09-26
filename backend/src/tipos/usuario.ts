@@ -13,7 +13,7 @@ export const UsuarioSchema = Type.Object({//esquema utilizado para hacer un get
     foto: Type.String(),
     isAdmin: Type.Boolean(),
     descripcion: Type.String({ maxLength: 300 }),
-    fechaCreacion: Type.Date(),
+    fechaCreacion: Type.String({ format: 'date-time' }),
     intereses: Type.Array(Type.String()),
 });
 export const UsuarioPostSchema = Type.Object({//esquema utilizado para hacer un post
@@ -26,7 +26,7 @@ export const UsuarioPostSchema = Type.Object({//esquema utilizado para hacer un 
     foto: Type.String(),
     isAdmin: Type.Boolean(),
     descripcion: Type.String({ maxLength: 300 }),
-    fechaCreacion: Type.Date(),
+    fechaCreacion: Type.String({ format: 'date-time' }),
     intereses: Type.Array(Type.String()),
     contrasena: Type.String({ minLength: 8, maxLength: 20, pattern: passwordRegex.source, }),
 });
