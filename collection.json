@@ -1,0 +1,409 @@
+{
+	"info": {
+		"_postman_id": "af63f22d-26d8-48ef-a6b2-25dcd077077b",
+		"name": "proyectoPM",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "31646778",
+		"_collection_link": "https://red-space-926741.postman.co/workspace/My-Workspace~d7dc0f96-e34b-4805-88cd-603da3a13369/collection/31646778-af63f22d-26d8-48ef-a6b2-25dcd077077b?action=share&source=collection_link&creator=31646778"
+	},
+	"item": [
+		{
+			"name": "auth",
+			"item": [
+				{
+					"name": "Registro",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombre\": \"naty\",\r\n    \"apellido\":\"kusminsky\",\r\n    \"usuario\":\"natkus\",\r\n    \"cedula\":\"5.479.508-3\",\r\n    \"email\":\"natikumy@gmiail.com\",\r\n    \"telefono\":\"092070235\",\r\n    \"foto\":\"dfcvbfd\",\r\n    \"isAdmin\":true,\r\n    \"descripcion\":\"soy la creadora\",\r\n    \"intereses\":[\"comida\", \"perros\"],\r\n    \"contrasena\":\"1234qweR$\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/backend/auth",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"backend",
+								"auth"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n\r\n    \"email\":\"natikumy@gmiail.com\",\r\n    \"contrasena\":\"1234qweR$\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/backend/auth/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"backend",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "usuario",
+			"item": [
+				{
+					"name": "ver todos los usuarios",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJuYXRpa3VteUBnbWlhaWwuY29tIiwiaWF0IjoxNzI3NTkxNTM4fQ.sCMeVvUAzWKCodfUUKL53dFTULMn8xwNmk_Z1i3d3BU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/backend/usuario",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"backend",
+								"usuario"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ver un usuario",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "\"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJuYXRpa3VteUBnbWlhaWwuY29tIiwiaWF0IjoxNzI3NTkxNTM4fQ.sCMeVvUAzWKCodfUUKL53dFTULMn8xwNmk_Z1i3d3BU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost/backend/usuario/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"backend",
+								"usuario",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editar un usuario",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJuYXRpa3VteUBnbWlhaWwuY29tIiwiaWF0IjoxNzI3NTkxNTM4fQ.sCMeVvUAzWKCodfUUKL53dFTULMn8xwNmk_Z1i3d3BU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"usuario\": \"kusminsky\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/backend/usuario/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"backend",
+								"usuario",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "eliminar un usuario",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJuYXRpa3VteUBnbWlhaWwuY29tIiwiaWF0IjoxNzI3NTkxNTM4fQ.sCMeVvUAzWKCodfUUKL53dFTULMn8xwNmk_Z1i3d3BU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/backend/usuario/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"backend",
+								"usuario",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "publicaciones",
+			"item": [
+				{
+					"name": "crear publicacion",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"titulo\":\"Hola\",\r\n    \"id_creador\": 1,\r\n    \"descripcion\": \" es un hola\",\r\n    \"imagenes\": \"es una imagen\",\r\n    \"ubicacion\": \"mi casa\",\r\n    \"etiquetas\": [\"comida\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/backend/inicio",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"backend",
+								"inicio"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ver todas publicaciones",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJuYXRpa3VteUBnbWlhaWwuY29tIiwiaWF0IjoxNzI3NjM1OTU4fQ.V2ENvZQ7zc4it_ylt2zzIYn0ax0lcIcreLRo-i_LrzY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/backend/inicio",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"backend",
+								"inicio"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "ver una publicacion",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJuYXRpa3VteUBnbWlhaWwuY29tIiwiaWF0IjoxNzI3NjM1OTU4fQ.V2ENvZQ7zc4it_ylt2zzIYn0ax0lcIcreLRo-i_LrzY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/backend/inicio/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"backend",
+								"inicio",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editar publicacion",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJuYXRpa3VteUBnbWlhaWwuY29tIiwiaWF0IjoxNzI3NjM1OTU4fQ.V2ENvZQ7zc4it_ylt2zzIYn0ax0lcIcreLRo-i_LrzY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"titulo\":\"Holaaa\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/backend/inicio/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"backend",
+								"inicio",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "borrar publicacion",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJuYXRpa3VteUBnbWlhaWwuY29tIiwiaWF0IjoxNzI3NjM1OTU4fQ.V2ENvZQ7zc4it_ylt2zzIYn0ax0lcIcreLRo-i_LrzY",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost/backend/inicio/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"path": [
+								"backend",
+								"inicio",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

@@ -53,7 +53,7 @@ const usuarioLoginRoute: FastifyPluginAsync = async (
     fastify.post("/", {
         schema: {
             body: UsuarioPostSchema,  // Cambiado de 'params' a 'body'
-            tags: ["Usuario"],
+            tags: ["auth"],
             description: "Crea un nuevo usuario",
         },
         // Si no quieres que se requiera autenticación para crear usuarios, elimina esta línea
