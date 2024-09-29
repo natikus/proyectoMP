@@ -8,6 +8,8 @@ declare module 'fastify' {
     interface FastifyInstance {
         authenticate: AuthenticateFunction;
         verifyUserId: AuthenticateFunction;
+        verifyAdmin: AuthenticateFunction;
+        verifyTaskCreator: AuthenticateFunction;
     }
 }
 

@@ -9,9 +9,21 @@ CREATE TABLE IF NOT EXISTS usuarios (
     email TEXT NOT NULL UNIQUE,
     telefono TEXT NOT NULL UNIQUE,
     foto TEXT,
-    isAdmin BOOLEAN NOT NULL DEFAULT FALSE,
+    is_Admin BOOLEAN NOT NULL DEFAULT FALSE,
     descripcion TEXT NOT NULL,
     fechaCreacion DATE NOT NULL DEFAULT CURRENT_DATE,
-    intereses TEXT NOT NULL,
+    intereses TEXT[] NOT NULL,
     contrasena TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS publicaciones (
+    id_post SERIAL PRIMARY KEY,
+    titulo TEXT NOT NULL,
+    estado BOOLEAN NOT NULL DEFAULT FALSE,
+    id_creador INTEGER NOT NULL,
+    descripcion TEXT NOT NULL, 
+    imagenes TEXT NOT NULL, 
+    ubicacion TEXT NOT NULL, 
+    fechaCreacion TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, 
+    etiquetas TEXT[] NOT NULL, 
+    CONSTRAINT fk_creador FOREIGN KEY (id_creador) REFERENCES usuarios(id) 
 );

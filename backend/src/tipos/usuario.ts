@@ -11,9 +11,9 @@ export const UsuarioSchema = Type.Object({//esquema utilizado para hacer un get
     email: Type.String({ type: 'string', format: 'email' }),
     telefono: Type.String({ pattern: '^[0-9]{9}$' }),
     foto: Type.String(),
-    isAdmin: Type.Boolean(),
+    is_Admin: Type.Optional(Type.Boolean()),
     descripcion: Type.String({ maxLength: 300 }),
-    fechaCreacion: Type.String({ format: 'date-time' }),
+    fechaCreacion: Type.Optional(Type.String({ format: 'date-time' })),
     intereses: Type.Array(Type.String()),
 });
 export const UsuarioPostSchema = Type.Object({//esquema utilizado para hacer un post
@@ -24,19 +24,19 @@ export const UsuarioPostSchema = Type.Object({//esquema utilizado para hacer un 
     email: Type.String({ type: 'string', format: 'email' }),
     telefono: Type.String({ pattern: '^[0-9]{9}$' }),
     foto: Type.String(),
-    isAdmin: Type.Boolean(),
+    is_Admin: Type.Optional(Type.Boolean()),
     descripcion: Type.String({ maxLength: 300 }),
-    fechaCreacion: Type.String({ format: 'date-time' }),
+    fechaCreacion: Type.Optional(Type.String({ format: 'date-time' })),
     intereses: Type.Array(Type.String()),
     contrasena: Type.String({ minLength: 8, maxLength: 20, pattern: passwordRegex.source, }),
 });
 export const UsuarioPutSchema = Type.Object({//esquema utilizado para hacer un put
-    usuario: Type.String({ minLength: 2, maxLength: 50 }),
-    telefono: Type.String({ pattern: '^[0-9]{9}$' }),
-    foto: Type.String(),
-    descripcion: Type.String({ maxLength: 300 }),
-    intereses: Type.Array(Type.String()),
-    contrasena: Type.String({ minLength: 8, maxLength: 20, pattern: passwordRegex.source, }),
+    usuario: Type.Optional(Type.String({ minLength: 2, maxLength: 50 })),
+    telefono: Type.Optional(Type.String({ pattern: '^[0-9]{9}$' })),
+    foto: Type.Optional(Type.String()),
+    descripcion: Type.Optional(Type.String({ maxLength: 300 })),
+    intereses: Type.Optional(Type.Array(Type.String())),
+    contrasena: Type.Optional(Type.String({ minLength: 8, maxLength: 20, pattern: passwordRegex.source, })),
 });
 export const UsuarioIdSchema = Type.Object({
     id: Type.Number(),
