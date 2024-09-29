@@ -39,50 +39,7 @@ const usuarioRoute: FastifyPluginAsync = async (
         }
     });
 
-    // Ruta para crear un nuevo Usuario
-    fastify.post("/", {
-        schema: {
-            params: UsuarioPostSchema,
-            tags: ["Usuario"],
-            description: "Crea una nuevo usuario",
-        },
-        preHandler: [fastify.authenticate],
-        handler: async function (request, reply) {
-            const UsuarioPost = request.body as UsuarioPostType;
-            const res = await query(`INSERT INTO usuarios
-            (nombre,
-            apellido,
-            usuario,
-            cedula,
-            email:,
-            telefono,
-            foto,
-            isAdmin,
-            descripcion,
-            fechaCreacion,
-            intereses,
-            contrasena,)
-            VALUES
-            ('${UsuarioPost.nombre}',  
-            '${UsuarioPost.apellido}', 
-            '${UsuarioPost.usuario}',
-            '${UsuarioPost.cedula}', 
-            '${UsuarioPost.email}', 
-            '${UsuarioPost.telefono}', 
-            '${UsuarioPost.foto}', 
-            '${UsuarioPost.descripcion}',
-            '${UsuarioPost.fechaCreacion}',
-            '${UsuarioPost.intereses}',   
-            '${UsuarioPost.contrasena}',)
-            RETURNING id;`);
-            const id = res.rows[0].id;
-            if (res.rows.length === 0) {
-                reply.code(404).send({ message: "usuario no creado" });
-                return;
-            }
-            reply.code(201).send({ ...UsuarioPost, id });
-        }
-    });
+
 
     // Ruta para eliminar un usuario
     fastify.delete("/:id", {

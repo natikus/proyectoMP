@@ -6,7 +6,13 @@ import { AuthenticateFunction } from '../tipos/fastify.js';
 const jwtOptions: FastifyJWTOptions = {
     secret: 'supersecret'
 };
-
+// Extender el módulo Fastify para incluir las propiedades de usuario en el token
+declare module '@fastify/jwt' {
+    interface FastifyJWT {
+        payload: { id: string; email: string }; // Tipos del payload del token
+        user: { id: string; email: string }; // Tipos del user tras la verificación
+    }
+}
 export default fp<FastifyJWTOptions>(async (fastify) => {
 
     fastify.register(jwt, jwtOptions);
