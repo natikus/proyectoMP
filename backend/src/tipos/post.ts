@@ -4,14 +4,7 @@ export const postSchema = Type.Object({//esquema utilizado para hacer un get
     id_post: Type.Number(),
     titulo: Type.String({ minLength: 2, maxLength: 100 }),
     estado: Type.String({ minLength: 2, maxLength: 100 }),
-    creador: Type.Object({
-        id_usuario: Type.Integer({
-            description: "Id del usuario que creó el post.",
-        }),
-        creador: Type.String({
-            description: "username del usuario que creó el post.",
-        }),
-    }),
+    id_creador: Type.Number(),
     descripcion: Type.String({ maxLength: 300 }),
     imagenes: Type.String(),
     ubicacion: Type.String(),
@@ -20,22 +13,18 @@ export const postSchema = Type.Object({//esquema utilizado para hacer un get
 });
 export const postPostSchema = Type.Object({//esquema utilizado para hacer un post
     titulo: Type.String({ minLength: 2, maxLength: 100 }),
-    creador: Type.Object({
-        id_usuario: Type.Integer({
-            description: "Id del usuario que creó el post.",
-        }),
-    }),
+    id_creador: Type.Number(),
     descripcion: Type.String({ maxLength: 300 }),
     imagenes: Type.String(),
     ubicacion: Type.String(),
     etiquetas: Type.Array(Type.String()),
 });
 export const postPutSchema = Type.Object({//esquema utilizado para hacer un put
-    titulo: Type.String({ minLength: 2, maxLength: 100 }),
-    descripcion: Type.String({ maxLength: 300 }),
-    imagenes: Type.String(),
-    ubicacion: Type.String(),
-    etiquetas: Type.Array(Type.String()),
+    titulo: Type.Optional(Type.String({ minLength: 2, maxLength: 100 })),
+    descripcion: Type.Optional(Type.String({ maxLength: 300 })),
+    imagenes: Type.Optional(Type.String()),
+    ubicacion: Type.Optional(Type.String()),
+    etiquetas: Type.Optional(Type.Array(Type.String())),
 });
 export const postIdSchema = Type.Object({
     id_post: Type.Number(),

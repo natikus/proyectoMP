@@ -8,14 +8,12 @@ const usuarioRoute: FastifyPluginAsync = async (
     fastify: FastifyInstance,
     opts: FastifyPluginOptions
 ): Promise<void> => {
-    // Ruta para obtener todas las personas
+    // Ruta para obtener todos los usuarios
     fastify.get("/", {
         schema: {
             tags: ["Usuario"],
         },
-
-        onRequest: fastify.authenticate,
-
+        onRequest: fastify.verifyAdmin,
         handler: async function (request, reply) {
             const res = await query(`SELECT
         id,
@@ -23,13 +21,13 @@ const usuarioRoute: FastifyPluginAsync = async (
         apellido,
         usuario,
         cedula,
-        email:,
+        email,
         telefono,
         foto,
-        isAdmin,
+        is_Admin,
         descripcion,
         fechaCreacion,
-        intereses,
+        intereses
         FROM usuarios`);
             if (res.rows.length === 0) {
                 reply.code(404).send({ message: "No hay usuarios registradas" });
@@ -81,7 +79,7 @@ const usuarioRoute: FastifyPluginAsync = async (
     fastify.put("/:id", {
         schema: {
             tags: ["Usuario"],
-            description: "Actualiza una usuario por ID",
+            description: "Actualiza un usuario por ID",
             params: UsuarioIdSchema,
             body: UsuarioPutSchema,
             response: {
@@ -93,7 +91,7 @@ const usuarioRoute: FastifyPluginAsync = async (
                         telefono: { type: "string" },
                         foto: { type: "string" },
                         descripcion: { type: "string" },
-                        intereses: { type: "array", items: { type: "string" } },
+                        intereses: { type: "string" },
                         contrasena: { type: "string" },
                     }
                 },
@@ -111,22 +109,47 @@ const usuarioRoute: FastifyPluginAsync = async (
         handler: async function (request, reply) {
             const { id } = request.params as { id: string };
             const usuarioPut = request.body as UsuarioPutType;
-            const res = await query(`UPDATE usuarios
-        SET telefono = '${usuarioPut.telefono}',
-        foto = '${usuarioPut.foto}',
-        descripcion = '${usuarioPut.descripcion}',
-        intereses = '${usuarioPut.intereses}',
-        contrasena = '${usuarioPut.contrasena}',
-        usuario = '${usuarioPut.usuario}',
-        WHERE id = ${id}
-        RETURNING id;`);
-            if (res.rows.length === 0) {
-                reply.code(404).send({ message: "Usuario no encontrado" });
-                return;
+
+            // Obtener el ID del token JWT
+            const userIdFromToken = request.user.id;  // Suponiendo que el token tiene un campo 'id'
+
+            // Verificar si el usuario autenticado es el mismo que está siendo modificado
+            if (userIdFromToken !== id) {
+                return reply.code(403).send({ message: "No tienes permiso para modificar este usuario" });
             }
+
+            // Actualizar el usuario en la base de datos usando COALESCE para mantener los valores actuales si no se envían nuevos
+            const res = await query(
+                `UPDATE usuarios
+            SET usuario = COALESCE($1, usuario),
+                telefono = COALESCE($2, telefono),
+                foto = COALESCE($3, foto),
+                descripcion = COALESCE($4, descripcion),
+                intereses = COALESCE($5, intereses),
+                contrasena = COALESCE($6, contrasena)
+            WHERE id = $7
+            RETURNING id;`,
+                [
+                    usuarioPut.usuario,
+                    usuarioPut.telefono,
+                    usuarioPut.foto,
+                    usuarioPut.descripcion,
+                    usuarioPut.intereses,
+                    usuarioPut.contrasena,
+                    id
+                ]
+            );
+
+            if (res.rows.length === 0) {
+                return reply.code(404).send({ message: "Usuario no encontrado" });
+            }
+
+            // Enviar respuesta con los datos actualizados
             reply.code(200).send({ ...usuarioPut, id });
         }
     });
+
+
 
     // Ruta para ver los datos de un Usuario específico
     fastify.get("/:id", {
@@ -146,7 +169,7 @@ const usuarioRoute: FastifyPluginAsync = async (
                         email: { type: "string" },
                         telefono: { type: "string" },
                         foto: { type: "string" },
-                        isAdmin: { type: "boolean" },
+                        is_Admin: { type: "boolean" },
                         descripcion: { type: "string" },
                         intereses: { type: "array", items: { type: "string" } },
                     }
@@ -159,7 +182,7 @@ const usuarioRoute: FastifyPluginAsync = async (
                 }
             }
         },
-        onRequest: fastify.authenticate,
+
 
         handler: async function (request, reply) {
             const { id } = request.params as { id: string };
@@ -169,13 +192,13 @@ const usuarioRoute: FastifyPluginAsync = async (
         apellido,
         usuario,
         cedula,
-        email:,
+        email,
         telefono,
         foto,
-        isAdmin,
+        is_Admin,
         descripcion,
         fechaCreacion,
-        intereses,
+        intereses
         FROM usuarios WHERE id = ${id};`);
 
             if (res.rows.length === 0) {
