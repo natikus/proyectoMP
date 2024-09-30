@@ -25,7 +25,7 @@ const usuarioRoute: FastifyPluginAsync = async (
                     }
                 }
             },
-            security: [{ BearerAuth: [] }]
+
         },
         onRequest: fastify.verifyAdmin,
         handler: async function (request, reply) {
@@ -75,7 +75,7 @@ const usuarioRoute: FastifyPluginAsync = async (
                     }
                 }
             },
-            security: [{ BearerAuth: [] }]
+
         },
 
         onRequest: fastify.authenticate,
@@ -122,7 +122,7 @@ const usuarioRoute: FastifyPluginAsync = async (
                     }
                 }
             },
-            security: [{ BearerAuth: [] }]
+
         },
 
         onRequest: fastify.authenticate,
@@ -203,7 +203,7 @@ const usuarioRoute: FastifyPluginAsync = async (
                     }
                 }
             },
-            security: [{ BearerAuth: [] }]
+
         },
 
 
