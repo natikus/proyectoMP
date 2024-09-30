@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS usuarios (
 CREATE TABLE IF NOT EXISTS publicaciones (
     id_post SERIAL PRIMARY KEY,
     titulo TEXT NOT NULL,
-    estado BOOLEAN NOT NULL DEFAULT FALSE,
+    estado BOOLEAN NOT NULL DEFAULT TRUE,
     id_creador INTEGER NOT NULL,
     descripcion TEXT NOT NULL, 
     imagenes TEXT NOT NULL, 
