@@ -90,16 +90,7 @@ const usuarioLoginRoute: FastifyPluginAsync = async (
                     description: "Usuario creado exitosamente",
                     content: {
                         "application/json": {
-                            schema: Type.Object({
-                                id: UsuarioIdSchema.properties.id,
-                                usuario: Type.String(),
-                                email: Type.String(),
-                                nombre: Type.String(),
-                                apellido: Type.String(),
-                                telefono: Type.String(),
-                                foto: Type.String(),
-                                intereses: Type.Array(Type.String()),
-                            }),
+                            schema: UsuarioPostSchema,
                         },
                     },
                 },
@@ -116,9 +107,10 @@ const usuarioLoginRoute: FastifyPluginAsync = async (
             },
         },
         handler: async function (request, reply) {
+
             const UsuarioPost = request.body as UsuarioPostType;
             const hashedPassword = await bcrypt.hash(UsuarioPost.contrasena, 10);
-
+            console.log(request.body);
             try {
                 const res = await query(`
                     INSERT INTO usuarios
