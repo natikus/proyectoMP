@@ -15,7 +15,7 @@ const usuarioLoginRoute: FastifyPluginAsync = async (
         schema: {
             description: "Ruta para loguearse usando email y contraseña.",
             summary: "Hacer login",
-            security: [],
+
             body: {
                 type: "object",
                 properties: {
@@ -83,7 +83,7 @@ const usuarioLoginRoute: FastifyPluginAsync = async (
             summary: "Crear usuario",
             body: UsuarioPostSchema,
             tags: ["auth"],
-            security: [],
+
             description: "Ruta para crear un nuevo usuario",
             response: {
                 201: {

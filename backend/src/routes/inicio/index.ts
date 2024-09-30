@@ -26,7 +26,7 @@ const postRoute: FastifyPluginAsync = async (
                     },
                 },
             },
-            security: [{ bearerAuth: [] }],
+
         },
         onRequest: fastify.authenticate,
         handler: async function (request, reply) {
@@ -69,7 +69,7 @@ const postRoute: FastifyPluginAsync = async (
                     },
                 },
             },
-            security: [{ bearerAuth: [] }],
+
         },
         onRequest: fastify.authenticate,
         handler: async function (request, reply) {
@@ -126,7 +126,7 @@ const postRoute: FastifyPluginAsync = async (
                     },
                 },
             },
-            security: [{ bearerAuth: [] }],
+
         },
         onRequest: fastify.authenticate,
         handler: async function (request, reply) {
@@ -169,7 +169,7 @@ const postRoute: FastifyPluginAsync = async (
                     },
                 },
             },
-            security: [{ bearerAuth: [] }],
+
         },
         onRequest: fastify.authenticate,
         handler: async function (request, reply) {
@@ -231,7 +231,7 @@ const postRoute: FastifyPluginAsync = async (
                     },
                 },
             },
-            security: [{ bearerAuth: [] }],
+
         },
         onRequest: fastify.authenticate,
         handler: async function (request, reply) {
