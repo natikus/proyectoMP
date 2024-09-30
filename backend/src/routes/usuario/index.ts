@@ -1,4 +1,4 @@
-import { UsuarioIdSchema, UsuarioPostSchema, UsuarioPutSchema, UsuarioPutType, UsuarioPostType } from "../../tipos/usuario.js";
+import { UsuarioIdSchema, UsuarioPostSchema, UsuarioPutSchema, UsuarioPutType, UsuarioPostType, UsuarioSchema } from "../../tipos/usuario.js";
 import { FastifyPluginAsync, FastifyPluginOptions } from "fastify";
 import { FastifyInstance } from "fastify/types/instance.js";
 import { query } from "../../services/database.js";
@@ -12,6 +12,20 @@ const usuarioRoute: FastifyPluginAsync = async (
     fastify.get("/", {
         schema: {
             tags: ["Usuario"],
+            summary: "Obtener todos los usuarios",
+            description: "Retorna una lista de todos los usuarios registrados",
+            response: {
+                200: {
+                    type: "array",
+                },
+                404: {
+                    type: "object",
+                    properties: {
+                        message: { type: "string" }
+                    }
+                }
+            },
+            security: [{ BearerAuth: [] }]
         },
         onRequest: fastify.verifyAdmin,
         handler: async function (request, reply) {
@@ -43,13 +57,14 @@ const usuarioRoute: FastifyPluginAsync = async (
     fastify.delete("/:id", {
         schema: {
             tags: ["Usuario"],
+            summary: "Eliminar un usuario",
             description: "Elimina un usuario por ID",
             params: UsuarioIdSchema,
             response: {
                 200: {
                     type: "object",
                     properties: {
-                        message: { type: "string" },
+
                         id: { type: "string" }
                     }
                 },
@@ -59,19 +74,23 @@ const usuarioRoute: FastifyPluginAsync = async (
                         message: { type: "string" }
                     }
                 }
-            }
+            },
+            security: [{ BearerAuth: [] }]
         },
 
         onRequest: fastify.authenticate,
 
         handler: async function (request, reply) {
             const { id } = request.params as { id: string };
+            const resPublicaciones = await query(`DELETE FROM publicaciones WHERE id_creador = ${id};`);
             const res = await query(`DELETE FROM usuarios WHERE id = ${id};`);
+
             if (res.rowCount === 0) {
                 reply.code(404).send({ message: "Usuario no encontrado" });
                 return;
             }
-            reply.code(200).send({ message: "Usuario eliminado", id });
+            reply.code(200).send({ message: "Usuario eliminado", id, resPublicaciones });
+
         }
     });
 
@@ -79,6 +98,7 @@ const usuarioRoute: FastifyPluginAsync = async (
     fastify.put("/:id", {
         schema: {
             tags: ["Usuario"],
+            summary: "Editar un usuario",
             description: "Actualiza un usuario por ID",
             params: UsuarioIdSchema,
             body: UsuarioPutSchema,
@@ -92,7 +112,7 @@ const usuarioRoute: FastifyPluginAsync = async (
                         foto: { type: "string" },
                         descripcion: { type: "string" },
                         intereses: { type: "string" },
-                        contrasena: { type: "string" },
+                        contrasena: { type: "string" }
                     }
                 },
                 404: {
@@ -101,7 +121,8 @@ const usuarioRoute: FastifyPluginAsync = async (
                         message: { type: "string" }
                     }
                 }
-            }
+            },
+            security: [{ BearerAuth: [] }]
         },
 
         onRequest: fastify.authenticate,
@@ -155,6 +176,7 @@ const usuarioRoute: FastifyPluginAsync = async (
     fastify.get("/:id", {
         schema: {
             tags: ["Usuario"],
+            summary: "Obtener un usuario específico",
             description: "Obtiene los detalles de un usuario por ID",
             params: UsuarioIdSchema,
             response: {
@@ -171,7 +193,7 @@ const usuarioRoute: FastifyPluginAsync = async (
                         foto: { type: "string" },
                         is_Admin: { type: "boolean" },
                         descripcion: { type: "string" },
-                        intereses: { type: "array", items: { type: "string" } },
+                        intereses: { type: "array", items: { type: "string" } }
                     }
                 },
                 404: {
@@ -180,7 +202,8 @@ const usuarioRoute: FastifyPluginAsync = async (
                         message: { type: "string" }
                     }
                 }
-            }
+            },
+            security: [{ BearerAuth: [] }]
         },
 
 

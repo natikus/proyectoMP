@@ -70,7 +70,13 @@ export const UsuarioIdSchema = Type.Object({
 }
 );
 
+export const usuarioLoginSchema = Type.Object({
+    contrasena: Type.String({ minLength: 8, maxLength: 20, pattern: passwordRegex.source, description: "Contraseña del usuario" }),
+    email: Type.String({ type: 'string', format: 'email', description: "Correo electrónico del usuario" }),
+})
+
 export type UsuarioIdType = Static<typeof UsuarioIdSchema>;
 export type UsuarioPostType = Static<typeof UsuarioPostSchema>;
 export type UsuarioPutType = Static<typeof UsuarioPutSchema>;
 export type UsuarioType = Static<typeof UsuarioSchema>;
+export type usuarioLoginType = Static<typeof usuarioLoginSchema>;

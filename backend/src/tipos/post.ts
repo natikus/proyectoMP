@@ -3,12 +3,15 @@ import { Static, Type } from "@sinclair/typebox";
 export const postSchema = Type.Object({//esquema utilizado para hacer un get
     id_post: Type.Number({ description: "Id para identificar el post" }),
     titulo: Type.String({ minLength: 2, maxLength: 100, description: "Título del post" }),
+
     estado: Type.Optional(Type.Boolean({description: "Estado del post"})),
+
     id_creador: Type.Number({ description: "Id del creador del post" }),
     descripcion: Type.String({ maxLength: 300, description: "Descripción del post" }),
     imagenes: Type.String({ description: "Imágenes del post" }),
     ubicacion: Type.String({ description: "Ubicación del post" }),
-    fechaCreacion: Type.String({ format: 'date-time', description: "Fecha de creación del post" }),
+
+    fechaCreacion: Type.Optional(Type.String({ format: 'date-time', description: "Fecha de creación del post" })),
     etiquetas: Type.Array(Type.String(), {description: "Etiquetas del post"}),
 },
 { 
@@ -18,12 +21,15 @@ export const postSchema = Type.Object({//esquema utilizado para hacer un get
     ],
 }
 );
+
 export const postPostSchema = Type.Object({//esquema utilizado para hacer un post
     titulo: Type.String({ minLength: 2, maxLength: 100, description: "Título del post" }),
     id_creador: Type.Number({ description: "Id del creador del post" }),
     descripcion: Type.String({ maxLength: 300, description: "Descripción del post" }),
     imagenes: Type.String({ description: "Imágenes del post" }),
     ubicacion: Type.String({ description: "Ubicación del post" }),
+
+  
     etiquetas: Type.Array(Type.String(), {description: "Etiquetas del post"}),
 },
 {
@@ -47,6 +53,8 @@ export const postPutSchema = Type.Object({//esquema utilizado para hacer un put
     ]
 }
 );
+
+
 export const postIdSchema = Type.Object({
     id_post: Type.Number({ description: "Id para identificar el post" }),
 },

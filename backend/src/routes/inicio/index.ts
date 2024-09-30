@@ -1,8 +1,9 @@
-import { postPutSchema, postPutType, postPostType, postPostSchema, postIdSchema } from "../../tipos/post.js"
+import { postPutSchema, postPutType, postPostType, postPostSchema, postIdSchema, postSchema } from "../../tipos/post.js"
 import { FastifyPluginAsync, FastifyPluginOptions } from "fastify";
 import { FastifyInstance } from "fastify/types/instance.js";
 import { query } from "../../services/database.js";
-
+import { UsuarioSchema } from "../../tipos/usuario.js";
+import { Type } from "@sinclair/typebox";
 // Definición del plugin de ruta
 const postRoute: FastifyPluginAsync = async (
     fastify: FastifyInstance,
@@ -12,7 +13,20 @@ const postRoute: FastifyPluginAsync = async (
     // Ruta para obtener todos los posts
     fastify.get("/", {
         schema: {
-            tags: ["post"], // Tag cambiado a 'post'
+            summary: "Obtener todas las publicaciones",
+            description: "Obtiene una lista de todas las publicaciones vigentes que se han creado.",
+            tags: ["post"],
+            response: {
+                200: {
+                    description: "Lista de publicaciones vigentes completa.",
+                    content: {
+                        "application/json": {
+                            schema: Type.Array(postSchema),
+                        },
+                    },
+                },
+            },
+            security: [{ bearerAuth: [] }],
         },
         onRequest: fastify.authenticate,
         handler: async function (request, reply) {
@@ -27,7 +41,7 @@ const postRoute: FastifyPluginAsync = async (
                 ubicacion,
                 fechaCreacion,
                 etiquetas
-            FROM publicaciones;`);
+            FROM publicaciones WHERE estado = true;`);
 
             if (res.rows.length === 0) {
                 reply.code(404).send({ message: "No hay posts registrados" });
@@ -40,9 +54,22 @@ const postRoute: FastifyPluginAsync = async (
     // Ruta para crear un nuevo post
     fastify.post("/", {
         schema: {
+            summary: "Crear un nuevo post",
+            description: "Crea una nueva publicación con la información proporcionada en el cuerpo de la solicitud.",
             body: postPostSchema,
-            tags: ["post"], // Tag cambiado a 'post'
-            description: "Crea un nuevo post",
+            tags: ["post"],
+            response: {
+                201: {
+                    description: "Publicación creada con éxito.",
+                    content: {
+                        "application/json": {
+                            schema: { postPostSchema, postIdSchema },
+
+                        },
+                    },
+                },
+            },
+            security: [{ bearerAuth: [] }],
         },
         onRequest: fastify.authenticate,
         handler: async function (request, reply) {
@@ -75,24 +102,31 @@ const postRoute: FastifyPluginAsync = async (
     // Ruta para eliminar un post
     fastify.delete("/:id_post", {
         schema: {
-            tags: ["post"], // Tag cambiado a 'post'
-            description: "Elimina un post por ID",
+            summary: "Eliminar un post",
+            description: "Elimina una publicación basada en el ID proporcionado en los parámetros.",
+            tags: ["post"],
             params: postIdSchema,
             response: {
                 200: {
-                    type: "object",
-                    properties: {
-                        message: { type: "string" },
-                        id_post: { type: "string" }
-                    }
+                    description: "Publicación eliminada con éxito.",
+                    content: {
+                        "application/json": {
+                            schema: postIdSchema,
+                        },
+                    },
                 },
                 404: {
-                    type: "object",
-                    properties: {
-                        message: { type: "string" }
-                    }
-                }
-            }
+                    description: "Post no encontrado.",
+                    content: {
+                        "application/json": {
+                            schema: Type.Object({
+                                message: Type.String(),
+                            }),
+                        },
+                    },
+                },
+            },
+            security: [{ bearerAuth: [] }],
         },
         onRequest: fastify.authenticate,
         handler: async function (request, reply) {
@@ -110,28 +144,32 @@ const postRoute: FastifyPluginAsync = async (
     // Ruta para actualizar un post
     fastify.put("/:id_post", {
         schema: {
-            tags: ["post"], // Tag cambiado a 'post'
-            description: "Actualiza un post por ID",
+            summary: "Actualizar un post",
+            description: "Actualiza los detalles de una publicación existente basada en el ID proporcionado en los parámetros.",
+            tags: ["post"],
             params: postIdSchema,
             body: postPutSchema,
             response: {
                 200: {
-                    type: "object",
-                    properties: {
-                        titulo: { type: "string" },
-                        descripcion: { type: "string" },
-                        imagenes: { type: "string" },
-                        ubicacion: { type: "string" },
-                        etiquetas: { type: "array", items: { type: "string" } },
-                    }
+                    description: "Publicación actualizada con éxito.",
+                    content: {
+                        "application/json": {
+                            schema: postPutSchema,
+                        },
+                    },
                 },
                 404: {
-                    type: "object",
-                    properties: {
-                        message: { type: "string" }
-                    }
-                }
-            }
+                    description: "Post no encontrado.",
+                    content: {
+                        "application/json": {
+                            schema: Type.Object({
+                                message: Type.String(),
+                            }),
+                        },
+                    },
+                },
+            },
+            security: [{ bearerAuth: [] }],
         },
         onRequest: fastify.authenticate,
         handler: async function (request, reply) {
@@ -169,31 +207,31 @@ const postRoute: FastifyPluginAsync = async (
     // Ruta para ver los detalles de un post específico
     fastify.get("/:id_post", {
         schema: {
-            tags: ["post"], // Tag cambiado a 'post'
-            description: "Obtiene los detalles de un post por ID",
+            summary: "Obtener detalles de un post",
+            description: "Obtiene los detalles completos de una publicación basada en el ID proporcionado.",
+            tags: ["post"],
             params: postIdSchema,
             response: {
                 200: {
-                    type: "object",
-                    properties: {
-                        id_post: { type: "number" },
-                        titulo: { type: "string" },
-                        estado: { type: "string" },
-                        id_creador: { type: "number" },
-                        descripcion: { type: "string" },
-                        imagenes: { type: "string" },
-                        ubicacion: { type: "string" },
-                        fechaCreacion: { type: "string", format: "date-time" },
-                        etiquetas: { type: "array", items: { type: "string" } },
-                    }
+                    description: "Detalles de la publicación obtenidos correctamente.",
+                    content: {
+                        "application/json": {
+                            schema: postSchema,
+                        },
+                    },
                 },
                 404: {
-                    type: "object",
-                    properties: {
-                        message: { type: "string" }
-                    }
-                }
-            }
+                    description: "Post no encontrado.",
+                    content: {
+                        "application/json": {
+                            schema: Type.Object({
+                                message: Type.String(),
+                            }),
+                        },
+                    },
+                },
+            },
+            security: [{ bearerAuth: [] }],
         },
         onRequest: fastify.authenticate,
         handler: async function (request, reply) {
