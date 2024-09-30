@@ -1,8 +1,9 @@
-import { postPutSchema, postPutType, postPostType, postPostSchema, postIdSchema } from "../../tipos/post.js"
+import { postPutSchema, postPutType, postPostType, postPostSchema, postIdSchema, postSchema } from "../../tipos/post.js"
 import { FastifyPluginAsync, FastifyPluginOptions } from "fastify";
 import { FastifyInstance } from "fastify/types/instance.js";
 import { query } from "../../services/database.js";
-
+import { UsuarioIdSchema, UsuarioPostSchema, UsuarioPutSchema, UsuarioSchema } from "../../tipos/usuario.js";
+import { Type } from "@sinclair/typebox";
 // Definición del plugin de ruta
 const postRoute: FastifyPluginAsync = async (
     fastify: FastifyInstance,
@@ -12,7 +13,21 @@ const postRoute: FastifyPluginAsync = async (
     // Ruta para obtener todos los posts
     fastify.get("/", {
         schema: {
-            tags: ["post"], // Tag cambiado a 'post'
+            summary: "Obtener todos los usuarios",
+            description: "Devuelve una lista de todos los usuarios registrados en la base de datos",
+            tags: ["Usuario"],
+            response: {
+                200: {
+                    type: "array",
+                    items: UsuarioSchema
+                },
+                404: {
+                    type: "object",
+                    properties: {
+                        message: { type: "string" }
+                    }
+                }
+            }
         },
         onRequest: fastify.authenticate,
         handler: async function (request, reply) {
@@ -27,7 +42,7 @@ const postRoute: FastifyPluginAsync = async (
                 ubicacion,
                 fechaCreacion,
                 etiquetas
-            FROM publicaciones;`);
+            FROM publicaciones WHERE estado = true;`);
 
             if (res.rows.length === 0) {
                 reply.code(404).send({ message: "No hay posts registrados" });
@@ -40,9 +55,25 @@ const postRoute: FastifyPluginAsync = async (
     // Ruta para crear un nuevo post
     fastify.post("/", {
         schema: {
-            body: postPostSchema,
-            tags: ["post"], // Tag cambiado a 'post'
-            description: "Crea un nuevo post",
+            summary: "Crear un nuevo usuario",
+            description: "Registra un nuevo usuario en la base de datos",
+            tags: ["Usuario"],
+            body: UsuarioPostSchema,
+            response: {
+                201: {
+                    type: "object",
+                    properties: {
+                        id: { type: "number" },
+                        message: { type: "string" }
+                    }
+                },
+                400: {
+                    type: "object",
+                    properties: {
+                        message: { type: "string" }
+                    }
+                }
+            }
         },
         onRequest: fastify.authenticate,
         handler: async function (request, reply) {
@@ -75,15 +106,16 @@ const postRoute: FastifyPluginAsync = async (
     // Ruta para eliminar un post
     fastify.delete("/:id_post", {
         schema: {
-            tags: ["post"], // Tag cambiado a 'post'
-            description: "Elimina un post por ID",
-            params: postIdSchema,
+            summary: "Eliminar un usuario",
+            description: "Elimina un usuario por su ID",
+            tags: ["Usuario"],
+            params: UsuarioIdSchema,
             response: {
                 200: {
                     type: "object",
                     properties: {
                         message: { type: "string" },
-                        id_post: { type: "string" }
+                        id: { type: "string" }
                     }
                 },
                 404: {
@@ -110,22 +142,31 @@ const postRoute: FastifyPluginAsync = async (
     // Ruta para actualizar un post
     fastify.put("/:id_post", {
         schema: {
-            tags: ["post"], // Tag cambiado a 'post'
-            description: "Actualiza un post por ID",
-            params: postIdSchema,
-            body: postPutSchema,
+            summary: "Actualizar un usuario",
+            description: "Actualiza los datos de un usuario por su ID",
+            tags: ["Usuario"],
+            params: UsuarioIdSchema,
+            body: UsuarioPutSchema,
             response: {
                 200: {
                     type: "object",
                     properties: {
-                        titulo: { type: "string" },
+                        id: { type: "string" },
+                        usuario: { type: "string" },
+                        telefono: { type: "string" },
+                        foto: { type: "string" },
                         descripcion: { type: "string" },
-                        imagenes: { type: "string" },
-                        ubicacion: { type: "string" },
-                        etiquetas: { type: "array", items: { type: "string" } },
+                        intereses: { type: "string" },
+                        contrasena: { type: "string" },
                     }
                 },
                 404: {
+                    type: "object",
+                    properties: {
+                        message: { type: "string" }
+                    }
+                },
+                403: {
                     type: "object",
                     properties: {
                         message: { type: "string" }
@@ -169,22 +210,25 @@ const postRoute: FastifyPluginAsync = async (
     // Ruta para ver los detalles de un post específico
     fastify.get("/:id_post", {
         schema: {
-            tags: ["post"], // Tag cambiado a 'post'
-            description: "Obtiene los detalles de un post por ID",
-            params: postIdSchema,
+            summary: "Obtener detalles de un usuario",
+            description: "Obtiene los detalles de un usuario por su ID",
+            tags: ["Usuario"],
+            params: UsuarioIdSchema,
             response: {
                 200: {
                     type: "object",
                     properties: {
-                        id_post: { type: "number" },
-                        titulo: { type: "string" },
-                        estado: { type: "string" },
-                        id_creador: { type: "number" },
+                        id: { type: "string" },
+                        nombre: { type: "string" },
+                        apellido: { type: "string" },
+                        usuario: { type: "string" },
+                        cedula: { type: "string" },
+                        email: { type: "string" },
+                        telefono: { type: "string" },
+                        foto: { type: "string" },
+                        is_Admin: { type: "boolean" },
                         descripcion: { type: "string" },
-                        imagenes: { type: "string" },
-                        ubicacion: { type: "string" },
-                        fechaCreacion: { type: "string", format: "date-time" },
-                        etiquetas: { type: "array", items: { type: "string" } },
+                        intereses: { type: "array", items: { type: "string" } },
                     }
                 },
                 404: {
