@@ -1,5 +1,5 @@
 import { FastifyPluginAsync, FastifyPluginOptions } from "fastify";
-import { UsuarioIdSchema, usuarioLoginSchema, UsuarioPostSchema, UsuarioPostType, UsuarioSchema } from "../../tipos/usuario.js";
+import { UsuarioIdSchema, UsuarioLoginSchema, UsuarioPostSchema, UsuarioPostType } from "../../tipos/usuario.js";
 import { FastifyInstance } from "fastify/types/instance.js";
 import { query } from "../../services/database.js";
 import bcrypt from 'bcrypt';
@@ -13,42 +13,33 @@ const usuarioLoginRoute: FastifyPluginAsync = async (
     // Ruta para login
     fastify.post("/login", {
         schema: {
-            description: "Ruta para loguearse usando email y contraseña.",
-            summary: "Hacer login",
-
-            body: {
-                type: "object",
-                properties: {
-                    email: { type: "string" },
-                    contrasena: { type: "string" },
-                },
-                required: ["email", "contrasena"],
-            },
+            summary: "Registrase",
+            body: UsuarioLoginSchema,
             tags: ["auth"],
+
+            description: "Ruta para registrarse",
             response: {
                 200: {
-                    description: "Datos del usuario y token JWT",
+                    description: "Usuario registrado exitosamente",
                     content: {
                         "application/json": {
-                            schema: Type.Object({
-                                token: Type.String({ description: "JWT generado" }),
-                                id: Type.Number({ description: "ID del usuario" })
-                            })
-                        }
+                            schema: UsuarioLoginSchema,
+                        },
                     },
                 },
                 401: {
-                    description: "Credenciales inválidas",
+                    description: "Error en la solicitud",
                     content: {
                         "application/json": {
                             schema: Type.Object({
                                 message: Type.String(),
-                            })
-                        }
+                            }),
+                        },
                     },
                 },
             },
         },
+
         handler: async (request, reply) => {
             const { email, contrasena } = request.body as { email: string, contrasena: string };
 
@@ -58,18 +49,18 @@ const usuarioLoginRoute: FastifyPluginAsync = async (
                     return reply.code(401).send({ message: "Usuario no encontrado" });
                 }
 
-                const { id, contrasena: hashedPassword } = res.rows[0];
-                const isPasswordValid = await bcrypt.compare(contrasena, hashedPassword);
+                const usuario = res.rows[0];
+                const isPasswordValid = await bcrypt.compare(contrasena, usuario.contrasena);
 
                 if (!isPasswordValid) {
                     return reply.code(401).send({ message: "Contraseña incorrecta" });
                 }
 
                 // Generar token JWT
-                const token = fastify.jwt.sign({ id, email });
+                const token = fastify.jwt.sign(usuario);
 
                 // Responder con el token
-                reply.code(200).send({ token, id });
+                reply.code(200).send({ token, usuario });
             } catch (error) {
                 console.error("Error en el login:", error);
                 reply.code(500).send({ message: "Error en el servidor" });
@@ -77,6 +68,7 @@ const usuarioLoginRoute: FastifyPluginAsync = async (
         },
     });
 
+    // Ruta para crear un usuario
     // Ruta para crear un usuario
     fastify.post("/", {
         schema: {
@@ -90,7 +82,17 @@ const usuarioLoginRoute: FastifyPluginAsync = async (
                     description: "Usuario creado exitosamente",
                     content: {
                         "application/json": {
-                            schema: UsuarioPostSchema,
+                            schema: Type.Object({
+                                nombre: Type.String(),
+                                apellido: Type.String(),
+                                usuario: Type.String(),
+                                cedula: Type.String(),
+                                email: Type.String(),
+                                telefono: Type.String(),
+                                foto: Type.String(),
+                                descripcion: Type.String(),
+                                intereses: Type.Array(Type.String())
+                            }),
                         },
                     },
                 },
@@ -140,7 +142,7 @@ const usuarioLoginRoute: FastifyPluginAsync = async (
                 reply.code(201).send({
                     id,
                     ...UsuarioPost,
-                    contrasena: undefined // No enviar la contraseña en la respuesta
+                    contrasena: undefined
                 });
             } catch (error) {
                 console.error("Error al crear el usuario:", error);
@@ -149,5 +151,4 @@ const usuarioLoginRoute: FastifyPluginAsync = async (
         },
     });
 };
-
 export default usuarioLoginRoute;
