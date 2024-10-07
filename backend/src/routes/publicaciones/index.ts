@@ -2,7 +2,7 @@ import { publicacionPutSchema, publicacionPutType, publicacionPostType, publicac
 import { FastifyPluginAsync, FastifyPluginOptions } from "fastify";
 import { FastifyInstance } from "fastify/types/instance.js";
 import { query } from "../../services/database.js";
-import { UsuarioSchema } from "../../tipos/usuario.js";
+
 import { Type } from "@sinclair/typebox";
 // Definición del plugin de ruta
 const publicacionRoute: FastifyPluginAsync = async (
@@ -10,7 +10,7 @@ const publicacionRoute: FastifyPluginAsync = async (
     opts: FastifyPluginOptions
 ): Promise<void> => {
 
-    // Ruta para obtener todos las las publicaciones
+    // Ruta para obtener todas las publicaciones
     fastify.get("/", {
         schema: {
             summary: "Obtener todas las publicaciones",
@@ -31,7 +31,7 @@ const publicacionRoute: FastifyPluginAsync = async (
         handler: async function (request, reply) {
             const res = await query(`
             SELECT
-                id_publicacion
+                id_publicacion,
                 titulo,
                 estado,
                 id_creador,

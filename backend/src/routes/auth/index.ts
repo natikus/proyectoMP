@@ -19,7 +19,7 @@ const usuarioLoginRoute: FastifyPluginAsync = async (
 
             description: "Ruta para registrarse",
             response: {
-                201: {
+                200: {
                     description: "Usuario registrado exitosamente",
                     content: {
                         "application/json": {
@@ -27,7 +27,7 @@ const usuarioLoginRoute: FastifyPluginAsync = async (
                         },
                     },
                 },
-                400: {
+                401: {
                     description: "Error en la solicitud",
                     content: {
                         "application/json": {
@@ -92,7 +92,6 @@ const usuarioLoginRoute: FastifyPluginAsync = async (
                                 foto: Type.String(),
                                 descripcion: Type.String(),
                                 intereses: Type.Array(Type.String())
-                                // contrasena no está en el esquema de la respuesta
                             }),
                         },
                     },
@@ -143,7 +142,7 @@ const usuarioLoginRoute: FastifyPluginAsync = async (
                 reply.code(201).send({
                     id,
                     ...UsuarioPost,
-                    contrasena: undefined // No enviar la contraseña en la respuesta
+                    contrasena: undefined
                 });
             } catch (error) {
                 console.error("Error al crear el usuario:", error);

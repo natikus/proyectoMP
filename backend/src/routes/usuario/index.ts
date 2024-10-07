@@ -27,7 +27,7 @@ const usuarioRoute: FastifyPluginAsync = async (
             },
 
         },
-        onRequest: fastify.verifyAdmin,
+        onRequest: fastify.authenticate,
         handler: async function (request, reply) {
             const res = await query(`SELECT
         id,
@@ -74,7 +74,7 @@ const usuarioRoute: FastifyPluginAsync = async (
 
         },
 
-        onRequest: fastify.authenticate,
+        onRequest: fastify.verifySelfOrAdmin,
 
         handler: async function (request, reply) {
             const { id } = request.params as { id: string };
@@ -112,7 +112,7 @@ const usuarioRoute: FastifyPluginAsync = async (
 
         },
 
-        onRequest: fastify.authenticate,
+        onRequest: fastify.verifySelfOrAdmin,
 
         handler: async function (request, reply) {
             const { id } = request.params as UsuarioIdType;
@@ -180,7 +180,7 @@ const usuarioRoute: FastifyPluginAsync = async (
 
         },
 
-
+        onRequest: fastify.authenticate,
         handler: async function (request, reply) {
             const { id } = request.params as { id: string };
             const res = await query(`SELECT 
