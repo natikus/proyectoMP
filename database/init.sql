@@ -16,7 +16,7 @@ CREATE TABLE IF NOT EXISTS usuarios (
     contrasena TEXT NOT NULL
 );
 CREATE TABLE IF NOT EXISTS publicaciones (
-    id_post SERIAL PRIMARY KEY,
+    id_publicacion SERIAL PRIMARY KEY,
     titulo TEXT NOT NULL,
     estado BOOLEAN NOT NULL DEFAULT TRUE,
     id_creador INTEGER NOT NULL,

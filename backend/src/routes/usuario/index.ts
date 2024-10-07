@@ -1,4 +1,4 @@
-import { UsuarioIdSchema, UsuarioPostSchema, UsuarioPutSchema, UsuarioPutType, UsuarioPostType, UsuarioSchema } from "../../tipos/usuario.js";
+import { UsuarioIdSchema, UsuarioPutSchema, UsuarioPutType, UsuarioIdType, UsuarioSchema } from "../../tipos/usuario.js";
 import { FastifyPluginAsync, FastifyPluginOptions } from "fastify";
 import { FastifyInstance } from "fastify/types/instance.js";
 import { query } from "../../services/database.js";
@@ -11,7 +11,7 @@ const usuarioRoute: FastifyPluginAsync = async (
     // Ruta para obtener todos los usuarios
     fastify.get("/", {
         schema: {
-            tags: ["Usuario"],
+            tags: ["usuario"],
             summary: "Obtener todos los usuarios",
             description: "Retorna una lista de todos los usuarios registrados",
             response: {
@@ -56,17 +56,13 @@ const usuarioRoute: FastifyPluginAsync = async (
     // Ruta para eliminar un usuario
     fastify.delete("/:id", {
         schema: {
-            tags: ["Usuario"],
+            tags: ["usuario"],
             summary: "Eliminar un usuario",
             description: "Elimina un usuario por ID",
             params: UsuarioIdSchema,
             response: {
                 200: {
-                    type: "object",
-                    properties: {
-
-                        id: { type: "string" }
-                    }
+                    UsuarioIdSchema,
                 },
                 404: {
                     type: "object",
@@ -97,23 +93,14 @@ const usuarioRoute: FastifyPluginAsync = async (
     // Ruta para editar un Usuario
     fastify.put("/:id", {
         schema: {
-            tags: ["Usuario"],
+            tags: ["usuario"],
             summary: "Editar un usuario",
             description: "Actualiza un usuario por ID",
             params: UsuarioIdSchema,
             body: UsuarioPutSchema,
             response: {
                 200: {
-                    type: "object",
-                    properties: {
-                        id: { type: "string" },
-                        usuario: { type: "string" },
-                        telefono: { type: "string" },
-                        foto: { type: "string" },
-                        descripcion: { type: "string" },
-                        intereses: { type: "string" },
-                        contrasena: { type: "string" }
-                    }
+                    UsuarioPutSchema,
                 },
                 404: {
                     type: "object",
@@ -128,11 +115,11 @@ const usuarioRoute: FastifyPluginAsync = async (
         onRequest: fastify.authenticate,
 
         handler: async function (request, reply) {
-            const { id } = request.params as { id: string };
+            const { id } = request.params as UsuarioIdType;
             const usuarioPut = request.body as UsuarioPutType;
 
             // Obtener el ID del token JWT
-            const userIdFromToken = request.user.id;  // Suponiendo que el token tiene un campo 'id'
+            const userIdFromToken = request.user.id_usuario;  // Suponiendo que el token tiene un campo 'id'
 
             // Verificar si el usuario autenticado es el mismo que está siendo modificado
             if (userIdFromToken !== id) {
@@ -175,26 +162,13 @@ const usuarioRoute: FastifyPluginAsync = async (
     // Ruta para ver los datos de un Usuario específico
     fastify.get("/:id", {
         schema: {
-            tags: ["Usuario"],
+            tags: ["usuario"],
             summary: "Obtener un usuario específico",
             description: "Obtiene los detalles de un usuario por ID",
             params: UsuarioIdSchema,
             response: {
                 200: {
-                    type: "object",
-                    properties: {
-                        id: { type: "string" },
-                        nombre: { type: "string" },
-                        apellido: { type: "string" },
-                        usuario: { type: "string" },
-                        cedula: { type: "string" },
-                        email: { type: "string" },
-                        telefono: { type: "string" },
-                        foto: { type: "string" },
-                        is_Admin: { type: "boolean" },
-                        descripcion: { type: "string" },
-                        intereses: { type: "array", items: { type: "string" } }
-                    }
+                    UsuarioSchema,
                 },
                 404: {
                     type: "object",

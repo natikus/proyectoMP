@@ -17,9 +17,9 @@ const options: SwaggerOptions = {
             }
         ],
         tags: [
-            { name: 'Usuario', description: 'Datos de usuario' },
+            { name: 'usuario', description: 'Datos de usuario' },
             { name: 'auth', description: 'Ingreso del usuario a la aplicacion' },
-            { name: 'post', description: 'Publicaciones ' }
+            { name: 'publicacion', description: 'Publicaciones de la aplicacion' }
         ],
         components: {
             securitySchemes: {

@@ -1,29 +1,28 @@
-import { postPutSchema, postPutType, postPostType, postPostSchema, postIdSchema, postSchema } from "../../tipos/post.js"
+import { publicacionPutSchema, publicacionPutType, publicacionPostType, publicacionPostSchema, publicacionIdSchema, publicacionSchema } from "../../tipos/publicacion.js"
 import { FastifyPluginAsync, FastifyPluginOptions } from "fastify";
 import { FastifyInstance } from "fastify/types/instance.js";
 import { query } from "../../services/database.js";
 import { UsuarioSchema } from "../../tipos/usuario.js";
 import { Type } from "@sinclair/typebox";
 // Definición del plugin de ruta
-const postRoute: FastifyPluginAsync = async (
+const publicacionRoute: FastifyPluginAsync = async (
     fastify: FastifyInstance,
     opts: FastifyPluginOptions
 ): Promise<void> => {
 
-    // Ruta para obtener todos los posts
+    // Ruta para obtener todos las las publicaciones
     fastify.get("/", {
         schema: {
             summary: "Obtener todas las publicaciones",
             description: "Obtiene una lista de todas las publicaciones vigentes que se han creado.",
-            tags: ["post"],
+            tags: ["publicacion"],
             response: {
                 200: {
                     description: "Lista de publicaciones vigentes completa.",
-                    content: {
-                        "application/json": {
-                            schema: Type.Array(postSchema),
-                        },
-                    },
+
+                    type: "array",
+
+
                 },
             },
 
@@ -32,7 +31,7 @@ const postRoute: FastifyPluginAsync = async (
         handler: async function (request, reply) {
             const res = await query(`
             SELECT
-                id_post,
+                id_publicacion
                 titulo,
                 estado,
                 id_creador,
@@ -44,26 +43,26 @@ const postRoute: FastifyPluginAsync = async (
             FROM publicaciones WHERE estado = true;`);
 
             if (res.rows.length === 0) {
-                reply.code(404).send({ message: "No hay posts registrados" });
+                reply.code(404).send({ message: "No hay publicaciones registradas" });
                 return;
             }
             return res.rows;
         }
     });
 
-    // Ruta para crear un nuevo post
+    // Ruta para crear un nuevo publicacion
     fastify.post("/", {
         schema: {
-            summary: "Crear un nuevo post",
+            summary: "Crear una nueva publicacion",
             description: "Crea una nueva publicación con la información proporcionada en el cuerpo de la solicitud.",
-            body: postPostSchema,
-            tags: ["post"],
+            body: publicacionPostSchema,
+            tags: ["publicacion"],
             response: {
                 201: {
                     description: "Publicación creada con éxito.",
                     content: {
                         "application/json": {
-                            schema: { postPostSchema, postIdSchema },
+                            schema: { publicacionPostSchema, publicacionIdSchema },
 
                         },
                     },
@@ -73,50 +72,50 @@ const postRoute: FastifyPluginAsync = async (
         },
         onRequest: fastify.authenticate,
         handler: async function (request, reply) {
-            const postPost = request.body as postPostType;
+            const publicacionPost = request.body as publicacionPostType;
 
             const res = await query(
                 `INSERT INTO publicaciones (titulo, id_creador, descripcion, imagenes, ubicacion, etiquetas)
                 VALUES ($1, $2, $3, $4, $5, $6)
-                RETURNING id_post;`,
+                RETURNING id_publicacion;`,
                 [
-                    postPost.titulo,
-                    postPost.id_creador,
-                    postPost.descripcion,
-                    postPost.imagenes,
-                    postPost.ubicacion,
-                    postPost.etiquetas
+                    publicacionPost.titulo,
+                    publicacionPost.id_creador,
+                    publicacionPost.descripcion,
+                    publicacionPost.imagenes,
+                    publicacionPost.ubicacion,
+                    publicacionPost.etiquetas
                 ]
             );
 
             if (res.rows.length === 0) {
-                reply.code(404).send({ message: "Post no creado" });
+                reply.code(404).send({ message: "publicacion no creada" });
                 return;
             }
 
-            const id_post = res.rows[0].id_post;
-            reply.code(201).send({ id_post, ...postPost });
+            const id_publicacion = res.rows[0].id_publicacion;
+            reply.code(201).send({ id_publicacion, ...publicacionPost });
         }
     });
 
-    // Ruta para eliminar un post
-    fastify.delete("/:id_post", {
+    // Ruta para eliminar un publicacion
+    fastify.delete("/:id_publicacion", {
         schema: {
-            summary: "Eliminar un post",
+            summary: "Eliminar una publicacion",
             description: "Elimina una publicación basada en el ID proporcionado en los parámetros.",
-            tags: ["post"],
-            params: postIdSchema,
+            tags: ["publicacion"],
+            params: publicacionIdSchema,
             response: {
                 200: {
                     description: "Publicación eliminada con éxito.",
                     content: {
                         "application/json": {
-                            schema: postIdSchema,
+                            schema: publicacionIdSchema,
                         },
                     },
                 },
                 404: {
-                    description: "Post no encontrado.",
+                    description: "publicacion no encontrada.",
                     content: {
                         "application/json": {
                             schema: Type.Object({
@@ -130,36 +129,36 @@ const postRoute: FastifyPluginAsync = async (
         },
         onRequest: fastify.authenticate,
         handler: async function (request, reply) {
-            const { id_post } = request.params as { id_post: number };
-            const res = await query(`DELETE FROM publicaciones WHERE id_post = $1;`, [id_post]);
+            const { id_publicacion } = request.params as { id_publicacion: number };
+            const res = await query(`DELETE FROM publicaciones WHERE id_publicacion = $1;`, [id_publicacion]);
 
             if (res.rowCount === 0) {
-                reply.code(404).send({ message: "Post no encontrado" });
+                reply.code(404).send({ message: "publicacion no encontrada" });
                 return;
             }
-            reply.code(200).send({ message: "Post eliminado", id_post });
+            reply.code(200).send({ message: "publicacion eliminado", id_publicacion });
         }
     });
 
-    // Ruta para actualizar un post
-    fastify.put("/:id_post", {
+    // Ruta para actualizar un publicacion
+    fastify.put("/:id_publicacion", {
         schema: {
-            summary: "Actualizar un post",
+            summary: "Actualizar una publicacion",
             description: "Actualiza los detalles de una publicación existente basada en el ID proporcionado en los parámetros.",
-            tags: ["post"],
-            params: postIdSchema,
-            body: postPutSchema,
+            tags: ["publicacion"],
+            params: publicacionIdSchema,
+            body: publicacionPutSchema,
             response: {
                 200: {
                     description: "Publicación actualizada con éxito.",
                     content: {
                         "application/json": {
-                            schema: postPutSchema,
+                            schema: publicacionPutSchema,
                         },
                     },
                 },
                 404: {
-                    description: "Post no encontrado.",
+                    description: "publicacion no encontrada.",
                     content: {
                         "application/json": {
                             schema: Type.Object({
@@ -173,16 +172,16 @@ const postRoute: FastifyPluginAsync = async (
         },
         onRequest: fastify.authenticate,
         handler: async function (request, reply) {
-            const { id_post } = request.params as { id_post: number };
-            const postPut = request.body as postPutType;
+            const { id_publicacion } = request.params as { id_publicacion: number };
+            const publicacionPut = request.body as publicacionPutType;
 
             // Obtener el ID del token JWT
-            const userIdFromToken = request.user.id;
+            const userIdFromToken = request.user.id_usuario;
 
-            // Verificar si el usuario autenticado es el creador del post
-            const postRes = await query(`SELECT id_creador FROM publicaciones WHERE id_post = $1;`, [id_post]);
-            if (postRes.rows.length === 0 || postRes.rows[0].id_creador !== userIdFromToken) {
-                return reply.code(403).send({ message: "No tienes permiso para modificar este post" });
+            // Verificar si el usuario autenticado es el creador de la publicacion
+            const publicacionRes = await query(`SELECT id_creador FROM publicaciones WHERE id_publicacion = $1;`, [id_publicacion]);
+            if (publicacionRes.rows.length === 0 || publicacionRes.rows[0].id_creador !== userIdFromToken) {
+                return reply.code(403).send({ message: "No tienes permiso para modificar esta publicacion" });
             }
 
             const res = await query(`
@@ -192,36 +191,36 @@ const postRoute: FastifyPluginAsync = async (
                 imagenes = COALESCE($3, imagenes),
                 ubicacion = COALESCE($4, ubicacion),
                 etiquetas = COALESCE($5, etiquetas)
-            WHERE id_post = $6
-            RETURNING id_post;`,
-                [postPut.titulo, postPut.descripcion, postPut.imagenes, postPut.ubicacion, postPut.etiquetas, id_post]);
+            WHERE id_publicacion = $6
+            RETURNING id_publicacion;`,
+                [publicacionPut.titulo, publicacionPut.descripcion, publicacionPut.imagenes, publicacionPut.ubicacion, publicacionPut.etiquetas, id_publicacion]);
 
             if (res.rows.length === 0) {
-                reply.code(404).send({ message: "Post no encontrado" });
+                reply.code(404).send({ message: "publicacion no encontrada" });
                 return;
             }
-            reply.code(200).send({ ...postPut, id_post });
+            reply.code(200).send({ ...publicacionPut, id_publicacion });
         }
     });
 
-    // Ruta para ver los detalles de un post específico
-    fastify.get("/:id_post", {
+    // Ruta para ver los detalles de una publicacion específica
+    fastify.get("/:id_publicacion", {
         schema: {
-            summary: "Obtener detalles de un post",
+            summary: "Obtener detalles de una publicaciont",
             description: "Obtiene los detalles completos de una publicación basada en el ID proporcionado.",
-            tags: ["post"],
-            params: postIdSchema,
+            tags: ["publicacion"],
+            params: publicacionIdSchema,
             response: {
                 200: {
                     description: "Detalles de la publicación obtenidos correctamente.",
                     content: {
                         "application/json": {
-                            schema: postSchema,
+                            schema: publicacionSchema,
                         },
                     },
                 },
                 404: {
-                    description: "Post no encontrado.",
+                    description: "publicacion no encontrada.",
                     content: {
                         "application/json": {
                             schema: Type.Object({
@@ -235,10 +234,10 @@ const postRoute: FastifyPluginAsync = async (
         },
         onRequest: fastify.authenticate,
         handler: async function (request, reply) {
-            const { id_post } = request.params as { id_post: number };
+            const { id_publicacion } = request.params as { id_publicacion: number };
             const res = await query(`
             SELECT
-                id_post,
+                id_publicacion,
                 titulo,
                 estado,
                 id_creador,
@@ -247,10 +246,10 @@ const postRoute: FastifyPluginAsync = async (
                 ubicacion,
                 fechaCreacion,
                 etiquetas
-            FROM publicaciones WHERE id_post = $1;`, [id_post]);
+            FROM publicaciones WHERE id_publicacion = $1;`, [id_publicacion]);
 
             if (res.rows.length === 0) {
-                reply.code(404).send({ message: "Post no encontrado" });
+                reply.code(404).send({ message: "publicacion no encontrada" });
                 return;
             }
             return res.rows[0];
@@ -258,4 +257,4 @@ const postRoute: FastifyPluginAsync = async (
     });
 };
 
-export default postRoute;
+export default publicacionRoute;

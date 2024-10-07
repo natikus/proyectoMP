@@ -1,29 +1,40 @@
 import jwt, { FastifyJWTOptions } from "@fastify/jwt";
+import { FastifyRequest } from "fastify";
 import fp from "fastify-plugin";
-import { FastifyReply, FastifyRequest } from "fastify";
-import { AuthenticateFunction } from '../tipos/fastify.js';
+import { FastifyReply } from "fastify/types/reply.js";
+import { UsuarioIdType } from "./../tipos/usuario.js";
+import { publicacionIdType, publicacionType } from "./../tipos/publicacion.js";
+
 
 const jwtOptions: FastifyJWTOptions = {
-    secret: 'supersecret'
+    secret: "MYSUPERSECRET",
 };
-// Extender el módulo Fastify para incluir las propiedades de usuario en el token
-declare module '@fastify/jwt' {
-    interface FastifyJWT {
-        payload: { id: string; email: string }; // Tipos del payload del token
-        user: { id: string; email: string }; // Tipos del user tras la verificación
-    }
-}
+
 export default fp<FastifyJWTOptions>(async (fastify) => {
-
     fastify.register(jwt, jwtOptions);
-
-    const authenticate: AuthenticateFunction = async (request: FastifyRequest, reply: FastifyReply) => {
-        try {
-            await request.jwtVerify();
-        } catch (err) {
-            reply.code(401).send({ error: 'Unauthorized' });
+    fastify.decorate(
+        "authenticate",
+        async function (request: FastifyRequest, reply: FastifyReply) {
+            try {
+                await request.jwtVerify();
+            } catch (err) {
+                reply.code(401).send({ error: 'Unauthorized' });
+            }
         }
-    };
+    );
 
-    fastify.decorate("authenticate", authenticate);
+
+    fastify.decorate(//verifica si la persona que hizo la solicitud es admin o el creador
+        "verifySelfOrAdmin",
+        async function (request: FastifyRequest, reply: FastifyReply) {
+            console.log("Verificando si es administrador o self.");
+            const usuarioToken = request.user;
+            const id_usuario = Number((request.params as UsuarioIdType).id);
+            console.log({ usuarioToken, id_usuario });
+            if (!usuarioToken.is_Admin && usuarioToken.id_usuario !== id_usuario)
+                throw reply.unauthorized(
+                    "No estás autorizado a modificar ese recurso que no te pertenece si no eres admin."
+                );
+        }
+    );
 });
