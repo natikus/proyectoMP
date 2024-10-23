@@ -14,10 +14,14 @@ services:
       - PGPASSWORD=${PGPASSWORD}
       - PGHOST=${PGHOST}
   frontend:
-    image: nginx:alpine
+    image: frontend
     container_name: frontend
+    build:
+      context: ./frontend
+    tty: true
+    #command: sh -c "npm install && npm start"
     volumes:
-      - ./frontend/:/usr/share/nginx/html
+      - ./frontend/:/frontend
   database:
     image: database
     container_name: database
@@ -38,3 +42,5 @@ services:
     depends_on:
       - frontend
       - backend
+    environment:
+      - FRONT_PORT=${FRONT_PORT}
