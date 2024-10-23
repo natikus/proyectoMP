@@ -16,12 +16,15 @@ export default fp<FastifyJWTOptions>(async (fastify) => {
         "authenticate",
         async function (request: FastifyRequest, reply: FastifyReply) {
             try {
+                console.log("Verificando autenticación..."); // Agregar log
                 await request.jwtVerify();
+                console.log("Usuario autenticado: ", request.user); // Agregar log
             } catch (err) {
                 reply.code(401).send({ error: 'Unauthorized' });
             }
         }
     );
+
 
 
     fastify.decorate(//verifica si la persona que hizo la solicitud es admin o el creador

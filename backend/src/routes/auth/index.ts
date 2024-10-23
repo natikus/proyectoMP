@@ -19,7 +19,7 @@ const usuarioLoginRoute: FastifyPluginAsync = async (
 
             description: "Ruta para registrarse",
             response: {
-                200: {
+                201: {
                     description: "Usuario registrado exitosamente",
                     content: {
                         "application/json": {
@@ -27,7 +27,7 @@ const usuarioLoginRoute: FastifyPluginAsync = async (
                         },
                     },
                 },
-                401: {
+                400: {
                     description: "Error en la solicitud",
                     content: {
                         "application/json": {
