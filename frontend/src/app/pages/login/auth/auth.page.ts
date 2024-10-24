@@ -2,10 +2,22 @@ import { ApiRestService } from '../../../servicios/api-rest.service';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
+import {
+  NbInputModule,
+  NbFormFieldModule,
+  NbButtonModule,
+  NbIconModule,
+} from '@nebular/theme';
 @Component({
   selector: 'app-auth',
   standalone: true,
-  imports: [FormsModule],
+  imports: [
+    FormsModule,
+    NbInputModule,
+    NbFormFieldModule,
+    NbButtonModule,
+    NbIconModule,
+  ],
   templateUrl: './auth.page.html',
   styleUrl: './auth.page.css',
 })
@@ -26,5 +38,17 @@ export class AuthPage {
     console.log(sent);
     this.apiService.setToken(sent.token);
     this.router.navigate(['/inicio']);
+  }
+  showPassword = true;
+
+  getInputType() {
+    if (this.showPassword) {
+      return 'text';
+    }
+    return 'password';
+  }
+
+  toggleShowPassword() {
+    this.showPassword = !this.showPassword;
   }
 }
