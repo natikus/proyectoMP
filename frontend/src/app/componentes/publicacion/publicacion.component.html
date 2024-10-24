@@ -1,15 +1,28 @@
-<div class="max-w-xs rounded overflow-hidden shadow-lg">
-  <div>
-    <div></div>
-    <p>{{ this.publicacion()?.id_creador }}</p>
-    <p>Usuarios Asignados : {{ this.publicacion()?.etiquetas }}</p>
+<div class="card">
+  <div class="card-header">
+    <img src="https://via.placeholder.com/40" alt="Avatar" class="avatar" />
+    <div class="user-info">
+      <span class="username">{{ this.publicacion()?.id_creador }}</span>
+      <span class="timestamp">{{ this.publicacion()?.fechaCreacion }}</span>
+    </div>
   </div>
-  @if (showLink()) {
-  <a [routerLink]="['/inicio', this.publicacion()?.id_publicacion]">
-    Ver publicacion
-  </a>
-  }<img
-    src="https://localhost/backend{{ this.publicacion()?.imagenes }}"
-    alt="Imagen del prducto"
-  />
+  <div class="card-content">
+    <p>
+      Este es el contenido de la publicación. Aquí puedes incluir texto,
+      imágenes o enlaces.
+    </p>
+    <img
+      src="https://localhost/backend{{ this.publicacion()?.imagenes }}"
+      alt="Publicación"
+      class="post-image"
+    />
+  </div>
+  <div class="card-footer">
+    <a
+      class="like-button"
+      [routerLink]="['/inicio', this.publicacion()?.id_publicacion]"
+    >
+      Ver publicacion
+    </a>
+  </div>
 </div>
