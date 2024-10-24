@@ -43,8 +43,8 @@ VALUES
 ('Maria', 'Lopez', '0987654321');
 INSERT INTO usuarioVirtual (id_persona, usuario, email, foto, is_Admin, descripcion, intereses, contrasena) 
 VALUES 
-(1, 'juanp', 'juan.perez@example.com', '/foto_juan.jpg', FALSE, 'Me gusta ayudar a las personas', ARRAY['tecnología', 'programación'], crypt('password123', gen_salt('bf'))),
-(2, 'marial', 'maria.lopez@example.com', '/foto_maria.jpg', TRUE, 'Intento hacer un mundo mejor', ARRAY['arte', 'diseño'], crypt('supersecurepassword', gen_salt('bf')));
+(1, 'juanp', 'juan.perez@example.com', '/foto_juan.jpg', FALSE, 'Me gusta ayudar a las personas', ARRAY['tecnología', 'programación'], crypt('Password123!', gen_salt('bf'))),
+(2, 'marial', 'maria.lopez@example.com', '/foto_maria.jpg', TRUE, 'Intento hacer un mundo mejor', ARRAY['arte', 'diseño'], crypt('Supersecurepassword1!', gen_salt('bf')));
           
 INSERT INTO publicaciones (titulo,  id_creador, descripcion, imagenes, ubicacion, etiquetas) 
 VALUES 
