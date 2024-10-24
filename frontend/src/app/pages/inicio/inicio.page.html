@@ -1,1 +1,16 @@
-<p>inicio works!</p>
+@if ( publicaciones.length == 0) {
+<div>
+  <h1>No hay tareas disponibles en este momento, intenta mas tarde</h1>
+</div>
+} @else {
+<div>
+  <div>
+    @for (publicacion of publicaciones; track $index) {
+    <app-publicacion
+      [publicacion]="publicacion"
+      [showLink]="true"
+    ></app-publicacion>
+    }
+  </div>
+</div>
+}

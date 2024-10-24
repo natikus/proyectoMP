@@ -1,0 +1,15 @@
+<div class="max-w-xs rounded overflow-hidden shadow-lg">
+  <div>
+    <div></div>
+    <p>{{ this.publicacion()?.id_creador }}</p>
+    <p>Usuarios Asignados : {{ this.publicacion()?.etiquetas }}</p>
+  </div>
+  @if (showLink()) {
+  <a [routerLink]="['/inicio', this.publicacion()?.id_publicacion]">
+    Ver publicacion
+  </a>
+  }<img
+    src="https://localhost/backend{{ this.publicacion()?.imagenes }}"
+    alt="Imagen del prducto"
+  />
+</div>

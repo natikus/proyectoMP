@@ -31,12 +31,22 @@ export class ApiRestService {
   }
 
   async post(url: string, body: string) {
-    if (this.token) {
-    }
     const response = await fetch(`${this.API_URL}${url}`, {
       method: 'POST',
       headers: this.getHeaders(),
       body: body,
+    });
+    const data = await response.json();
+    if (response.ok) {
+      return data;
+    } else {
+      throw new Error(data);
+    }
+  }
+  async get(url: string) {
+    const response = await fetch(`${this.API_URL}${url}`, {
+      method: 'GET',
+      headers: this.getHeaders(),
     });
     const data = await response.json();
     if (response.ok) {

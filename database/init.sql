@@ -30,6 +30,7 @@ CREATE TABLE IF NOT EXISTS publicaciones (
     fechaCreacion TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP, 
     etiquetas TEXT[] NOT NULL, 
     CONSTRAINT fk_creador FOREIGN KEY (id_creador) REFERENCES usuarioVirtual(id_usuario) 
+    CONSTRAINT fk_etiquetas FOREIGN KEY (etiquetas) REFERENCES etiquetas(id_etiqueta) 
 );
 CREATE TABLE IF NOT EXISTS etiquetas (
     id_etiqueta SERIAL PRIMARY KEY,
