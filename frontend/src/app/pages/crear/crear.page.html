@@ -1,0 +1,76 @@
+<div class="crear-publicacion-container">
+  <h1>Crear una nueva publicación</h1>
+
+  <form
+    (ngSubmit)="onSubmit()"
+    #publicacionForm="ngForm"
+    class="form-publicacion"
+  >
+    <div class="form-group">
+      <label for="titulo">Título</label>
+      <input
+        type="text"
+        id="titulo"
+        name="titulo"
+        required
+        [(ngModel)]="publicacion.titulo"
+        placeholder="Título de la publicación"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="imagen">Imagen</label>
+      <input
+        type="file"
+        id="imagen"
+        name="imagen"
+        (change)="onImageUpload($event)"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="descripcion">Descripción</label>
+      <textarea
+        id="descripcion"
+        name="descripcion"
+        required
+        [(ngModel)]="publicacion.descripcion"
+        rows="4"
+        placeholder="Escribe una descripción"
+      ></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="ubicacion">Ubicación</label>
+      <input
+        type="text"
+        id="ubicacion"
+        name="ubicacion"
+        required
+        [(ngModel)]="publicacion.ubicacion"
+        placeholder="Ubicación"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="etiqueta">Etiquetas</label>
+      <input
+        type="text"
+        id="etiqueta"
+        name="etiqueta"
+        [(ngModel)]="etiqueta"
+        (keydown.enter)="addEtiqueta($event)"
+        placeholder="Escribe y presiona Enter para añadir"
+      />
+      <div class="etiquetas-container">
+        <span class="etiqueta" *ngFor="let etiqueta of publicacion.etiqueta">
+          {{ etiqueta }}
+          <button type="button" (click)="removeEtiqueta(etiqueta)">x</button>
+        </span>
+      </div>
+    </div>
+
+    <button type="submit" class="btn-publicar">Publicar</button>
+  </form>
+</div>
+<p>yes</p>

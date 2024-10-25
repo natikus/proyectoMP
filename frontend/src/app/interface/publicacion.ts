@@ -26,6 +26,16 @@ export interface publicaciones {
   etiqueta: string[];
 }
 
+export interface publicacionesPost {
+  titulo: string;
+  id_creador: number;
+  descripcion: string;
+  imagenes: string;
+  ubicacion: string;
+  fechaCreacion: string;
+  etiqueta: string[];
+}
+
 export interface etiquetas {
   id_publicacion: number;
   etiqueta: string;

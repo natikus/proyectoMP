@@ -1,12 +1,4 @@
-<
 <h1 class="detalle-titulo">{{ publicacion.titulo }}</h1>
-
-<img
-  *ngIf="publicacion.imagenes"
-  [src]="publicacion.imagenes"
-  alt="Imagen de la publicación"
-  class="detalle-imagen"
-/>
 
 <p class="detalle-descripcion">{{ publicacion.descripcion }}</p>
 
@@ -22,6 +14,12 @@
     </span>
   </p>
 </div>
+<img
+  *ngIf="publicacion.imagenes"
+  [src]="publicacion.imagenes"
+  alt="Imagen de la publicación"
+  class="detalle-imagen"
+/>
 
 <div class="detalle-footer">
   <button class="button-like">Me gusta</button>

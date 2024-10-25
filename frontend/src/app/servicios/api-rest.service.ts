@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-
+import { publicaciones } from '../interface/publicacion';
 @Injectable({
   providedIn: 'root',
 })
@@ -54,5 +54,21 @@ export class ApiRestService {
     } else {
       throw new Error(data);
     }
+  }
+
+  async postPublicacion(endpoint: string, data: publicaciones): Promise<any> {
+    const response = await fetch(`${this.API_URL}${endpoint}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      throw new Error('Error en la creación de la publicación');
+    }
+
+    return await response.json();
   }
 }

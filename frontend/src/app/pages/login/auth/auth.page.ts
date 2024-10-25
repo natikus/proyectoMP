@@ -37,6 +37,7 @@ export class AuthPage {
     );
     console.log(sent);
     this.apiService.setToken(sent.token);
+    console.log(sent.usuario);
     this.router.navigate(['/inicio']);
   }
   showPassword = true;

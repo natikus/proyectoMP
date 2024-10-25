@@ -81,7 +81,6 @@ const usuarioLoginRoute: FastifyPluginAsync = async (
   });
 
   // Ruta para crear un usuario
-  // Ruta para crear un usuario
   fastify.post("/", {
     schema: {
       summary: "Crear usuario",
