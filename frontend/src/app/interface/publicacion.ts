@@ -22,8 +22,8 @@ export interface publicaciones {
   descripcion: string;
   imagenes: string;
   ubicacion: string;
-  fechaCreacion: Date;
-  etiquetas: string[];
+  fechaCreacion: string;
+  etiqueta: string[];
 }
 
 export interface etiquetas {

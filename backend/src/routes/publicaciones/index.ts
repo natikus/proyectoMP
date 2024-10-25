@@ -77,7 +77,7 @@ const publicacionRoute: FastifyPluginAsync = async (
       const publicacionPost = request.body as publicacionPostType;
 
       const res = await query(
-        `INSERT INTO publicaciones (titulo, id_creador, descripcion, imagenes, ubicacion, etiquetas)
+        `INSERT INTO publicaciones (titulo, id_creador, descripcion, imagenes, ubicacion, etiqueta)
                 VALUES ($1, $2, $3, $4, $5, $6)
                 RETURNING id_publicacion;`,
         [
@@ -193,11 +193,9 @@ const publicacionRoute: FastifyPluginAsync = async (
         publicacionRes.rows.length === 0 ||
         publicacionRes.rows[0].id_creador !== userIdFromToken
       ) {
-        return reply
-          .code(403)
-          .send({
-            message: "No tienes permiso para modificar esta publicacion",
-          });
+        return reply.code(403).send({
+          message: "No tienes permiso para modificar esta publicacion",
+        });
       }
 
       const res = await query(
@@ -229,28 +227,20 @@ const publicacionRoute: FastifyPluginAsync = async (
   // Ruta para ver los detalles de una publicacion específica
   fastify.get("/:id_publicacion", {
     schema: {
-      summary: "Obtener detalles de una publicaciont",
-      description:
-        "Obtiene los detalles completos de una publicación basada en el ID proporcionado.",
+      summary: "Obtener una publicación específica",
+      description: "Obtiene la publicación correspondiente al ID especificado.",
       tags: ["publicacion"],
-      params: publicacionIdSchema,
       response: {
         200: {
-          description: "Detalles de la publicación obtenidos correctamente.",
-          content: {
-            "application/json": {
-              schema: publicacionSchema,
-            },
-          },
+          description: "Publicación encontrada",
+          type: "object",
+          properties: publicacionSchema.properties,
         },
         404: {
-          description: "publicacion no encontrada.",
-          content: {
-            "application/json": {
-              schema: Type.Object({
-                message: Type.String(),
-              }),
-            },
+          description: "Publicación no encontrada",
+          type: "object",
+          properties: {
+            message: { type: "string" },
           },
         },
       },
@@ -260,16 +250,16 @@ const publicacionRoute: FastifyPluginAsync = async (
       const { id_publicacion } = request.params as { id_publicacion: number };
       const res = await query(
         `
-            SELECT
-                id_publicacion,
-                titulo,
-                estado,
-                id_creador,
-                descripcion,
-                imagenes,
-                ubicacion,
-                fechaCreacion
-            FROM publicaciones WHERE id_publicacion = $1;`,
+        SELECT
+          id_publicacion,
+          titulo,
+          estado,
+          id_creador,
+          descripcion,
+          imagenes,
+          ubicacion,
+          fechaCreacion
+        FROM publicaciones WHERE id_publicacion = $1;`,
         [id_publicacion]
       );
 
