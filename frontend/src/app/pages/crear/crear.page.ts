@@ -3,6 +3,7 @@ import { publicaciones } from '../../interface/publicacion';
 import { ApiRestService } from '../../servicios/api-rest.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormControl, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-crear',

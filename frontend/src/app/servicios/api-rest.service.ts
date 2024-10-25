@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { publicaciones } from '../interface/publicacion';
+
 @Injectable({
   providedIn: 'root',
 })
