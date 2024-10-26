@@ -5,6 +5,7 @@ import { logueadoGuard } from './guards/logueado.guard';
 import { VerPublicacionPage } from './pages/ver-publicacion/ver-publicacion.page';
 import { CrearPage } from './pages/crear/crear.page';
 import { RegistroPage } from './pages/registro/registro.page.';
+import { PerfilPage } from './pages/perfil/perfil.page';
 export const routes: Routes = [
   {
     path: 'auth',
@@ -27,6 +28,11 @@ export const routes: Routes = [
   {
     path: 'inicio/:id',
     component: VerPublicacionPage,
+    canActivate: [logueadoGuard],
+  },
+  {
+    path: 'inicio/perfil/:id',
+    component: PerfilPage,
     canActivate: [logueadoGuard],
   },
 ];
