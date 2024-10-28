@@ -53,7 +53,7 @@ export class CrearPage {
       reader.readAsDataURL(file);
     }
   }
-
+  /*
   async onSubmit(): Promise<void> {
     try {
       // Utiliza el método post del servicio ApiRestService
@@ -66,5 +66,5 @@ export class CrearPage {
     } catch (error) {
       console.error('Error al crear la publicación:', error);
     }
-  }
+  }*/
 }

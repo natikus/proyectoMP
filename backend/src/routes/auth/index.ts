@@ -1,167 +1,111 @@
 import { FastifyPluginAsync, FastifyPluginOptions } from "fastify";
-import {
-  UsuarioLoginSchema,
-  UsuarioPostSchema,
-  UsuarioPostType,
-} from "../../tipos/usuario.js";
+import { UsuarioPostSchema, UsuarioPostType } from "../../tipos/usuario.js";
 import { FastifyInstance } from "fastify/types/instance.js";
 import { query } from "../../services/database.js";
 import bcrypt from "bcrypt";
 import { Type } from "@sinclair/typebox";
+import path from "path";
+import { writeFileSync } from "fs";
 
-const usuarioLoginRoute: FastifyPluginAsync = async (
+const usuarioAuthRoute: FastifyPluginAsync = async (
   fastify: FastifyInstance,
   opts: FastifyPluginOptions
 ): Promise<void> => {
-  // Ruta para login
-  fastify.post("/login", {
-    schema: {
-      summary: "Registrase",
-      body: UsuarioLoginSchema,
-      tags: ["auth"],
-
-      description: "Ruta para registrarse",
-      response: {
-        201: {
-          description: "Usuario registrado exitosamente",
-          content: {
-            "application/json": {
-              schema: UsuarioLoginSchema,
-            },
-          },
-        },
-        400: {
-          description: "Error en la solicitud",
-          content: {
-            "application/json": {
-              schema: Type.Object({
-                message: Type.String(),
-              }),
-            },
-          },
-        },
-      },
-    },
-
-    handler: async (request, reply) => {
-      const { email, contrasena } = request.body as {
-        email: string;
-        contrasena: string;
-      };
-
-      try {
-        const res = await query(
-          "SELECT id_usuario, contrasena FROM usuarioVirtual WHERE email = $1",
-          [email]
-        );
-        if (res.rows.length === 0) {
-          return reply.code(401).send({ message: "Usuario no encontrado" });
-        }
-
-        const usuario = res.rows[0];
-        const isPasswordValid = await bcrypt.compare(
-          contrasena,
-          usuario.contrasena
-        );
-
-        if (!isPasswordValid) {
-          return reply.code(401).send({ message: "Contraseña incorrecta" });
-        }
-
-        // Generar token JWT
-        const token = fastify.jwt.sign(usuario);
-
-        // Responder con el token
-        reply.code(200).send({ token, usuario });
-      } catch (error) {
-        console.error("Error en el login:", error);
-        reply.code(500).send({ message: "Error en el servidor" });
-      }
-    },
-  });
-
   // Ruta para crear un usuario
   fastify.post("/", {
     schema: {
-      summary: "Crear usuario",
+      tags: ["usuarioVirtual"],
+      consumes: ["multipart/form-data"],
       body: UsuarioPostSchema,
-      tags: ["auth"],
+    },
 
-      description: "Ruta para crear un nuevo usuario",
+    handler: async function (request, reply) {
+      const personaPost = request.body as UsuarioPostType;
+
+      let imageUrl = "";
+      if (personaPost.imagen) {
+        const fileBuffer = personaPost.imagen._buf as Buffer;
+        const filepath = path.join(
+          process.cwd(),
+          "uploads",
+          personaPost.imagen.filename
+        );
+        writeFileSync(filepath, fileBuffer);
+        imageUrl = `/uploads/${personaPost.imagen.filename}`;
+      }
+      const nombre = personaPost.nombre.value;
+      const email = personaPost.email.value;
+      const apellido = personaPost.apellido.value;
+      const usuario = personaPost.usuario.value;
+      const descripcion = personaPost.descripcion.value;
+      const interes = personaPost.interes.value;
+      const hashedPassword = await bcrypt.hash(
+        personaPost.contrasena.value,
+        10
+      );
+
+      const res = await query(
+        `INSERT INTO usuarioVirtual
+       (nombre, apellido, usuario, email, descripcion, intereses, contrasena, imagen)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+       RETURNING id_persona;`,
+        [
+          nombre,
+          apellido,
+          usuario,
+          email,
+          descripcion,
+          interes,
+          hashedPassword,
+          imageUrl,
+        ]
+      );
+
+      if (res.rowCount === 0) {
+        reply.code(404).send({ message: "Failed to insert persona" });
+        return;
+      }
+
+      const id_persona = res.rows[0].id_persona;
+      reply.code(201).send({
+        id_persona,
+        nombre,
+        apellido,
+        usuario,
+        descripcion,
+        interes,
+        imageUrl,
+      });
+    },
+  });
+  fastify.get("/", {
+    schema: {
+      tags: ["auth"],
+      summary: "Obtener todos los nombres y contraseñas usuarios",
+      description:
+        "Retorna una lista de todos los nombre y contraseñas usuarios registrados",
       response: {
-        201: {
-          description: "Usuario creado exitosamente",
-          content: {
-            "application/json": {
-              schema: Type.Object({
-                nombre: Type.String(),
-                apellido: Type.String(),
-                usuario: Type.String(),
-                cedula: Type.String(),
-                email: Type.String(),
-                telefono: Type.String(),
-                foto: Type.String(),
-                descripcion: Type.String(),
-                intereses: Type.Array(Type.String()),
-              }),
-            },
-          },
+        200: {
+          type: "array",
         },
-        400: {
-          description: "Error en la solicitud",
-          content: {
-            "application/json": {
-              schema: Type.Object({
-                message: Type.String(),
-              }),
-            },
+        404: {
+          type: "object",
+          properties: {
+            message: { type: "string" },
           },
         },
       },
     },
     handler: async function (request, reply) {
-      const UsuarioPost = request.body as UsuarioPostType;
-      const hashedPassword = await bcrypt.hash(UsuarioPost.contrasena, 10);
-      console.log(request.body);
-      try {
-        const res = await query(
-          `
-                    INSERT INTO usuarios
-                    (nombre, apellido, usuario, cedula, email, telefono, foto, is_Admin, descripcion, fechaCreacion, intereses, contrasena)
-                    VALUES
-                    ($1, $2, $3, $4, $5, $6, $7, $8, $9, CURRENT_DATE, $10, $11)
-                    RETURNING id;
-                `,
-          [
-            UsuarioPost.nombre,
-            UsuarioPost.apellido,
-            UsuarioPost.usuario,
-            UsuarioPost.cedula,
-            UsuarioPost.email,
-            UsuarioPost.telefono,
-            UsuarioPost.foto,
-            UsuarioPost.is_Admin,
-            UsuarioPost.descripcion,
-            UsuarioPost.intereses,
-            hashedPassword,
-          ]
-        );
-
-        if (res.rows.length === 0) {
-          return reply.code(400).send({ message: "Usuario no creado" });
-        }
-
-        const id = res.rows[0].id;
-        reply.code(201).send({
-          id,
-          ...UsuarioPost,
-          contrasena: undefined,
-        });
-      } catch (error) {
-        console.error("Error al crear el usuario:", error);
-        reply.code(500).send({ message: "Error en el servidor" });
+      const res = await query(`SELECT
+        email
+        FROM usuarioVirtual`);
+      if (res.rows.length === 0) {
+        reply.code(404).send({ message: "No hay usuarios registradas" });
+        return;
       }
+      return res.rows;
     },
   });
 };
-export default usuarioLoginRoute;
+export default usuarioAuthRoute;

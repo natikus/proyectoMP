@@ -38,12 +38,12 @@ export const customPasswordValidator = (
 
 export const crossPasswordMatchingValidatior: ValidatorFn = (
   formGroupControl: AbstractControl<{
-    password: string;
-    confirmPassword: string;
+    contrasena: string;
+    confirmContrasena: string;
   }>
 ): ValidationErrors | null => {
-  const password = formGroupControl.value.password;
-  const confirmPassword = formGroupControl.value.confirmPassword;
+  const password = formGroupControl.value.contrasena;
+  const confirmPassword = formGroupControl.value.confirmContrasena;
 
   return password !== confirmPassword
     ? { crossConfirmPasswordError: true }

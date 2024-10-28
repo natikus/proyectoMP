@@ -1,4 +1,10 @@
 import { Static, Type } from "@sinclair/typebox";
+import {
+  emailSchema,
+  FileSchema,
+  stringArraySchema,
+  stringSchema,
+} from "./esqyemasFeos.js";
 const cedulaRegex = /^[1-9]{1}\.[0-9]{3}\.[0-9]{3}-[0-9]{1}$/;
 const passwordRegex =
   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*_-])[A-Za-z\d!@#$%^&*_-]{8,20}$/;
@@ -7,6 +13,16 @@ export const UsuarioSchema = Type.Object(
   {
     //esquema utilizado para hacer un get
     id_persona: Type.Number({ description: "Id para identificar el usuario" }),
+    nombre: Type.String({
+      minLength: 2,
+      maxLength: 50,
+      descriptio: "Nombre del usuario",
+    }),
+    apellido: Type.String({
+      minLength: 2,
+      maxLength: 50,
+      description: "Apellido del usuario",
+    }),
     usuario: Type.String({
       minLength: 2,
       maxLength: 50,
@@ -39,7 +55,9 @@ export const UsuarioSchema = Type.Object(
   {
     examples: [
       {
-        id_usuario: 1,
+        id_persona: 1,
+        nombre: "Usuario 1",
+        apellido: "Apellido 1",
         usuario: "usuario1",
         email: "example1@example.com",
         foto: "foto1.jpg",
@@ -49,7 +67,9 @@ export const UsuarioSchema = Type.Object(
         intereses: ["interes1", "interes2"],
       },
       {
-        id_usuario: 2,
+        id_persona: 2,
+        nombre: "Usuario 2",
+        apellido: "Apellido 2",
         usuario: "usuario2",
         email: "example2@example.com",
         foto: "foto2.jpg",
@@ -60,10 +80,21 @@ export const UsuarioSchema = Type.Object(
       },
     ],
   }
-);
+); /*
 export const UsuarioPostSchema = Type.Object(
   {
     //esquema utilizado para hacer un post
+
+    nombre: Type.String({
+      minLength: 2,
+      maxLength: 50,
+      description: "Nombre del usuario",
+    }),
+    apellido: Type.String({
+      minLength: 2,
+      maxLength: 50,
+      description: "Apellido del usuario",
+    }),
     usuario: Type.String({
       minLength: 2,
       maxLength: 50,
@@ -101,6 +132,8 @@ export const UsuarioPostSchema = Type.Object(
   {
     examples: [
       {
+        nombre: "Usuario 1",
+        apellido: "Apellido 1",
         usuario: "usuario1",
         email: "example1@example.com",
         foto: "foto1.jpg",
@@ -111,6 +144,8 @@ export const UsuarioPostSchema = Type.Object(
         contrasena: "Contrasena1",
       },
       {
+        nombre: "Usuario 2",
+        apellido: "Apellido 2",
         usuario: "usuario2",
         email: "example2@example.com",
         foto: "foto2.jpg",
@@ -122,7 +157,7 @@ export const UsuarioPostSchema = Type.Object(
       },
     ],
   }
-);
+);*/
 export const UsuarioPutSchema = Type.Object(
   {
     //esquema utilizado para hacer un put
@@ -189,6 +224,17 @@ export const UsuarioLoginSchema = Type.Object({
     format: "email",
     description: "Correo electrónico del usuario",
   }),
+});
+
+export const UsuarioPostSchema = Type.Object({
+  nombre: stringSchema,
+  apellido: stringSchema,
+  usuario: stringSchema,
+  email: emailSchema,
+  imagen: FileSchema,
+  descripcion: stringSchema,
+  interes: stringArraySchema,
+  contrasena: stringSchema,
 });
 
 export type UsuarioIdType = Static<typeof UsuarioIdSchema>;

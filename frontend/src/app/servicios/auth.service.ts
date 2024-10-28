@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
-import { publicaciones } from '../interface/publicacion';
-
 @Injectable({
   providedIn: 'root',
 })
-export class ApiRestService {
+export class AuthService {
   constructor() {}
 
   setToken(token: string) {
@@ -27,6 +25,9 @@ export class ApiRestService {
     }
   }
 
+  isValidUser(): boolean {
+    return !!localStorage.getItem('token');
+  }
   async post(url: string, body: string) {
     const response = await fetch(`${this.API_URL}${url}`, {
       method: 'POST',
@@ -38,33 +39,6 @@ export class ApiRestService {
       return data;
     } else {
       throw new Error(data);
-    }
-  }
-  async get(url: string) {
-    const response = await fetch(`${this.API_URL}${url}`, {
-      method: 'GET',
-      headers: this.getHeaders(),
-    });
-    const data = await response.json();
-    if (response.ok) {
-      return data;
-    } else {
-      throw new Error(data);
-    }
-  }
-
-  async postPublicacion(url: string, formData: FormData) {
-    try {
-      const response = await fetch(`${this.API_URL}${url}`, {
-        method: 'POST',
-        body: formData,
-      });
-      if (!response.ok) throw new Error('Error al crear la persona');
-
-      return await response.json();
-    } catch (error) {
-      console.error(error);
-      return null;
     }
   }
 }
