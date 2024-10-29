@@ -19,6 +19,7 @@ import { ApiRestService } from '../../servicios/api-rest.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { usuarioVirtual } from '../../interface/persona';
+
 @Component({
   selector: 'app-registro',
   standalone: true,
@@ -56,8 +57,7 @@ export class RegistroPage {
           Validators.maxLength(30),
         ],
       ],
-      //celular: ['', Validators.required],
-      //foto: '',
+      foto: '',
       email: ['', [Validators.required, Validators.email]],
       contrasena: ['', [customPasswordValidator, Validators.required]],
       confirmContrasena: ['', Validators.required],
@@ -73,16 +73,7 @@ export class RegistroPage {
   async clickRegister(): Promise<void> {
     console.log('verificando informacion');
     if (this.formGroup.valid) {
-      const usuarioVirtual = {
-        nombre: this.Nombre,
-        apellido: this.Apellido,
-        usuario: this.Usuario,
-        email: this.Email,
-        //       foto: this.Foto,
-        descripcion: this.Descripcion,
-        intereses: this.Intereses,
-        contrasena: this.Contrasena,
-      };
+      const usuarioVirtual = {};
 
       const sent = await this.apiService.post(
         'auth',
