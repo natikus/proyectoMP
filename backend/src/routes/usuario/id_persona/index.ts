@@ -86,7 +86,8 @@ const usuarioRoute: FastifyPluginAsync = async (
                   imagen = COALESCE($2, imagen),
                   descripcion = COALESCE($3, descripcion),
                   intereses = COALESCE($4, intereses),
-                  contrasena = COALESCE($5, contrasena)
+                  contrasena = COALESCE($5, contrasena),
+                  telefono = COALESCE($6, telefono)
               WHERE id_persona = $7
               RETURNING id_persona;`,
         [
@@ -137,7 +138,8 @@ const usuarioRoute: FastifyPluginAsync = async (
           is_Admin,
           descripcion,
           fechaCreacion,
-          intereses
+          intereses,
+          telefono
           FROM usuarioVirtual WHERE id_persona = ${id_persona};`);
 
       if (res.rows.length === 0) {

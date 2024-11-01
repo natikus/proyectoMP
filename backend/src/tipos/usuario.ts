@@ -51,6 +51,10 @@ export const UsuarioSchema = Type.Object(
     intereses: Type.Array(Type.String(), {
       description: "Intereses del usuario",
     }),
+    telefono: Type.String({
+      maxLength: 300,
+      description: "telefono del usuario",
+    }),
   },
   {
     examples: [
@@ -65,6 +69,7 @@ export const UsuarioSchema = Type.Object(
         descripcion: "Descripción del usuario 1",
         fechaCreacion: "2021-10-10T14:48:00.000Z",
         intereses: ["interes1", "interes2"],
+        telefono: "123456789",
       },
       {
         id_persona: 2,
@@ -77,87 +82,11 @@ export const UsuarioSchema = Type.Object(
         descripcion: "Descripción del usuario 2",
         fechaCreacion: "2021-10-10T14:48:00.000Z",
         intereses: ["interes3", "interes4"],
+        telefono: "234567890",
       },
     ],
   }
-); /*
-export const UsuarioPostSchema = Type.Object(
-  {
-    //esquema utilizado para hacer un post
-
-    nombre: Type.String({
-      minLength: 2,
-      maxLength: 50,
-      description: "Nombre del usuario",
-    }),
-    apellido: Type.String({
-      minLength: 2,
-      maxLength: 50,
-      description: "Apellido del usuario",
-    }),
-    usuario: Type.String({
-      minLength: 2,
-      maxLength: 50,
-      description: "Nombre de usuario",
-    }),
-    email: Type.String({
-      type: "string",
-      format: "email",
-      description: "Correo electrónico del usuario",
-    }),
-    foto: Type.String({ description: "Foto del usuario" }),
-    is_Admin: Type.Optional(
-      Type.Boolean({ description: "Indica si el usuario es administrador" })
-    ),
-    descripcion: Type.String({
-      maxLength: 300,
-      description: "Descripción del usuario",
-    }),
-    fechaCreacion: Type.Optional(
-      Type.String({
-        format: "date-time",
-        description: "Fecha de creación del usuario",
-      })
-    ),
-    intereses: Type.Array(Type.String(), {
-      description: "Intereses del usuario",
-    }),
-    contrasena: Type.String({
-      minLength: 8,
-      maxLength: 20,
-      pattern: passwordRegex.source,
-      description: "Contraseña del usuario",
-    }),
-  },
-  {
-    examples: [
-      {
-        nombre: "Usuario 1",
-        apellido: "Apellido 1",
-        usuario: "usuario1",
-        email: "example1@example.com",
-        foto: "foto1.jpg",
-        is_Admin: true,
-        descripcion: "Descripción del usuario 1",
-        fechaCreacion: "2021-10-10T14:48:00.000Z",
-        intereses: ["interes1", "interes2"],
-        contrasena: "Contrasena1",
-      },
-      {
-        nombre: "Usuario 2",
-        apellido: "Apellido 2",
-        usuario: "usuario2",
-        email: "example2@example.com",
-        foto: "foto2.jpg",
-        is_Admin: false,
-        descripcion: "Descripción del usuario 2",
-        fechaCreacion: "2021-10-10T14:48:00.000Z",
-        intereses: ["interes3", "interes4"],
-        contrasena: "Contrasena2",
-      },
-    ],
-  }
-);*/
+);
 export const UsuarioPutSchema = Type.Object(
   {
     //esquema utilizado para hacer un put
@@ -183,6 +112,12 @@ export const UsuarioPutSchema = Type.Object(
         description: "Contraseña del usuario",
       })
     ),
+    telefono: Type.Optional(
+      Type.String({
+        maxLength: 300,
+        description: "telefono del usuario",
+      })
+    ),
   },
   {
     examples: [
@@ -192,6 +127,7 @@ export const UsuarioPutSchema = Type.Object(
         descripcion: "Descripción del usuario 1",
         intereses: ["interes1", "interes2"],
         contrasena: "Contrasena1",
+        telefono: "234567890",
       },
       {
         usuario: "usuario2",
@@ -199,6 +135,7 @@ export const UsuarioPutSchema = Type.Object(
         descripcion: "Descripción del usuario 2",
         intereses: ["interes3", "interes4"],
         contrasena: "Contrasena2",
+        telefono: "234567899",
       },
     ],
   }
@@ -235,6 +172,7 @@ export const UsuarioPostSchema = Type.Object({
   descripcion: stringSchema,
   interes: stringArraySchema,
   contrasena: stringSchema,
+  telefono: stringSchema,
 });
 
 export type UsuarioIdType = Static<typeof UsuarioIdSchema>;

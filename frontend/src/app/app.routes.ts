@@ -4,10 +4,15 @@ import { InicioPage } from './pages/inicio/inicio.page';
 import { logueadoGuard } from './guards/logueado.guard';
 import { PerfilPage } from './pages/perfil/perfil.page';
 import { CrearPage } from './pages/crear/crear.page';
+import { RegistroPage } from './pages/registro/registro.page';
 export const routes: Routes = [
   {
     path: 'auth/login',
     component: AuthPage,
+  },
+  {
+    path: 'auth/registro',
+    component: RegistroPage,
   },
   {
     path: 'inicio',

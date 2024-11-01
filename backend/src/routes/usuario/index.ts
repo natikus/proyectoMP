@@ -36,10 +36,11 @@ const usuariosRoute: FastifyPluginAsync = async (
         is_Admin,
         descripcion,
         fechaCreacion,
-        intereses
+        intereses,
+        telefono
         FROM usuarioVirtual`);
       if (res.rows.length === 0) {
-        reply.code(404).send({ message: "No hay usuarios registradas" });
+        reply.code(404).send({ message: "No hay usuarios registrados" });
         return;
       }
       return res.rows;

@@ -12,15 +12,12 @@ CREATE TABLE IF NOT EXISTS usuarioVirtual (
     imagen TEXT NOT NULL,
     fechaCreacion DATE NOT NULL DEFAULT CURRENT_DATE,
     intereses TEXT[] NOT NULL,
+    telefono TEXT UNIQUE,
     contrasena TEXT NOT NULL
+    
 );
 
--- Tabla celular, con una referencia a usuarioVirtual
-CREATE TABLE IF NOT EXISTS celular (
-    id_persona INTEGER PRIMARY KEY,
-    celular TEXT NOT NULL UNIQUE,
-    CONSTRAINT fk_persona FOREIGN KEY (id_persona) REFERENCES usuarioVirtual(id_persona) ON DELETE CASCADE
-);
+
 
 -- Tabla publicaciones, con una referencia a usuarioVirtual
 CREATE TABLE IF NOT EXISTS publicaciones (
@@ -51,16 +48,11 @@ CREATE TABLE IF NOT EXISTS publicacion_etiquetas (
 );
 
 -- Insertar datos en usuarioVirtual
-INSERT INTO usuarioVirtual (nombre, apellido, usuario, email,  is_Admin, descripcion, imagen, intereses, contrasena) 
+INSERT INTO usuarioVirtual (nombre, apellido, usuario, email,  is_Admin, descripcion, imagen, intereses,telefono, contrasena) 
 VALUES 
-('Juan', 'Perez', 'juanp', 'juan.perez@example.com',  FALSE, 'Me gusta ayudar a las personas', '/imagen11.jpg',ARRAY['tecnología', 'programación'], crypt('Password123!', gen_salt('bf'))),
-('Maria', 'Lopez', 'marial', 'maria.lopez@example.com',  TRUE, 'Intento hacer un mundo mejor', '/imagen22.jpg',ARRAY['arte', 'diseño'], crypt('Supersecurepassword1!', gen_salt('bf')));
+('Juan', 'Perez', 'juanp', 'juan.perez@example.com',  FALSE, 'Me gusta ayudar a las personas', '/imagen11.jpg',ARRAY['tecnología', 'programación'],  '1234567890',crypt('Password123!', gen_salt('bf'))),
+('Maria', 'Lopez', 'marial', 'maria.lopez@example.com',  TRUE, 'Intento hacer un mundo mejor', '/imagen22.jpg',ARRAY['arte', 'diseño'],  '0987654321',crypt('Supersecurepassword1!', gen_salt('bf')));
 
--- Insertar datos en celular
-INSERT INTO celular (id_persona, celular) 
-VALUES 
-(1, '1234567890'),
-(2, '0987654321');
 
 -- Insertar datos en publicaciones
 INSERT INTO publicaciones (titulo, id_creador, descripcion, imagenes, ubicacion) 
