@@ -170,7 +170,7 @@ export const UsuarioPostSchema = Type.Object({
   email: emailSchema,
   imagen: FileSchema,
   descripcion: stringSchema,
-  interes: stringArraySchema,
+  intereses: stringArraySchema,
   contrasena: stringSchema,
   telefono: stringSchema,
 });

@@ -38,7 +38,7 @@ const usuarioAuthRoute: FastifyPluginAsync = async (
       const apellido = personaPost.apellido.value;
       const usuario = personaPost.usuario.value;
       const descripcion = personaPost.descripcion.value;
-      const interes = personaPost.interes.value;
+      const intereses = personaPost.intereses.value;
       const telefono = personaPost.telefono.value;
       const hashedPassword = await bcrypt.hash(
         personaPost.contrasena.value,
@@ -56,7 +56,7 @@ const usuarioAuthRoute: FastifyPluginAsync = async (
           usuario,
           email,
           descripcion,
-          interes,
+          intereses,
           telefono,
           hashedPassword,
           imageUrl,
@@ -75,7 +75,7 @@ const usuarioAuthRoute: FastifyPluginAsync = async (
         apellido,
         usuario,
         descripcion,
-        interes,
+        intereses,
         telefono,
         imageUrl,
       });

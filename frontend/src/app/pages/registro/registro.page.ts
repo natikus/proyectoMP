@@ -15,7 +15,6 @@ import {
   crossPasswordMatchingValidatior,
   customPasswordValidator,
 } from './register-costum-validators';
-import { ApiRestService } from '../../servicios/api-rest.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../servicios/auth.service';
@@ -83,10 +82,6 @@ export class RegistroPage implements OnInit {
     });
   }
 
-  aplanarArrayDeStrings(arrayAnidado: string[][]): string[] {
-    return arrayAnidado.flat();
-  }
-
   private async getIntereses() {
     try {
       const intereses = await this.apiService.getIntereses();
@@ -133,7 +128,8 @@ export class RegistroPage implements OnInit {
   seleccionarInteres(interes: string) {
     if (!this.interesesSeleccionados.includes(interes)) {
       this.interesesSeleccionados.push(interes);
-      this.formGroup.get('intereses')?.setValue(''); // Limpiamos el campo de texto
+      // Limpiar el campo de texto sin actualizar el control del formulario
+      // this.formGroup.get('intereses')?.setValue(''); // No actualices el valor del formulario
     }
     // No ocultamos la lista después de seleccionar, para permitir más selecciones
   }
@@ -157,6 +153,8 @@ export class RegistroPage implements OnInit {
     if (this.formGroup.valid) {
       const formData = new FormData();
       const intereses = this.interesesSeleccionados; // Usa los intereses seleccionados
+
+      // Agregar los valores del formulario
       formData.append('usuario', this.formGroup.get('usuario')?.value || '');
       formData.append('nombre', this.formGroup.get('nombre')?.value || '');
       formData.append('apellido', this.formGroup.get('apellido')?.value || '');
@@ -170,7 +168,13 @@ export class RegistroPage implements OnInit {
         'descripcion',
         this.formGroup.get('descripcion')?.value || ''
       );
-      formData.append('intereses', JSON.stringify(intereses)); // Envía los intereses seleccionados
+
+      // Aquí se agregan los intereses seleccionados como JSON
+      if (intereses.length > 0) {
+        formData.append('intereses', JSON.stringify(intereses));
+      } else {
+        console.error('No se han seleccionado intereses.');
+      }
 
       // Añadir la imagen seleccionada al FormData
       if (this.selectedFile) {

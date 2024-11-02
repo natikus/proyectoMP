@@ -41,21 +41,28 @@ export class ApiRestService {
     }
   }
   async get(url: string) {
-    const response = await fetch(`${this.API_URL}${url}`, {
+    const fullUrl = `${this.API_URL}${url}`;
+    console.log('URL completa:', fullUrl);
+
+    const response = await fetch(fullUrl, {
       method: 'GET',
       headers: this.getHeaders(),
     });
+
+    console.log('Respuesta de la API:', response);
     const data = await response.json();
+
     if (response.ok) {
       return data;
     } else {
+      console.error('Error en la respuesta:', data);
       throw new Error(data);
     }
   }
 
-  async postPublicacion(url: string, formData: FormData) {
+  async postPublicacion(formData: FormData) {
     try {
-      const response = await fetch(`${this.API_URL}${url}`, {
+      const response = await fetch(`${this.API_URL}publicaciones`, {
         method: 'POST',
         body: formData,
       });

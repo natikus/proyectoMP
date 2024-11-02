@@ -1,14 +1,14 @@
-import { etiquetaSchema, etiquetaIdSchema } from "../../tipos/etiqueta.js";
+import { etiquetaSchema, etiquetaIdSchema } from "../../../tipos/etiqueta.js";
 import { FastifyPluginAsync, FastifyPluginOptions } from "fastify";
 import { FastifyInstance } from "fastify/types/instance.js";
-import { query } from "../../services/database.js";
+import { query } from "../../../services/database.js";
 import { Type } from "@sinclair/typebox";
 const etiquetaRoute: FastifyPluginAsync = async (
   fastify: FastifyInstance,
   opts: FastifyPluginOptions
 ): Promise<void> => {
   // Ruta para eliminar una etiqueta
-  fastify.delete("/", {
+  fastify.delete("/id_etiqueta", {
     schema: {
       summary: "Eliminar una etiqueta",
       description: "Elimina una etiqueta por ID.",
@@ -50,7 +50,7 @@ const etiquetaRoute: FastifyPluginAsync = async (
   });
 
   // Ruta para ver los detalles de una etiqueta específica
-  fastify.get("/", {
+  fastify.get("/etiqueta", {
     schema: {
       summary: "Obtener una etiqueta específica",
       description: "Obtiene una etiqueta por ID.",
@@ -67,14 +67,14 @@ const etiquetaRoute: FastifyPluginAsync = async (
           properties: {
             message: { type: "string" },
           },
-        },
+        }, //suerte en pila tenes que arreglar este back
       },
     },
     onRequest: fastify.authenticate,
     handler: async function (request, reply) {
       const { id_etiqueta } = request.params as { id_etiqueta: number };
       const res = await query(
-        `SELECT id_etiqueta, nombre FROM etiquetas WHERE id_etiqueta = $1;`,
+        `SELECT id_etiqueta, etiqueta FROM etiquetas WHERE id_etiqueta = $1;`,
         [id_etiqueta]
       );
       if (res.rows.length === 0) {
@@ -82,6 +82,36 @@ const etiquetaRoute: FastifyPluginAsync = async (
         return;
       }
       return res.rows[0];
+    },
+  });
+  fastify.get("/", {
+    schema: {
+      summary: "Obtener todas las etiquetas",
+      description: "Obtener todas las etiquetas",
+      tags: ["etiqueta"],
+      response: {
+        200: {
+          description: "Etiquetas encontradas",
+          type: "array", // Cambia a array porque ahora devolverás múltiples etiquetas
+          // Define cómo será cada etiqueta
+        },
+        404: {
+          description: "Etiquetas no encontradas",
+          type: "object",
+          properties: {
+            message: { type: "string" },
+          },
+        },
+      },
+    },
+    onRequest: fastify.authenticate,
+    handler: async function (request, reply) {
+      const res = await query(`SELECT etiqueta FROM etiquetas`); // Obtener todas las columnas
+      if (res.rows.length === 0) {
+        reply.code(404).send({ message: "No hay etiquetas creadas" });
+        return;
+      }
+      return res.rows; // Devuelve todas las etiquetas
     },
   });
 
@@ -105,10 +135,10 @@ const etiquetaRoute: FastifyPluginAsync = async (
     },
     onRequest: fastify.authenticate,
     handler: async function (request, reply) {
-      const { nombre } = request.body as { nombre: string };
+      const { etiqueta } = request.body as { etiqueta: string };
       const res = await query(
-        `INSERT INTO etiquetas (nombre) VALUES ($1) RETURNING id_etiqueta, nombre;`,
-        [nombre]
+        `INSERT INTO etiquetas etiqueta VALUES ($1) RETURNING id_etiqueta, etiqueta;`,
+        [etiqueta]
       );
       reply.code(201).send(res.rows[0]);
     },

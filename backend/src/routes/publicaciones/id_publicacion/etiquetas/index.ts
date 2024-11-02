@@ -77,7 +77,7 @@ const etiquetaPublicacionRoute: FastifyPluginAsync = async (
     handler: async function (request, reply) {
       const { id_publicaicon } = request.params as { id_publicaicon: number };
       const res = await query(
-        `SELECT id_etiqueta, nombre FROM etiquetas WHERE id_publicaicon = $1;`,
+        `SELECT id_etiqueta, etiqueta FROM etiquetas WHERE id_publicaicon = $1;`,
         [id_publicaicon]
       );
       if (res.rows.length === 0) {
