@@ -31,7 +31,7 @@ export const routes: Routes = [
     canActivate: [logueadoGuard],
   },
   {
-    path: 'inicio/:id',
+    path: 'inicio/:id_publicacion',
     component: VerPublicacionPage,
     canActivate: [logueadoGuard],
   },

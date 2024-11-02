@@ -33,7 +33,7 @@ export const UsuarioSchema = Type.Object(
       format: "email",
       description: "Correo electrónico del usuario",
     }),
-    foto: Type.String({ description: "Foto del usuario" }),
+    imagen: Type.String({ description: "Foto del usuario" }),
     is_Admin: Type.Optional(
       Type.Boolean({ description: "Indica si el usuario es administrador" })
     ),
@@ -64,7 +64,7 @@ export const UsuarioSchema = Type.Object(
         apellido: "Apellido 1",
         usuario: "usuario1",
         email: "example1@example.com",
-        foto: "foto1.jpg",
+        imagen: "foto1.jpg",
         is_Admin: true,
         descripcion: "Descripción del usuario 1",
         fechaCreacion: "2021-10-10T14:48:00.000Z",
@@ -77,7 +77,7 @@ export const UsuarioSchema = Type.Object(
         apellido: "Apellido 2",
         usuario: "usuario2",
         email: "example2@example.com",
-        foto: "foto2.jpg",
+        imagen: "foto2.jpg",
         is_Admin: false,
         descripcion: "Descripción del usuario 2",
         fechaCreacion: "2021-10-10T14:48:00.000Z",
@@ -97,7 +97,7 @@ export const UsuarioPutSchema = Type.Object(
         description: "Nombre de usuario",
       })
     ),
-    foto: Type.Optional(Type.String({ description: "Foto del usuario" })),
+    imagen: Type.Optional(Type.String({ description: "Foto del usuario" })),
     descripcion: Type.Optional(
       Type.String({ maxLength: 300, description: "Descripción del usuario" })
     ),
@@ -123,7 +123,7 @@ export const UsuarioPutSchema = Type.Object(
     examples: [
       {
         usuario: "usuario1",
-        foto: "foto1.jpg",
+        imagen: "foto1.jpg",
         descripcion: "Descripción del usuario 1",
         intereses: ["interes1", "interes2"],
         contrasena: "Contrasena1",
@@ -131,7 +131,7 @@ export const UsuarioPutSchema = Type.Object(
       },
       {
         usuario: "usuario2",
-        foto: "foto2.jpg",
+        imagen: "foto2.jpg",
         descripcion: "Descripción del usuario 2",
         intereses: ["interes3", "interes4"],
         contrasena: "Contrasena2",

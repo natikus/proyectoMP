@@ -19,8 +19,9 @@
   </div>
   <div class="card-footer">
     <a
+      (click)="verPublicacion(this.publicacion()?.id_publicacion ?? 0)"
       class="like-button"
-      [routerLink]="['/inicio', this.publicacion()?.id_publicacion]"
+      [routerLink]="['/inicio', this.publicacion()?.id_publicacion ?? 0]"
     >
       Ver publicacion
     </a>

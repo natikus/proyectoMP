@@ -15,48 +15,47 @@ export class ApiRestService {
 
   private getHeaders(): HeadersInit {
     const token = localStorage.getItem('token');
-    if (token) {
-      return {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      };
-    } else {
-      return {
-        'Content-Type': 'application/json',
-      };
+    return token
+      ? { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' }
+      : { 'Content-Type': 'application/json' };
+  }
+
+  async post(url: string, body: object) {
+    try {
+      const response = await fetch(`${this.API_URL}${url}`, {
+        method: 'POST',
+        headers: this.getHeaders(),
+        body: JSON.stringify(body),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        return data;
+      } else {
+        console.error('Error en POST:', data);
+        throw new Error(data.message || 'Error en la solicitud POST');
+      }
+    } catch (error) {
+      console.error('Error de red en POST:', error);
+      throw error;
     }
   }
 
-  async post(url: string, body: string) {
-    const response = await fetch(`${this.API_URL}${url}`, {
-      method: 'POST',
-      headers: this.getHeaders(),
-      body: body,
-    });
-    const data = await response.json();
-    if (response.ok) {
-      return data;
-    } else {
-      throw new Error(data);
-    }
-  }
   async get(url: string) {
-    const fullUrl = `${this.API_URL}${url}`;
-    console.log('URL completa:', fullUrl);
-
-    const response = await fetch(fullUrl, {
-      method: 'GET',
-      headers: this.getHeaders(),
-    });
-
-    console.log('Respuesta de la API:', response);
-    const data = await response.json();
-
-    if (response.ok) {
-      return data;
-    } else {
-      console.error('Error en la respuesta:', data);
-      throw new Error(data);
+    try {
+      const response = await fetch(`${this.API_URL}${url}`, {
+        method: 'GET',
+        headers: this.getHeaders(),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        return data;
+      } else {
+        console.error('Error en GET:', data);
+        throw new Error(data.message || 'Error en la solicitud GET');
+      }
+    } catch (error) {
+      console.error('Error de red en GET:', error);
+      throw error;
     }
   }
 
@@ -64,14 +63,20 @@ export class ApiRestService {
     try {
       const response = await fetch(`${this.API_URL}publicaciones`, {
         method: 'POST',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token') || ''}`,
+        },
         body: formData,
       });
-      if (!response.ok) throw new Error('Error al crear la persona');
-
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Error en postPublicacion:', errorData);
+        throw new Error(errorData.message || 'Error al crear la publicación');
+      }
       return await response.json();
     } catch (error) {
-      console.error(error);
-      return null;
+      console.error('Error en postPublicacion:', error);
+      throw error;
     }
   }
 }

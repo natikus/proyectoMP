@@ -53,15 +53,13 @@ export class AuthPage {
     if (this.loginForm.valid) {
       console.log(this.loginForm.get('email')?.value);
       console.log(this.loginForm.get('contrasena')?.value);
-      const sent = await this.apiService.post(
-        'auth/login',
-        JSON.stringify({
-          email: this.loginForm.get('email')?.value,
-          contrasena: this.loginForm.get('contrasena')?.value,
-        })
-      );
+      const sent = await this.apiService.post('auth/login', {
+        email: this.loginForm.get('email')?.value,
+        contrasena: this.loginForm.get('contrasena')?.value,
+      });
       console.log(sent);
       this.apiService.setToken(sent.token);
+      localStorage.setItem('id_persona', sent.usuario.id_persona);
       console.log(sent.usuario);
       this.router.navigate(['/inicio']);
     } else {

@@ -2,6 +2,7 @@ import {
   publicacionPostType,
   publicacionPostSchema,
   publicacionIdSchema,
+  publicacionSchema,
 } from "../../tipos/publicacion.js";
 import { FastifyPluginAsync, FastifyPluginOptions } from "fastify";
 import { FastifyInstance } from "fastify/types/instance.js";
@@ -10,6 +11,53 @@ const publicacionesRoute: FastifyPluginAsync = async (
   fastify: FastifyInstance,
   opts: FastifyPluginOptions
 ): Promise<void> => {
+  // Ruta para ver los detalles de una publicacion específica
+  fastify.get("/:id_publicacion", {
+    schema: {
+      summary: "Obtener una publicación específica",
+      description: "Obtiene la publicación correspondiente al ID especificado.",
+      tags: ["publicacion"],
+      response: {
+        200: {
+          description: "Publicación encontrada",
+          type: "object",
+          properties: publicacionSchema.properties,
+        },
+        404: {
+          description: "Publicación no encontrada",
+          type: "object",
+          properties: {
+            message: { type: "string" },
+          },
+        },
+      },
+    },
+    onRequest: fastify.authenticate,
+    handler: async function (request, reply) {
+      const { id_publicacion } = request.params as { id_publicacion: number };
+
+      console.log(id_publicacion);
+      const res = await query(
+        `
+          SELECT
+            id_publicacion,
+            titulo,
+            estado,
+            id_creador,
+            descripcion,
+            imagenes,
+            ubicacion,
+            fechaCreacion
+          FROM publicaciones WHERE id_publicacion = $1;`,
+        [id_publicacion]
+      );
+      if (res.rows.length === 0) {
+        reply.code(404).send({ message: "publicacion no encontrada" });
+        return;
+      }
+      return res.rows[0];
+    },
+  });
   fastify.get("/", {
     schema: {
       summary: "Obtener todas las publicaciones",

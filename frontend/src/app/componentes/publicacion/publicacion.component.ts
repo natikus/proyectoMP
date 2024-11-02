@@ -12,4 +12,17 @@ import { publicaciones } from '../../interface/publicacion';
 export class PublicacionComponent {
   publicacion = input<publicaciones | undefined>(undefined);
   showLink = input<boolean>(true);
+  getQueryParam(param: string): string | null {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(param);
+  }
+
+  verPublicacion(id?: number) {
+    if (id !== undefined) {
+      localStorage.setItem('id_publicacion', id.toString());
+      console.log('ID seteada:', id);
+    } else {
+      console.error('ID no está definida');
+    }
+  }
 }

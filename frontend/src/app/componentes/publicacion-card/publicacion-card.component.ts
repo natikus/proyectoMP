@@ -16,13 +16,21 @@ import { DatePipe } from '@angular/common';
 export class PublicacionCardComponent {
   apiService = inject(ApiRestService);
   publicacion!: publicaciones;
-  id!: string;
+  id!: number;
   constructor(private route: ActivatedRoute) {}
 
   async ngOnInit(): Promise<void> {
-    this.id = this.route.snapshot.paramMap.get('id') || '';
-    console.log('ID de la publicación:', this.id);
+    const storedId = localStorage.getItem('id_publicacion');
+
+    if (storedId) {
+      this.id = parseInt(storedId, 10);
+      console.log('ID de la publicación desde localStorage:', this.id);
+    } else {
+      console.error('No se encontró el ID de la publicación en localStorage');
+      return;
+    }
 
     this.publicacion = await this.apiService.get(`publicaciones/${this.id}`);
+    console.log(this.publicacion);
   }
 }

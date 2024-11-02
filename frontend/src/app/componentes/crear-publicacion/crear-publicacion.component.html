@@ -1,0 +1,74 @@
+<!-- form.component.html -->
+<div class="form-container">
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <!-- Título -->
+    <div class="form-group">
+      <label for="titulo">Título</label>
+      <input
+        type="text"
+        id="titulo"
+        formControlName="titulo"
+        placeholder="Ingresa el título"
+      />
+      <div *ngIf="form.get('titulo')?.invalid && form.get('titulo')?.touched">
+        <small class="error">El título es obligatorio.</small>
+      </div>
+    </div>
+
+    <!-- Descripción -->
+    <div class="form-group">
+      <label for="descripcion">Descripción</label>
+      <textarea
+        id="descripcion"
+        formControlName="descripcion"
+        placeholder="Ingresa la descripción"
+      ></textarea>
+      <div
+        *ngIf="
+          form.get('descripcion')?.invalid && form.get('descripcion')?.touched
+        "
+      >
+        <small class="error">La descripción es obligatoria.</small>
+      </div>
+    </div>
+
+    <!-- Imagen -->
+    <div class="form-group">
+      <label for="imagen">Imagen</label>
+      <input type="file" id="imagen" (change)="onImageSelected($event)" />
+      <div *ngIf="form.get('imagen')?.invalid && form.get('imagen')?.touched">
+        <small class="error">Debe seleccionar una imagen válida.</small>
+      </div>
+    </div>
+
+    <!-- Ubicación -->
+    <div class="form-group">
+      <label for="ubicacion">Ubicación</label>
+      <input
+        type="text"
+        id="ubicacion"
+        formControlName="ubicacion"
+        placeholder="Ingresa la ubicación"
+      />
+      <div
+        *ngIf="form.get('ubicacion')?.invalid && form.get('ubicacion')?.touched"
+      >
+        <small class="error">La ubicación es obligatoria.</small>
+      </div>
+    </div>
+
+    <!-- Etiquetas -->
+    <div class="form-group">
+      <label for="etiquetas">Etiquetas</label>
+      <input
+        type="text"
+        id="etiquetas"
+        formControlName="etiquetas"
+        placeholder="Ingresa etiquetas separadas por comas"
+      />
+    </div>
+
+    <!-- Botón de envío -->
+    <button type="submit" [disabled]="form.invalid">Enviar</button>
+  </form>
+</div>
