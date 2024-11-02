@@ -1,0 +1,28 @@
+<h1 class="detalle-titulo">{{ publicacion.titulo }}</h1>
+
+<p class="detalle-descripcion">{{ publicacion.descripcion }}</p>
+
+<div class="detalle-info">
+  <p><strong>Ubicación:</strong> {{ publicacion.ubicacion }}</p>
+  <p>
+    <strong>Fecha de creación:</strong> {{ publicacion.fechaCreacion | date }}
+  </p>
+  <p>
+    <strong>Etiquetas:</strong>
+    <span *ngFor="let etiqueta of publicacion.etiqueta" class="etiqueta">
+      {{ etiqueta }}
+    </span>
+  </p>
+</div>
+<img
+  *ngIf="publicacion.imagenes"
+  [src]="publicacion.imagenes"
+  alt="Imagen de la publicación"
+  class="detalle-imagen"
+/>
+
+<div class="detalle-footer">
+  <button class="button-like">Me gusta</button>
+  <button class="button-comment">Comentar</button>
+  <button class="button-share">Compartir</button>
+</div>
