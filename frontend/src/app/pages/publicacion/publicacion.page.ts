@@ -5,7 +5,7 @@ import { PublicacionCardComponent } from '../../componentes/publicacion-card/pub
   selector: 'app-ver-publicacion',
   standalone: true,
   imports: [PublicacionCardComponent],
-  templateUrl: './ver-publicacion.page.html',
-  styleUrl: './ver-publicacion.page.css',
+  templateUrl: './publicacion.page.html',
+  styleUrl: './publicacion.page.css',
 })
 export class VerPublicacionPage {}

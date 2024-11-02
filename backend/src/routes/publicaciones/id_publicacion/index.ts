@@ -8,6 +8,7 @@ import { FastifyPluginAsync, FastifyPluginOptions } from "fastify";
 import { FastifyInstance } from "fastify/types/instance.js";
 import { query } from "../../../services/database.js";
 import { Type } from "@sinclair/typebox";
+import { etiquetaSchema } from "../../../tipos/etiqueta.js";
 const publicacionRoute: FastifyPluginAsync = async (
   fastify: FastifyInstance,
   opts: FastifyPluginOptions

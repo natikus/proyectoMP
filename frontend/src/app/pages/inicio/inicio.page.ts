@@ -15,5 +15,6 @@ export class InicioPage {
   publicaciones: publicaciones[] = [];
   async ngOnInit() {
     this.publicaciones = await this.apiService.get('publicaciones');
+    localStorage.removeItem('id_publicacion');
   }
 }

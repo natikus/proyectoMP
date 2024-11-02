@@ -6,6 +6,7 @@ import { PublicacionComponent } from '../../componentes/publicacion/publicacion.
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
+import { etiquetas } from '../../interface/etiqueta';
 @Component({
   selector: 'app-publicacion-card',
   standalone: true,
@@ -15,8 +16,9 @@ import { DatePipe } from '@angular/common';
 })
 export class PublicacionCardComponent {
   apiService = inject(ApiRestService);
-  publicacion!: publicaciones;
+  publicacion?: publicaciones;
   id!: number;
+  etiquetas?: etiquetas[];
   constructor(private route: ActivatedRoute) {}
 
   async ngOnInit(): Promise<void> {
@@ -29,8 +31,19 @@ export class PublicacionCardComponent {
       console.error('No se encontró el ID de la publicación en localStorage');
       return;
     }
-
-    this.publicacion = await this.apiService.get(`publicaciones/${this.id}`);
-    console.log(this.publicacion);
+    try {
+      this.publicacion = await this.apiService.get(`publicaciones/${this.id}`);
+      console.log(this.publicacion);
+    } catch {
+      console.log('cargando publicacion');
+    }
+    try {
+      this.etiquetas = await this.apiService.get(
+        `publicaciones/${this.id}/etiquetas`
+      );
+      console.log(this.etiquetas);
+    } catch {
+      console.log('cargando etiquetas');
+    }
   }
 }

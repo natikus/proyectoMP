@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS publicaciones (
     estado BOOLEAN NOT NULL DEFAULT TRUE,
     id_creador INTEGER NOT NULL,
     descripcion TEXT NOT NULL, 
-    imagenes TEXT NOT NULL, 
+    imagenes TEXT[] NOT NULL, 
     ubicacion TEXT NOT NULL, 
     fechaCreacion TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_creador FOREIGN KEY (id_creador) REFERENCES usuarioVirtual(id_persona) ON DELETE CASCADE
@@ -57,8 +57,8 @@ VALUES
 -- Insertar datos en publicaciones
 INSERT INTO publicaciones (titulo, id_creador, descripcion, imagenes, ubicacion) 
 VALUES 
-('Mi primer post', 1, 'Este es el contenido de mi primer post', '/imagen1.jpg', 'Quito'),
-('Diseño de logotipos', 2, 'Ofrezco servicios de diseño de logotipos', '/imagen2.jpg', 'Guayaquil');
+('Mi primer post', 1, 'Este es el contenido de mi primer post',  ARRAY['/imagen11.jpg' ,'programación'], 'Quito'),
+('Diseño de logotipos', 2, 'Ofrezco servicios de diseño de logotipos', ARRAY['/imagen11.jpg' ,'programación'], 'Guayaquil');
 
 -- Insertar datos en etiquetas
 INSERT INTO etiquetas (etiqueta)

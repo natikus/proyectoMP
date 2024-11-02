@@ -7,10 +7,46 @@ import {
 import { FastifyPluginAsync, FastifyPluginOptions } from "fastify";
 import { FastifyInstance } from "fastify/types/instance.js";
 import { query } from "../../services/database.js";
+import { etiquetaSchema } from "../../tipos/etiqueta.js";
 const publicacionesRoute: FastifyPluginAsync = async (
   fastify: FastifyInstance,
   opts: FastifyPluginOptions
 ): Promise<void> => {
+  // Ruta para ver los detalles de una etiqueta específica
+  fastify.get("/:id_publicacion/etiquetas", {
+    schema: {
+      summary: "Obtener las etiquetas de la publicacion",
+      description: "Obtiene las etiquetas de una publicaicon por ID.",
+      tags: ["etiqueta"],
+      response: {
+        200: {
+          description: "Etiquetas encontradas",
+          type: "object",
+          properties: etiquetaSchema.properties,
+        },
+        404: {
+          description: "Etiquetas no encontradas",
+          type: "object",
+          properties: {
+            message: { type: "string" },
+          },
+        },
+      },
+    },
+    onRequest: fastify.authenticate,
+    handler: async function (request, reply) {
+      const { id_publicaicon } = request.params as { id_publicaicon: number };
+      const res = await query(
+        `SELECT id_etiqueta, etiqueta FROM etiquetas WHERE id_publicaicon = $1;`,
+        [id_publicaicon]
+      );
+      if (res.rows.length === 0) {
+        reply.code(404).send({ message: "Etiqueta no encontrada" });
+        return;
+      }
+      return res.rows[0];
+    },
+  });
   // Ruta para ver los detalles de una publicacion específica
   fastify.get("/:id_publicacion", {
     schema: {
