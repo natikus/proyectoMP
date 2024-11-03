@@ -13,6 +13,7 @@ export interface usuarioVirtual {
   descripcion: string;
   intereses: string[];
   contrasena: string;
+  telefono: string;
 }
 export interface usuarioVirtualPost {
   nombre: string;
@@ -23,4 +24,5 @@ export interface usuarioVirtualPost {
   descripcion: string;
   intereses: string[];
   contrasena: string;
+  telefono: string;
 }

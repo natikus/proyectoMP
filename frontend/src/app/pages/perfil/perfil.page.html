@@ -1,1 +1,7 @@
-<app-perfil-card></app-perfil-card>
+<div *ngIf="perfil === usuario; else visitanteContent">
+  <app-self-perfil></app-self-perfil>
+</div>
+
+<ng-template #visitanteContent>
+  <app-perfil-card></app-perfil-card>
+</ng-template>

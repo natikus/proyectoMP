@@ -12,17 +12,19 @@ import { publicaciones } from '../../interface/publicacion';
 export class PublicacionComponent {
   publicacion = input<publicaciones | undefined>(undefined);
   showLink = input<boolean>(true);
-  getQueryParam(param: string): string | null {
-    const urlParams = new URLSearchParams(window.location.search);
-    return urlParams.get(param);
-  }
 
-  verPublicacion(id?: number) {
+  verPublicacion(id?: number, creador?: number) {
     if (id !== undefined) {
       localStorage.setItem('id_publicacion', id.toString());
       console.log('ID seteada:', id);
     } else {
       console.error('ID no está definida');
+    }
+    if (creador !== undefined) {
+      localStorage.setItem('id_creador', creador.toString());
+      console.log('ID del creador seteada:', creador);
+    } else {
+      console.error('ID del creador no está definida');
     }
   }
 }

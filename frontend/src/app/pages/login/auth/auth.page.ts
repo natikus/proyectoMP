@@ -58,6 +58,7 @@ export class AuthPage {
         contrasena: this.loginForm.get('contrasena')?.value,
       });
       console.log(sent);
+      localStorage.clear();
       this.apiService.setToken(sent.token);
       localStorage.setItem('id_persona', sent.usuario.id_persona);
       console.log(sent.usuario);

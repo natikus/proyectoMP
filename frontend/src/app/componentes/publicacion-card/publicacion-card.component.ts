@@ -8,6 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { etiquetas } from '../../interface/etiqueta';
 import { IonButton } from '@ionic/angular/standalone';
+import { usuarioVirtual } from '../../interface/persona';
 
 @Component({
   selector: 'app-publicacion-card',
@@ -25,6 +26,7 @@ import { IonButton } from '@ionic/angular/standalone';
 export class PublicacionCardComponent {
   apiService = inject(ApiRestService);
   publicacion?: publicaciones;
+  usuario?: usuarioVirtual;
   id!: number;
   etiquetas?: etiquetas[];
   etiquetasNombres: string[] = []; // Inicializado como un array vacío
@@ -54,8 +56,6 @@ export class PublicacionCardComponent {
         `publicaciones/${this.id}/etiquetas`
       );
       console.log(this.etiquetas);
-
-      // Extraer solo las etiquetas
       if (this.etiquetas) {
         this.etiquetasNombres = this.etiquetas.map(
           (etiqueta) => etiqueta.etiqueta
@@ -68,8 +68,14 @@ export class PublicacionCardComponent {
       console.log('Cargando etiquetas');
     }
   }
-  openWhatsApp() {
-    const phoneNumber = '521234567890'; // Número en formato internacional, ej. '521' para México
+  async self() {
+    const storedId = localStorage.getItem('id_persona');
+    const id_creador = localStorage.getItem('id_creador');
+  }
+  async openWhatsApp() {
+    const storedId = localStorage.getItem('id_persona');
+    this.usuario = await this.apiService.get(`usuario/${storedId}`);
+    const phoneNumber = this.usuario?.telefono;
     const message = 'Hola, me gustaría obtener más información.';
     const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
       message

@@ -1,19 +1,20 @@
-@if ( publicaciones.length == 0) {
-<div>
-  <h1>No hay tareas disponibles en este momento, intenta mas tarde</h1>
+<div *ngIf="publicaciones.length === 0">
+  <h1>No hay tareas disponibles en este momento, intenta más tarde</h1>
 </div>
-} @else {
-<div>
-  <div>
-    @for (publicacion of publicaciones; track $index) {
+<div *ngIf="publicaciones.length > 0">
+  <div *ngFor="let publicacion of publicaciones; let i = index">
     <app-publicacion
       [publicacion]="publicacion"
       [showLink]="true"
     ></app-publicacion>
-    }
   </div>
 </div>
-}
-<a class="like-button" [routerLink]="['/inicio/crear']">añadir publicacion </a
+
+<a class="like-button" [routerLink]="['/inicio/crear']">añadir publicacion</a
 ><br />
-<a class="like-button" [routerLink]="['/inicio/porfile/1']">ver mi perfil </a>
+<a
+  class="like-button"
+  (click)="verMiPerfil()"
+  [routerLink]="['/inicio/porfile', id_persona]"
+  >ver mi perfil</a
+>

@@ -16,9 +16,9 @@ export class PerfilCardComponent {
   id!: string;
   constructor(private route: ActivatedRoute) {}
   async ngOnInit(): Promise<void> {
-    const id_persona = localStorage.getItem('id_persona');
-    console.log('ID del usuario:', id_persona);
+    const id_usuario = localStorage.getItem('id_usuario');
+    console.log('ID del usuario:', id_usuario);
 
-    this.usuario = await this.apiService.get(`usuario/${id_persona}`);
+    this.usuario = await this.apiService.get(`usuario/${id_usuario}`);
   }
 }

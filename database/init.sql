@@ -50,8 +50,8 @@ CREATE TABLE IF NOT EXISTS publicacion_etiquetas (
 -- Insertar datos en usuarioVirtual
 INSERT INTO usuarioVirtual (nombre, apellido, usuario, email,  is_Admin, descripcion, imagen, intereses,telefono, contrasena) 
 VALUES 
-('Juan', 'Perez', 'juanp', 'juan.perez@example.com',  FALSE, 'Me gusta ayudar a las personas', '/imagen11.jpg',ARRAY['tecnología', 'programación'],  '1234567890',crypt('Password123!', gen_salt('bf'))),
-('Maria', 'Lopez', 'marial', 'maria.lopez@example.com',  TRUE, 'Intento hacer un mundo mejor', '/imagen22.jpg',ARRAY['arte', 'diseño'],  '0987654321',crypt('Supersecurepassword1!', gen_salt('bf')));
+('Juan', 'Perez', 'juanp', 'juan.perez@example.com',  FALSE, 'Me gusta ayudar a las personas', '/imagen11.jpg',ARRAY['tecnología', 'programación'],  '59892070235',crypt('Password123!', gen_salt('bf'))),
+('Maria', 'Lopez', 'marial', 'maria.lopez@example.com',  TRUE, 'Intento hacer un mundo mejor', '/imagen22.jpg',ARRAY['arte', 'diseño'],  '59891265322',crypt('Supersecurepassword1!', gen_salt('bf')));
 
 
 -- Insertar datos en publicaciones
