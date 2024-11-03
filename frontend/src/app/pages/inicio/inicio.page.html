@@ -1,5 +1,5 @@
 <div *ngIf="publicaciones.length === 0">
-  <h1>No hay tareas disponibles en este momento, intenta más tarde</h1>
+  <h1>Todavia no hay publicaciones</h1>
 </div>
 <div *ngIf="publicaciones.length > 0">
   <div *ngFor="let publicacion of publicaciones; let i = index">
@@ -10,11 +10,14 @@
   </div>
 </div>
 
-<a class="like-button" [routerLink]="['/inicio/crear']">añadir publicacion</a
+<a class="like-button" [routerLink]="['/inicio/create']">añadir publicacion</a
 ><br />
 <a
   class="like-button"
   (click)="verMiPerfil()"
   [routerLink]="['/inicio/porfile', id_persona]"
   >ver mi perfil</a
+>
+<a class="like-button" [routerLink]="['/inicio/porfile/2']"
+  >ver el perfil del otro</a
 >

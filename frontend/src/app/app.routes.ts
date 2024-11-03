@@ -21,15 +21,16 @@ export const routes: Routes = [
     canActivate: [logueadoGuard],
   },
   {
-    path: 'inicio/porfile/:id',
-    component: PerfilPage,
-    canActivate: [logueadoGuard],
-  },
-  {
     path: 'inicio/create',
     component: CrearPage,
     canActivate: [logueadoGuard],
   },
+  {
+    path: 'inicio/porfile/:id',
+    component: PerfilPage,
+    canActivate: [logueadoGuard],
+  },
+
   {
     path: 'inicio/:id_publicacion',
     component: VerPublicacionPage,

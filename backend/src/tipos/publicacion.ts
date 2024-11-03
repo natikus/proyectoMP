@@ -1,4 +1,5 @@
 import { Static, Type } from "@sinclair/typebox";
+import { FileSchema, numberSchema, stringSchema } from "./esqyemasFeos.js";
 
 export const publicacionSchema = Type.Object(
   {
@@ -20,7 +21,7 @@ export const publicacionSchema = Type.Object(
       maxLength: 300,
       description: "Descripción de la publicacion",
     }),
-    imagenes: Type.Array(Type.String(), {
+    imagenes: Type.String({
       description: "Imágenes de la publicacion",
     }),
     ubicacion: Type.String({ description: "Ubicación del objeto" }),
@@ -39,7 +40,7 @@ export const publicacionSchema = Type.Object(
         estado: true,
         id_creador: 1,
         descripcion: "Descripción del post 1",
-        imagenes: ["imagen1.jpg", "imagen2.jpg"],
+        imagenes: "imagen1.jpg",
         ubicacion: "Ubicación del post 1",
         fechaCreacion: "2021-10-10T14:48:00.000Z",
       },
@@ -49,7 +50,7 @@ export const publicacionSchema = Type.Object(
         estado: false,
         id_creador: 1,
         descripcion: "Descripción del post 2",
-        imagenes: ["imagen3.jpg"],
+        imagenes: "imagen3.jpg",
         ubicacion: "Ubicación del post 2",
         fechaCreacion: "2021-10-10T14:48:00.000Z",
       },
@@ -57,44 +58,13 @@ export const publicacionSchema = Type.Object(
   }
 );
 
-export const publicacionPostSchema = Type.Object(
-  {
-    titulo: Type.String({
-      minLength: 2,
-      maxLength: 100,
-      description: "Título de la publicacion",
-    }),
-    id_creador: Type.Number({
-      description: "Id del creador de la publicacion",
-    }),
-    descripcion: Type.String({
-      maxLength: 300,
-      description: "Descripción de la publicacion",
-    }),
-    imagenes: Type.Array(Type.String(), {
-      description: "Imágenes de la publicacion",
-    }),
-    ubicacion: Type.String({ description: "Ubicación de la publicacion" }),
-  },
-  {
-    examples: [
-      {
-        titulo: "Post 1",
-        id_creador: 1,
-        descripcion: "Descripción del post 1",
-        imagenes: ["imagen1.jpg", "imagen2.jpg"],
-        ubicacion: "Ubicación del post 1",
-      },
-      {
-        titulo: "Post 2",
-        id_creador: 1,
-        descripcion: "Descripción del post 2",
-        imagenes: ["imagen3.jpg"],
-        ubicacion: "Ubicación del post 2",
-      },
-    ],
-  }
-);
+export const publicacionPostSchema = Type.Object({
+  titulo: stringSchema,
+  id_creador: numberSchema,
+  descripcion: stringSchema,
+  imagenes: FileSchema,
+  ubicacion: stringSchema,
+});
 
 export const publicacionPutSchema = Type.Object(
   {
@@ -112,7 +82,7 @@ export const publicacionPutSchema = Type.Object(
       })
     ),
     imagenes: Type.Optional(
-      Type.Array(Type.String(), { description: "Imágenes de la publicacion" })
+      Type.String({ description: "Imágenes de la publicacion" })
     ),
     ubicacion: Type.Optional(
       Type.String({ description: "Ubicación del objeto" })
@@ -123,13 +93,13 @@ export const publicacionPutSchema = Type.Object(
       {
         titulo: "Post 1",
         descripcion: "Descripción del post 1",
-        imagenes: ["imagen1.jpg", "imagen2.jpg"],
+        imagenes: "imagen1.jpg",
         ubicacion: "Ubicación del post 1",
       },
       {
         titulo: "Post 2",
         descripcion: "Descripción del post 2",
-        imagenes: ["imagen3.jpg"],
+        imagenes: "imagen3.jpg",
         ubicacion: "Ubicación del post 2",
       },
     ],

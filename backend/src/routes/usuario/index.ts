@@ -8,6 +8,7 @@ import {
   UsuarioPutType,
   UsuarioSchema,
 } from "../../tipos/usuario.js";
+import { publicacionSchema } from "../../tipos/publicacion.js";
 const usuariosRoute: FastifyPluginAsync = async (
   fastify: FastifyInstance,
   opts: FastifyPluginOptions
@@ -178,6 +179,54 @@ const usuariosRoute: FastifyPluginAsync = async (
         return reply.code(404).send({ message: "Usuario no encontrado" });
       }
       reply.code(200).send({ ...usuarioPut, id_persona });
+    },
+  });
+  fastify.get("/:id_persona/publicaciones", {
+    schema: {
+      summary: "Obtener las publicaciones de una persona especifica",
+      description:
+        "Obtiene la publicación correspondiente al usuario con ID especificado.",
+      tags: ["publicacion"],
+      response: {
+        200: {
+          description: "Publicación encontrada",
+          type: "object",
+          properties: publicacionSchema.properties,
+        },
+        404: {
+          description: "Publicación no encontrada",
+          type: "object",
+          properties: {
+            message: { type: "string" },
+          },
+        },
+      },
+    },
+    onRequest: fastify.authenticate,
+    handler: async function (request, reply) {
+      const { id_persona } = request.params as { id_persona: number };
+
+      const res = await query(
+        `
+            SELECT
+              id_publicacion,
+              titulo,
+              estado,
+              id_creador,
+              descripcion,
+              imagenes,
+              ubicacion,
+              fechaCreacion
+            FROM publicaciones WHERE id_creador = $1;`,
+        [id_persona]
+      );
+      if (res.rows.length === 0) {
+        reply.code(404).send({
+          message: "publicación no encontrada o no tiene publicaciones aún",
+        });
+        return;
+      }
+      return res.rows[0];
     },
   });
 };

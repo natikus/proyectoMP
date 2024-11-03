@@ -20,6 +20,7 @@ export class InicioPage {
     this.id_persona = localStorage.getItem('id_persona') ?? '';
     localStorage.removeItem('id_creador');
     localStorage.removeItem('id_creador');
+    //localStorage.clear();
   }
   verMiPerfil() {
     if (this.id_persona) {

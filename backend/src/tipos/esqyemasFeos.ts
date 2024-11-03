@@ -40,6 +40,24 @@ export const stringSchema = Type.Object(
   },
   { additionalProperties: false }
 );
+export const numberSchema = Type.Object(
+  {
+    type: Type.Literal("field", {
+      description: "Tipo de campo, en este caso es un campo de formulario",
+    }),
+    fieldname: Type.String({ description: "Nombre del campo del formulario" }),
+    mimetype: Type.String({ description: "Tipo MIME del campo" }),
+    encoding: Type.String({ description: "Codificación del campo" }),
+    value: Type.Number({ description: "Valor del campo del formulario" }),
+    fieldnameTruncated: Type.Boolean({
+      description: "Indica si el nombre del campo fue truncado",
+    }),
+    valueTruncated: Type.Boolean({
+      description: "Indica si el valor del campo fue truncado",
+    }),
+  },
+  { additionalProperties: false }
+);
 export const stringArraySchema = Type.Object(
   {
     type: Type.Literal("field", {

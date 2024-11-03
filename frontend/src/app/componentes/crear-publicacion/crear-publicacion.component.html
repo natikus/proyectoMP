@@ -1,74 +1,103 @@
 <!-- form.component.html -->
-<div class="form-container">
-  <form [formGroup]="form" (ngSubmit)="onSubmit()">
-    <!-- Título -->
-    <div class="form-group">
-      <label for="titulo">Título</label>
-      <input
-        type="text"
-        id="titulo"
-        formControlName="titulo"
-        placeholder="Ingresa el título"
-      />
-      <div *ngIf="form.get('titulo')?.invalid && form.get('titulo')?.touched">
-        <small class="error">El título es obligatorio.</small>
-      </div>
-    </div>
+<div class="form-container mat-elevation-z8">
+  <mat-card>
+    <mat-card-title>Crear Publicación</mat-card-title>
+    <div class="scrollable-form">
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+        <!-- Título -->
+        <mat-form-field class="full-width">
+          <mat-label>Título</mat-label>
+          <input
+            matInput
+            type="text"
+            formControlName="titulo"
+            placeholder="Ingresa el título"
+          />
+          <mat-error
+            *ngIf="form.get('titulo')?.invalid && form.get('titulo')?.touched"
+          >
+            El título es obligatorio.
+          </mat-error>
+        </mat-form-field>
 
-    <!-- Descripción -->
-    <div class="form-group">
-      <label for="descripcion">Descripción</label>
-      <textarea
-        id="descripcion"
-        formControlName="descripcion"
-        placeholder="Ingresa la descripción"
-      ></textarea>
-      <div
-        *ngIf="
-          form.get('descripcion')?.invalid && form.get('descripcion')?.touched
-        "
-      >
-        <small class="error">La descripción es obligatoria.</small>
-      </div>
-    </div>
+        <!-- Descripción -->
+        <mat-form-field class="full-width">
+          <mat-label>Descripción</mat-label>
+          <textarea
+            matInput
+            formControlName="descripcion"
+            placeholder="Ingresa la descripción"
+          ></textarea>
+          <mat-error
+            *ngIf="
+              form.get('descripcion')?.invalid &&
+              form.get('descripcion')?.touched
+            "
+          >
+            La descripción es obligatoria.
+          </mat-error>
+        </mat-form-field>
 
-    <!-- Imagen -->
-    <div class="form-group">
-      <label for="imagen">Imagen</label>
-      <input type="file" id="imagen" (change)="onImageSelected($event)" />
-      <div *ngIf="form.get('imagen')?.invalid && form.get('imagen')?.touched">
-        <small class="error">Debe seleccionar una imagen válida.</small>
-      </div>
-    </div>
+        <!-- Ubicación -->
+        <mat-form-field class="full-width">
+          <mat-label>Ubicación</mat-label>
+          <input
+            matInput
+            type="text"
+            formControlName="ubicacion"
+            placeholder="Ingresa la ubicación"
+          />
+          <mat-error
+            *ngIf="
+              form.get('ubicacion')?.invalid && form.get('ubicacion')?.touched
+            "
+          >
+            La ubicación es obligatoria.
+          </mat-error>
+        </mat-form-field>
 
-    <!-- Ubicación -->
-    <div class="form-group">
-      <label for="ubicacion">Ubicación</label>
-      <input
-        type="text"
-        id="ubicacion"
-        formControlName="ubicacion"
-        placeholder="Ingresa la ubicación"
-      />
-      <div
-        *ngIf="form.get('ubicacion')?.invalid && form.get('ubicacion')?.touched"
-      >
-        <small class="error">La ubicación es obligatoria.</small>
-      </div>
-    </div>
+        <!-- Etiquetas -->
+        <mat-form-field class="full-width">
+          <mat-label>Etiquetas</mat-label>
+          <input
+            matInput
+            type="text"
+            formControlName="etiquetas"
+            placeholder="Ingresa etiquetas separadas por comas"
+          />
+        </mat-form-field>
 
-    <!-- Etiquetas -->
-    <div class="form-group">
-      <label for="etiquetas">Etiquetas</label>
-      <input
-        type="text"
-        id="etiquetas"
-        formControlName="etiquetas"
-        placeholder="Ingresa etiquetas separadas por comas"
-      />
-    </div>
+        <!-- Selección de imagen -->
+        <div class="image-upload-section">
+          <input type="file" (change)="fileChangeEvent($event)" />
+          <image-cropper
+            [imageChangedEvent]="imageChangedEvent"
+            [maintainAspectRatio]="true"
+            [aspectRatio]="4 / 3"
+            format="png"
+            (imageCropped)="imageCropped($event)"
+            (imageLoaded)="imageLoaded($event)"
+            (cropperReady)="cropperReady()"
+            (loadImageFailed)="loadImageFailed()"
+          ></image-cropper>
+          <div class="cropped-preview">
+            <img [src]="croppedImage" *ngIf="croppedImage" />
+          </div>
+          <button mat-button color="primary" (click)="save()">
+            Confirmar Imagen
+          </button>
+        </div>
 
-    <!-- Botón de envío -->
-    <button type="submit" [disabled]="form.invalid">Enviar</button>
-  </form>
+        <!-- Botón de envío -->
+        <button
+          mat-raised-button
+          color="accent"
+          type="submit"
+          [disabled]="form.invalid"
+        >
+          Enviar
+        </button>
+      </form>
+    </div>
+  </mat-card>
 </div>

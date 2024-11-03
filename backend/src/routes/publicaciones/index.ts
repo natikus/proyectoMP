@@ -8,32 +8,40 @@ import {
 import { FastifyPluginAsync, FastifyPluginOptions } from "fastify";
 import { FastifyInstance } from "fastify/types/instance.js";
 import { query } from "../../services/database.js";
-import { etiquetaSchema } from "../../tipos/etiqueta.js";
 import { Type } from "@sinclair/typebox";
-
+import path from "path";
+import { writeFileSync } from "fs";
 const publicacionesRoute: FastifyPluginAsync = async (
   fastify: FastifyInstance,
   opts: FastifyPluginOptions
 ): Promise<void> => {
-  // Ruta para crear una nueva publicación
   fastify.post("/", {
     schema: {
       summary: "Crear una nueva publicación",
       description: "Crea una nueva publicación en la base de datos.",
       tags: ["publicacion"],
+      consumes: ["multipart/form-data"],
       body: publicacionPostSchema,
-      response: {
-        201: {
-          description: "Publicación creada con éxito.",
-          type: "object",
-          properties: publicacionSchema.properties,
-        },
-      },
     },
     onRequest: fastify.authenticate,
     handler: async function (request, reply) {
-      const { titulo, descripcion, imagenes, ubicacion, id_creador } =
-        request.body as publicacionPostType;
+      const publicacion = request.body as publicacionPostType;
+
+      let imageUrl = "";
+      if (publicacion.imagenes) {
+        const fileBuffer = publicacion.imagenes._buf as Buffer;
+        const filepath = path.join(
+          process.cwd(),
+          "uploads",
+          publicacion.imagenes.filename
+        );
+        writeFileSync(filepath, fileBuffer);
+        imageUrl = `/uploads/${publicacion.imagenes.filename}`;
+      }
+      const titulo = publicacion.titulo.value;
+      const descripcion = publicacion.descripcion.value;
+      const ubicacion = publicacion.ubicacion.value;
+      const id_creador = publicacion.id_creador.value;
 
       const res = await query(
         `
@@ -41,17 +49,26 @@ const publicacionesRoute: FastifyPluginAsync = async (
           VALUES ($1, $2, $3, $4, $5, NOW(), true)
           RETURNING *;
         `,
-        [titulo, descripcion, imagenes, ubicacion, id_creador]
+        [titulo, descripcion, imageUrl, ubicacion, id_creador]
       );
 
-      if (res.rows.length === 0) {
-        reply.code(500).send({ message: "Error al crear la publicación" });
+      if (res.rowCount === 0) {
+        reply.code(404).send({ message: "Error al crear la publicación " });
         return;
       }
 
-      reply.code(201).send(res.rows[0]);
+      const id_persona = res.rows[0].id_persona;
+      reply.code(201).send({
+        id_persona,
+        titulo,
+        descripcion,
+        imageUrl,
+        ubicacion,
+        id_creador,
+      });
     },
   });
+
   fastify.get("/", {
     schema: {
       summary: "Obtener todas las publicaciones",
