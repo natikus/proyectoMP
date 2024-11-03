@@ -3,95 +3,53 @@ import {
   publicacionPostSchema,
   publicacionIdSchema,
   publicacionSchema,
+  publicacionPutSchema,
 } from "../../tipos/publicacion.js";
 import { FastifyPluginAsync, FastifyPluginOptions } from "fastify";
 import { FastifyInstance } from "fastify/types/instance.js";
 import { query } from "../../services/database.js";
 import { etiquetaSchema } from "../../tipos/etiqueta.js";
+import { Type } from "@sinclair/typebox";
+
 const publicacionesRoute: FastifyPluginAsync = async (
   fastify: FastifyInstance,
   opts: FastifyPluginOptions
 ): Promise<void> => {
-  // Ruta para ver los detalles de una etiqueta específica
-  fastify.get("/:id_publicacion/etiquetas", {
+  // Ruta para crear una nueva publicación
+  fastify.post("/", {
     schema: {
-      summary: "Obtener las etiquetas de la publicacion",
-      description: "Obtiene las etiquetas de una publicaicon por ID.",
-      tags: ["etiqueta"],
-      response: {
-        200: {
-          description: "Etiquetas encontradas",
-          type: "object",
-          properties: etiquetaSchema.properties,
-        },
-        404: {
-          description: "Etiquetas no encontradas",
-          type: "object",
-          properties: {
-            message: { type: "string" },
-          },
-        },
-      },
-    },
-    onRequest: fastify.authenticate,
-    handler: async function (request, reply) {
-      const { id_publicaicon } = request.params as { id_publicaicon: number };
-      const res = await query(
-        `SELECT id_etiqueta, etiqueta FROM etiquetas WHERE id_publicaicon = $1;`,
-        [id_publicaicon]
-      );
-      if (res.rows.length === 0) {
-        reply.code(404).send({ message: "Etiqueta no encontrada" });
-        return;
-      }
-      return res.rows[0];
-    },
-  });
-  // Ruta para ver los detalles de una publicacion específica
-  fastify.get("/:id_publicacion", {
-    schema: {
-      summary: "Obtener una publicación específica",
-      description: "Obtiene la publicación correspondiente al ID especificado.",
+      summary: "Crear una nueva publicación",
+      description: "Crea una nueva publicación en la base de datos.",
       tags: ["publicacion"],
+      body: publicacionPostSchema,
       response: {
-        200: {
-          description: "Publicación encontrada",
+        201: {
+          description: "Publicación creada con éxito.",
           type: "object",
           properties: publicacionSchema.properties,
         },
-        404: {
-          description: "Publicación no encontrada",
-          type: "object",
-          properties: {
-            message: { type: "string" },
-          },
-        },
       },
     },
     onRequest: fastify.authenticate,
     handler: async function (request, reply) {
-      const { id_publicacion } = request.params as { id_publicacion: number };
+      const { titulo, descripcion, imagenes, ubicacion, id_creador } =
+        request.body as publicacionPostType;
 
-      console.log(id_publicacion);
       const res = await query(
         `
-          SELECT
-            id_publicacion,
-            titulo,
-            estado,
-            id_creador,
-            descripcion,
-            imagenes,
-            ubicacion,
-            fechaCreacion
-          FROM publicaciones WHERE id_publicacion = $1;`,
-        [id_publicacion]
+          INSERT INTO publicaciones (titulo, descripcion, imagenes, ubicacion, id_creador, fechaCreacion, estado)
+          VALUES ($1, $2, $3, $4, $5, NOW(), true)
+          RETURNING *;
+        `,
+        [titulo, descripcion, imagenes, ubicacion, id_creador]
       );
+
       if (res.rows.length === 0) {
-        reply.code(404).send({ message: "publicacion no encontrada" });
+        reply.code(500).send({ message: "Error al crear la publicación" });
         return;
       }
-      return res.rows[0];
+
+      reply.code(201).send(res.rows[0]);
     },
   });
   fastify.get("/", {
@@ -124,24 +82,196 @@ const publicacionesRoute: FastifyPluginAsync = async (
         reply.code(404).send({ message: "No hay publicaciones registradas" });
         return;
       }
+      console.log(res);
       return res.rows;
     },
   });
 
-  // Ruta para crear un nuevo publicacion
-  fastify.post("/", {
+  // Ruta para ver los detalles de una etiqueta específica
+  fastify.get("/:id_publicacion/etiquetas", {
     schema: {
-      summary: "Crear una nueva publicacion",
-      description:
-        "Crea una nueva publicación con la información proporcionada en el cuerpo de la solicitud.",
-      body: publicacionPostSchema,
+      summary: "Obtener las etiquetas de la publicación",
+      description: "Obtiene las etiquetas de una publicación por ID.",
+      tags: ["etiqueta"],
+      response: {
+        200: {
+          description: "Etiquetas encontradas",
+          type: "array", // Cambiamos a tipo "array" para reflejar que se retorna una lista de etiquetas
+          items: {
+            type: "object",
+            properties: {
+              id_etiqueta: { type: "integer" },
+              etiqueta: { type: "string" },
+            },
+          },
+        },
+        404: {
+          description: "Etiquetas no encontradas",
+          type: "object",
+          properties: {
+            message: { type: "string" },
+          },
+        },
+      },
+    },
+    onRequest: fastify.authenticate,
+    handler: async function (request, reply) {
+      const { id_publicacion } = request.params as { id_publicacion: number };
+
+      try {
+        const res = await query(
+          `
+          SELECT e.id_etiqueta, e.etiqueta
+          FROM etiquetas e
+          JOIN publicacion_etiquetas pe ON e.id_etiqueta = pe.id_etiqueta
+          WHERE pe.id_publicacion = $1;`,
+          [id_publicacion]
+        );
+
+        if (res.rows.length === 0) {
+          reply.code(404).send({
+            message: "No se encontraron etiquetas para esta publicación.",
+          });
+          return;
+        }
+
+        return res.rows;
+      } catch (error) {
+        console.error("Error al obtener etiquetas:", error);
+        reply.code(500).send({ message: "Error interno del servidor." });
+      }
+    },
+  });
+
+  fastify.get("/:id_publicacion", {
+    schema: {
+      summary: "Obtener una publicación específica",
+      description: "Obtiene la publicación correspondiente al ID especificado.",
       tags: ["publicacion"],
       response: {
-        201: {
-          description: "Publicación creada con éxito.",
+        200: {
+          description: "Publicación encontrada",
+          type: "object",
+          properties: publicacionSchema.properties,
+        },
+        404: {
+          description: "Publicación no encontrada",
+          type: "object",
+          properties: {
+            message: { type: "string" },
+          },
+        },
+      },
+    },
+    onRequest: fastify.authenticate,
+    handler: async function (request, reply) {
+      const { id_publicacion } = request.params as { id_publicacion: number };
+
+      const res = await query(
+        `
+          SELECT
+            id_publicacion,
+            titulo,
+            estado,
+            id_creador,
+            descripcion,
+            imagenes,
+            ubicacion,
+            fechaCreacion
+          FROM publicaciones WHERE id_publicacion = $1;`,
+        [id_publicacion]
+      );
+      if (res.rows.length === 0) {
+        reply.code(404).send({ message: "publicación no encontrada" });
+        return;
+      }
+      return res.rows[0];
+    },
+  });
+
+  // Ruta para actualizar una publicación
+  fastify.put("/:id_publicacion", {
+    schema: {
+      summary: "Actualizar una publicación",
+      description:
+        "Actualiza la publicación correspondiente al ID especificado.",
+      tags: ["publicacion"],
+      body: publicacionPutSchema, // Esquema para validar el cuerpo de la solicitud PUT
+      response: {
+        200: {
+          description: "Publicación actualizada",
+          type: "object",
+          properties: publicacionSchema.properties,
+        },
+        404: {
+          description: "Publicación no encontrada",
+          type: "object",
+          properties: {
+            message: { type: "string" },
+          },
+        },
+      },
+    },
+    onRequest: fastify.authenticate,
+    handler: async function (request, reply) {
+      const { id_publicacion } = request.params as { id_publicacion: number };
+      const { titulo, descripcion, imagenes, ubicacion } = request.body as {
+        titulo?: string;
+        descripcion?: string;
+        imagenes?: string[];
+        ubicacion?: string;
+      };
+
+      const res = await query(
+        `
+          UPDATE publicaciones
+          SET 
+            titulo = COALESCE($1, titulo),
+            descripcion = COALESCE($2, descripcion),
+            imagenes = COALESCE($3, imagenes),
+            ubicacion = COALESCE($4, ubicacion)
+          WHERE id_publicacion = $5
+          RETURNING *;
+        `,
+        [titulo, descripcion, imagenes, ubicacion, id_publicacion]
+      );
+
+      if (res.rows.length === 0) {
+        reply.code(404).send({ message: "publicación no encontrada" });
+        return;
+      }
+
+      return res.rows[0];
+    },
+  });
+
+  // Ruta para eliminar una publicación
+  fastify.delete("/:id_publicacion", {
+    schema: {
+      summary: "Eliminar una publicación",
+      description:
+        "Elimina una publicación basada en el ID proporcionado en los parámetros.",
+      tags: ["publicacion"],
+      params: publicacionIdSchema,
+      response: {
+        200: {
+          description: "Publicación eliminada con éxito.",
           content: {
             "application/json": {
-              schema: { publicacionPostSchema, publicacionIdSchema },
+              schema: Type.Object({
+                message: Type.String(),
+                id_publicacion: Type.Number(),
+              }),
+            },
+          },
+        },
+        404: {
+          description: "Publicación no encontrada.",
+          content: {
+            "application/json": {
+              schema: Type.Object({
+                message: Type.String(),
+              }),
             },
           },
         },
@@ -149,27 +279,18 @@ const publicacionesRoute: FastifyPluginAsync = async (
     },
     onRequest: fastify.authenticate,
     handler: async function (request, reply) {
-      const publicacionPost = request.body as publicacionPostType;
-
+      const { id_publicacion } = request.params as { id_publicacion: number };
       const res = await query(
-        `INSERT INTO publicaciones (titulo, id_creador, descripcion, imagenes, ubicacion, etiqueta)
-                VALUES ($1, $2, $3, $4, $5, $6)
-                RETURNING id_publicacion;`,
-        [
-          publicacionPost.titulo,
-          publicacionPost.id_creador,
-          publicacionPost.descripcion,
-          publicacionPost.imagenes,
-          publicacionPost.ubicacion,
-        ]
+        `DELETE FROM publicaciones WHERE id_publicacion = $1;`,
+        [id_publicacion]
       );
-
-      if (res.rows.length === 0) {
-        reply.code(404).send({ message: "publicacion no creada" });
+      if (res.rowCount === 0) {
+        reply.code(404).send({ message: "publicación no encontrada" });
         return;
       }
-      const id_publicacion = res.rows[0].id_publicacion;
-      reply.code(201).send({ id_publicacion, ...publicacionPost });
+      reply
+        .code(200)
+        .send({ message: "publicación eliminada", id_publicacion });
     },
   });
 };

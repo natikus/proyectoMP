@@ -2,20 +2,17 @@ import { Static, Type } from "@sinclair/typebox";
 
 export const publicacionSchema = Type.Object(
   {
-    //esquema utilizado para hacer un get
     id_publicacion: Type.Number({
       description: "Id para identificar la publicacion",
     }),
     titulo: Type.String({
       minLength: 2,
       maxLength: 100,
-      description: "Título de la publicaciont",
+      description: "Título de la publicacion",
     }),
-
     estado: Type.Optional(
       Type.Boolean({ description: "Estado de la publicacion" })
     ),
-
     id_creador: Type.Number({
       description: "Id del creador de la publicacion",
     }),
@@ -23,18 +20,16 @@ export const publicacionSchema = Type.Object(
       maxLength: 300,
       description: "Descripción de la publicacion",
     }),
-    imagenes: Type.String({ description: "Imágenes de la publicacion" }),
-    ubicacion: Type.String({ description: "Ubicación de la publicacion " }),
-
+    imagenes: Type.Array(Type.String(), {
+      description: "Imágenes de la publicacion",
+    }),
+    ubicacion: Type.String({ description: "Ubicación del objeto" }),
     fechaCreacion: Type.Optional(
       Type.String({
         format: "date-time",
         description: "Fecha de creación de la publicacion",
       })
     ),
-    etiqueta: Type.Array(Type.String(), {
-      description: "Etiquetas de la publicacion",
-    }),
   },
   {
     examples: [
@@ -44,10 +39,9 @@ export const publicacionSchema = Type.Object(
         estado: true,
         id_creador: 1,
         descripcion: "Descripción del post 1",
-        imagenes: "imagen1.jpg",
+        imagenes: ["imagen1.jpg", "imagen2.jpg"],
         ubicacion: "Ubicación del post 1",
         fechaCreacion: "2021-10-10T14:48:00.000Z",
-        etiqueta: ["etiqueta1", "etiqueta2"],
       },
       {
         id_publicacion: 2,
@@ -55,10 +49,9 @@ export const publicacionSchema = Type.Object(
         estado: false,
         id_creador: 1,
         descripcion: "Descripción del post 2",
-        imagenes: "imagen2.jpg",
+        imagenes: ["imagen3.jpg"],
         ubicacion: "Ubicación del post 2",
         fechaCreacion: "2021-10-10T14:48:00.000Z",
-        etiqueta: ["etiqueta3", "etiqueta4"],
       },
     ],
   }
@@ -66,7 +59,6 @@ export const publicacionSchema = Type.Object(
 
 export const publicacionPostSchema = Type.Object(
   {
-    //esquema utilizado para hacer un post
     titulo: Type.String({
       minLength: 2,
       maxLength: 100,
@@ -79,12 +71,10 @@ export const publicacionPostSchema = Type.Object(
       maxLength: 300,
       description: "Descripción de la publicacion",
     }),
-    imagenes: Type.String({ description: "Imágenes de la publicacion" }),
-    ubicacion: Type.String({ description: "Ubicación de la publicaciont" }),
-
-    etiqueta: Type.Array(Type.String(), {
-      description: "Etiquetas de la publicacion",
+    imagenes: Type.Array(Type.String(), {
+      description: "Imágenes de la publicacion",
     }),
+    ubicacion: Type.String({ description: "Ubicación de la publicacion" }),
   },
   {
     examples: [
@@ -92,24 +82,22 @@ export const publicacionPostSchema = Type.Object(
         titulo: "Post 1",
         id_creador: 1,
         descripcion: "Descripción del post 1",
-        imagenes: "imagen1.jpg",
+        imagenes: ["imagen1.jpg", "imagen2.jpg"],
         ubicacion: "Ubicación del post 1",
-        etiqueta: ["etiqueta1", "etiqueta2"],
       },
       {
         titulo: "Post 2",
         id_creador: 1,
         descripcion: "Descripción del post 2",
-        imagenes: "imagen2.jpg",
+        imagenes: ["imagen3.jpg"],
         ubicacion: "Ubicación del post 2",
-        etiqueta: ["etiqueta3", "etiqueta4"],
       },
     ],
   }
 );
+
 export const publicacionPutSchema = Type.Object(
   {
-    //esquema utilizado para hacer un put
     titulo: Type.Optional(
       Type.String({
         minLength: 2,
@@ -124,13 +112,10 @@ export const publicacionPutSchema = Type.Object(
       })
     ),
     imagenes: Type.Optional(
-      Type.String({ description: "Imágenes de la publicacion" })
+      Type.Array(Type.String(), { description: "Imágenes de la publicacion" })
     ),
     ubicacion: Type.Optional(
-      Type.String({ description: "Ubicación de la publicacion" })
-    ),
-    etiqueta: Type.Optional(
-      Type.Array(Type.String({ description: "Etiquetas de la publicacion" }))
+      Type.String({ description: "Ubicación del objeto" })
     ),
   },
   {
@@ -138,16 +123,14 @@ export const publicacionPutSchema = Type.Object(
       {
         titulo: "Post 1",
         descripcion: "Descripción del post 1",
-        imagenes: "imagen1.jpg",
+        imagenes: ["imagen1.jpg", "imagen2.jpg"],
         ubicacion: "Ubicación del post 1",
-        etiqueta: ["etiqueta1", "etiqueta2"],
       },
       {
         titulo: "Post 2",
         descripcion: "Descripción del post 2",
-        imagenes: "imagen2.jpg",
+        imagenes: ["imagen3.jpg"],
         ubicacion: "Ubicación del post 2",
-        etiqueta: ["etiqueta3", "etiqueta4"],
       },
     ],
   }
@@ -156,7 +139,7 @@ export const publicacionPutSchema = Type.Object(
 export const publicacionIdSchema = Type.Object(
   {
     id_publicacion: Type.Number({
-      description: "Id para identificar de la publicacion",
+      description: "Id para identificar la publicacion",
     }),
   },
   {

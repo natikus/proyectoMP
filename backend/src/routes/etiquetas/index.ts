@@ -95,7 +95,7 @@ const etiquetaRoute: FastifyPluginAsync = async (
         },
       },
     },
-    onRequest: fastify.verifyAdmin,
+    onRequest: fastify.verifySelfOrAdmin,
     handler: async function (request, reply) {
       const { id_etiqueta } = request.params as { id_etiqueta: number };
       const res = await query(`DELETE FROM etiquetas WHERE id_etiqueta = $1;`, [

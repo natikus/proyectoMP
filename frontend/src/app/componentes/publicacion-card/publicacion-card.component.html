@@ -7,22 +7,31 @@
   <p>
     <strong>Fecha de creación:</strong> {{ publicacion?.fechaCreacion | date }}
   </p>
-  <p>
-    <strong>Etiquetas:</strong>
-    <span *ngFor="let etiqueta of etiquetas" class="etiqueta">
-      {{ etiqueta }}
-    </span>
-  </p>
-</div>
-<img
-  *ngIf="publicacion?.imagenes"
-  [src]="publicacion?.imagenes"
-  alt="Imagen de la publicación"
-  class="detalle-imagen"
-/>
+  <p><strong>Etiquetas:</strong></p>
 
-<div class="detalle-footer">
-  <button class="button-like">Me gusta</button>
-  <button class="button-comment">Comentar</button>
-  <button class="button-share">Compartir</button>
+  <div
+    *ngIf="etiquetasNombres && etiquetasNombres.length > 0; else noEtiquetas"
+  >
+    <div *ngFor="let etiqueta of etiquetasNombres; let isLast = last">
+      <span>{{ etiqueta }}</span
+      ><span *ngIf="!isLast">, </span>
+    </div>
+  </div>
+
+  <ng-template #noEtiquetas>
+    <span>No hay etiquetas disponibles.</span>
+  </ng-template>
+
+  <img
+    *ngIf="publicacion?.imagenes"
+    [src]="publicacion?.imagenes"
+    alt="Imagen de la publicación"
+    class="detalle-imagen"
+  />
+
+  <div class="detalle-footer">
+    <ion-button color="primary" (click)="openWhatsApp()">
+      Contactar por WhatsApp
+    </ion-button>
+  </div>
 </div>

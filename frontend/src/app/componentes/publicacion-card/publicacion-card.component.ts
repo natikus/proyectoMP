@@ -7,10 +7,18 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { etiquetas } from '../../interface/etiqueta';
+import { IonButton } from '@ionic/angular/standalone';
+
 @Component({
   selector: 'app-publicacion-card',
   standalone: true,
-  imports: [PublicacionComponent, RouterLink, CommonModule, DatePipe],
+  imports: [
+    PublicacionComponent,
+    RouterLink,
+    CommonModule,
+    DatePipe,
+    IonButton,
+  ],
   templateUrl: './publicacion-card.component.html',
   styleUrls: ['./publicacion-card.component.scss'],
 })
@@ -19,6 +27,8 @@ export class PublicacionCardComponent {
   publicacion?: publicaciones;
   id!: number;
   etiquetas?: etiquetas[];
+  etiquetasNombres: string[] = []; // Inicializado como un array vacío
+
   constructor(private route: ActivatedRoute) {}
 
   async ngOnInit(): Promise<void> {
@@ -31,19 +41,40 @@ export class PublicacionCardComponent {
       console.error('No se encontró el ID de la publicación en localStorage');
       return;
     }
+
     try {
       this.publicacion = await this.apiService.get(`publicaciones/${this.id}`);
       console.log(this.publicacion);
     } catch {
-      console.log('cargando publicacion');
+      console.log('Cargando publicación');
     }
+
     try {
       this.etiquetas = await this.apiService.get(
         `publicaciones/${this.id}/etiquetas`
       );
       console.log(this.etiquetas);
+
+      // Extraer solo las etiquetas
+      if (this.etiquetas) {
+        this.etiquetasNombres = this.etiquetas.map(
+          (etiqueta) => etiqueta.etiqueta
+        );
+        console.log('Nombres de etiquetas:', this.etiquetasNombres);
+      } else {
+        console.log('No se encontraron etiquetas');
+      }
     } catch {
-      console.log('cargando etiquetas');
+      console.log('Cargando etiquetas');
     }
+  }
+  openWhatsApp() {
+    const phoneNumber = '521234567890'; // Número en formato internacional, ej. '521' para México
+    const message = 'Hola, me gustaría obtener más información.';
+    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
+      message
+    )}`;
+
+    window.open(url, '_blank');
   }
 }
