@@ -1,7 +1,9 @@
-import { Component, input } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { JsonPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { publicaciones } from '../../interface/publicacion';
+import { usuarios } from '../../interface/persona';
+import { ApiRestService } from '../../servicios/api-rest.service';
 @Component({
   selector: 'app-publicacion',
   standalone: true,
@@ -12,7 +14,7 @@ import { publicaciones } from '../../interface/publicacion';
 export class PublicacionComponent {
   publicacion = input<publicaciones | undefined>(undefined);
   showLink = input<boolean>(true);
-
+  usuario = input<usuarios | undefined>(undefined);
   verPublicacion(id?: number, creador?: number) {
     if (id !== undefined) {
       localStorage.setItem('id_publicacion', id.toString());

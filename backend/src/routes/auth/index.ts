@@ -14,7 +14,7 @@ const usuarioAuthRoute: FastifyPluginAsync = async (
   // Ruta para crear un usuario
   fastify.post("/", {
     schema: {
-      tags: ["usuarioVirtual"],
+      tags: ["usuarios"],
       consumes: ["multipart/form-data"],
       body: UsuarioPostSchema,
     },
@@ -46,7 +46,7 @@ const usuarioAuthRoute: FastifyPluginAsync = async (
       );
 
       const res = await query(
-        `INSERT INTO usuarioVirtual
+        `INSERT INTO usuarios
        (nombre, apellido, usuario, email, descripcion, intereses, telefono, contrasena, imagen)
        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
        RETURNING id_persona;`,
@@ -102,7 +102,7 @@ const usuarioAuthRoute: FastifyPluginAsync = async (
     handler: async function (request, reply) {
       const res = await query(`SELECT
         email
-        FROM usuarioVirtual`);
+        FROM usuarios`);
       if (res.rows.length === 0) {
         reply.code(404).send({ message: "No hay usuarios registradas" });
         return;
@@ -112,7 +112,7 @@ const usuarioAuthRoute: FastifyPluginAsync = async (
   });
   fastify.get("/intereses", {
     schema: {
-      tags: ["usuarioVirtual"],
+      tags: ["usuarios"],
       summary: "Obtener todos los intereses registrados",
       description: "Retorna una lista de todos los intereses existentes",
       response: {
@@ -131,7 +131,7 @@ const usuarioAuthRoute: FastifyPluginAsync = async (
     handler: async function (request, reply) {
       const res = await query(`SELECT
         intereses
-        FROM usuarioVirtual`);
+        FROM usuarios`);
       if (res.rows.length === 0) {
         reply.code(404).send({ message: "No hay intereses registrados" });
         return;

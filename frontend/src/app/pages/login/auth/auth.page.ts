@@ -49,6 +49,10 @@ export class AuthPage {
   });
   private apiService: ApiRestService = inject(ApiRestService);
   private router: Router = inject(Router);
+  ngOnInit() {
+    localStorage.clear();
+    console.log('localStroage limiado');
+  }
   async clickRegister(): Promise<void> {
     if (this.loginForm.valid) {
       console.log(this.loginForm.get('email')?.value);

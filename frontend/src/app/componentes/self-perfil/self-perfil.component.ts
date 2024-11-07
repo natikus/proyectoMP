@@ -1,7 +1,7 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiRestService } from '../../servicios/api-rest.service';
-import { usuarioVirtual } from '../../interface/persona';
+import { usuarios } from '../../interface/persona';
 import { CommonModule } from '@angular/common';
 import { PublicacionComponent } from '../publicacion/publicacion.component';
 import { publicaciones } from '../../interface/publicacion';
@@ -17,7 +17,7 @@ import { RouterLink } from '@angular/router';
 export class SelfPerfilComponent implements OnInit {
   apiService = inject(ApiRestService);
   publicaciones: publicaciones[] = [];
-  usuario!: usuarioVirtual;
+  usuario!: usuarios;
   constructor(private route: ActivatedRoute) {}
   async ngOnInit(): Promise<void> {
     const id_usuario = localStorage.getItem('id_usuario');

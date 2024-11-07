@@ -1,23 +1,18 @@
-<div *ngIf="publicaciones.length === 0">
-  <h1>Todavia no hay publicaciones</h1>
-</div>
-<div *ngIf="publicaciones.length > 0">
-  <div *ngFor="let publicacion of publicaciones; let i = index">
-    <app-publicacion
-      [publicacion]="publicacion"
-      [showLink]="true"
-    ></app-publicacion>
+<div class="contenedor-scroll">
+  <div *ngIf="publicaciones.length === 0">
+    <h1>Todavía no hay publicaciones</h1>
+  </div>
+
+  <div
+    *ngIf="publicaciones.length > 0 && usuarios.length === publicaciones.length"
+    class="publicaciones-container"
+  >
+    <div *ngFor="let publicacion of publicaciones; let i = index">
+      <app-publicacion
+        [publicacion]="publicacion"
+        [usuario]="usuarios[i]"
+        [showLink]="true"
+      ></app-publicacion>
+    </div>
   </div>
 </div>
-
-<a class="like-button" [routerLink]="['/inicio/create']">añadir publicacion</a
-><br />
-<a
-  class="like-button"
-  (click)="verMiPerfil()"
-  [routerLink]="['/inicio/porfile', id_persona]"
-  >ver mi perfil</a
->
-<a class="like-button" [routerLink]="['/inicio/porfile/2']"
-  >ver el perfil del otro</a
->

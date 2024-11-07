@@ -8,7 +8,7 @@ import { ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { etiquetas } from '../../interface/etiqueta';
 import { IonButton } from '@ionic/angular/standalone';
-import { usuarioVirtual } from '../../interface/persona';
+import { usuarios } from '../../interface/persona';
 
 @Component({
   selector: 'app-publicacion-card',
@@ -26,7 +26,7 @@ import { usuarioVirtual } from '../../interface/persona';
 export class PublicacionCardComponent {
   apiService = inject(ApiRestService);
   publicacion?: publicaciones;
-  usuario?: usuarioVirtual;
+  usuario?: usuarios;
   id!: number;
   etiquetas?: etiquetas[];
   etiquetasNombres: string[] = []; // Inicializado como un array vacío

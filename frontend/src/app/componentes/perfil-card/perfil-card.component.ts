@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { usuarioVirtual } from '../../interface/persona';
+import { usuarios } from '../../interface/persona';
 import { ApiRestService } from '../../servicios/api-rest.service';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -12,7 +12,7 @@ import { CommonModule } from '@angular/common';
 })
 export class PerfilCardComponent {
   apiService = inject(ApiRestService);
-  usuario!: usuarioVirtual;
+  usuario!: usuarios;
   id!: string;
   constructor(private route: ActivatedRoute) {}
   async ngOnInit(): Promise<void> {

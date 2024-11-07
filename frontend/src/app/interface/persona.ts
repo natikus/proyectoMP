@@ -2,7 +2,7 @@ export interface celular {
   celular: number;
 }
 
-export interface usuarioVirtual {
+export interface usuarios {
   nombre: string;
   apellido: string;
   id_persona: number;
@@ -15,7 +15,7 @@ export interface usuarioVirtual {
   contrasena: string;
   telefono: string;
 }
-export interface usuarioVirtualPost {
+export interface usuariosPost {
   nombre: string;
   apellido: string;
   usuario: string;

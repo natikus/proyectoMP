@@ -13,6 +13,7 @@ body {
   width: 500px;
   margin-bottom: 20px;
   overflow: hidden;
+  color: black;
 }
 
 .card-header {
@@ -69,4 +70,19 @@ button {
 
 button:hover {
   background-color: #d0e8ff;
+}
+
+.avatar {
+  width: 50px; /* Ajusta el ancho */
+  height: 50px; /* Ajusta la altura */
+  border-radius: 50%; /* Hace que sea circular */
+  object-fit: cover; /* Ajusta la imagen para que ocupe todo el espacio */
+}
+
+.post-image {
+  width: 100%; /* Ocupa el ancho del contenedor */
+  max-width: 500px; /* Tamaño máximo para controlar que no sea muy grande */
+  height: auto; /* Mantiene la proporción */
+  object-fit: cover; /* Ajusta la imagen dentro del contenedor */
+  margin-top: 10px; /* Espacio arriba de la imagen */
 }

@@ -16,7 +16,7 @@ const usuariosRoute: FastifyPluginAsync = async (
   // Ruta para obtener todos los usuarios
   fastify.get("/", {
     schema: {
-      tags: ["usuarioVirtual"],
+      tags: ["usuarios"],
       summary: "Obtener todos los usuarios",
       description: "Retorna una lista de todos los usuarios registrados",
       response: {
@@ -35,7 +35,7 @@ const usuariosRoute: FastifyPluginAsync = async (
     handler: async function (request, reply) {
       const res = await query(`SELECT
         id_persona,
-        usuario,
+        ,
         nombre, 
         apellido,
         usuario,
@@ -46,7 +46,7 @@ const usuariosRoute: FastifyPluginAsync = async (
         fechaCreacion,
         intereses,
         telefono
-        FROM usuarioVirtual`);
+        FROM usuarios`);
       if (res.rows.length === 0) {
         reply.code(404).send({ message: "No hay usuarios registrados" });
         return;
@@ -56,7 +56,7 @@ const usuariosRoute: FastifyPluginAsync = async (
   });
   fastify.get("/:id_persona", {
     schema: {
-      tags: ["usuarioVirtual"],
+      tags: ["usuarios"],
       summary: "Obtener un usuario específico",
       description: "Obtiene los detalles de un usuario por ID",
       params: UsuarioIdSchema,
@@ -77,7 +77,7 @@ const usuariosRoute: FastifyPluginAsync = async (
         `
         SELECT id_persona, nombre, apellido, usuario, email, imagen, 
                is_Admin, descripcion, fechaCreacion, intereses, telefono 
-        FROM usuarioVirtual WHERE id_persona = $1;`,
+        FROM usuarios WHERE id_persona = $1;`,
         [id_persona]
       );
 
@@ -91,7 +91,7 @@ const usuariosRoute: FastifyPluginAsync = async (
   // Ruta para eliminar un usuario
   fastify.delete("/:id_persona", {
     schema: {
-      tags: ["usuarioVirtual"],
+      tags: ["usuarios"],
       summary: "Eliminar un usuario",
       description: "Elimina un usuario por ID",
       params: UsuarioIdSchema,
@@ -111,10 +111,9 @@ const usuariosRoute: FastifyPluginAsync = async (
       await query(`DELETE FROM publicaciones WHERE id_creador = $1;`, [
         id_persona,
       ]);
-      const res = await query(
-        `DELETE FROM usuarioVirtual WHERE id_persona = $1;`,
-        [id_persona]
-      );
+      const res = await query(`DELETE FROM usuarios WHERE id_persona = $1;`, [
+        id_persona,
+      ]);
 
       if (res.rowCount === 0) {
         return reply.code(404).send({ message: "Usuario no encontrado" });
@@ -126,7 +125,7 @@ const usuariosRoute: FastifyPluginAsync = async (
   // Ruta para editar un Usuario
   fastify.put("/:id_persona", {
     schema: {
-      tags: ["usuarioVirtual"],
+      tags: ["usuarios"],
       summary: "Editar un usuario",
       description: "Actualiza un usuario por ID",
       params: UsuarioIdSchema,
@@ -155,7 +154,7 @@ const usuariosRoute: FastifyPluginAsync = async (
 
       const res = await query(
         `
-        UPDATE usuarioVirtual
+        UPDATE usuarios
         SET usuario = COALESCE($1, usuario),
             imagen = COALESCE($2, imagen),
             descripcion = COALESCE($3, descripcion),

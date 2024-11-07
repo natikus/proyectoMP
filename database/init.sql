@@ -1,7 +1,7 @@
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
--- Definimos la tabla usuarioVirtual antes, ya que celular y publicaciones dependen de ella
-CREATE TABLE IF NOT EXISTS usuarioVirtual (
+
+CREATE TABLE IF NOT EXISTS usuarios (
     id_persona SERIAL PRIMARY KEY,
     nombre TEXT NOT NULL,
     apellido TEXT NOT NULL,
@@ -12,14 +12,13 @@ CREATE TABLE IF NOT EXISTS usuarioVirtual (
     imagen TEXT NOT NULL,
     fechaCreacion DATE NOT NULL DEFAULT CURRENT_DATE,
     intereses TEXT[] NOT NULL,
-    telefono TEXT UNIQUE,
+    telefono TEXT NOT NULL UNIQUE,
     contrasena TEXT NOT NULL
     
 );
 
 
 
--- Tabla publicaciones, con una referencia a usuarioVirtual
 CREATE TABLE IF NOT EXISTS publicaciones (
     id_publicacion SERIAL PRIMARY KEY,
     titulo TEXT NOT NULL,
@@ -29,16 +28,16 @@ CREATE TABLE IF NOT EXISTS publicaciones (
     imagenes TEXT NOT NULL, 
     ubicacion TEXT NOT NULL, 
     fechaCreacion TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_creador FOREIGN KEY (id_creador) REFERENCES usuarioVirtual(id_persona) ON DELETE CASCADE
+    CONSTRAINT fk_creador FOREIGN KEY (id_creador) REFERENCES usuarios(id_persona) ON DELETE CASCADE
 );
 
--- Tabla etiquetas
+
 CREATE TABLE IF NOT EXISTS etiquetas (
     id_etiqueta SERIAL PRIMARY KEY,
     etiqueta TEXT NOT NULL UNIQUE
 );
 
--- Tabla de relación entre publicaciones y etiquetas
+
 CREATE TABLE IF NOT EXISTS publicacion_etiquetas (
     id_publicacion INTEGER NOT NULL,
     id_etiqueta INTEGER NOT NULL,
@@ -47,20 +46,20 @@ CREATE TABLE IF NOT EXISTS publicacion_etiquetas (
     CONSTRAINT fk_etiqueta FOREIGN KEY (id_etiqueta) REFERENCES etiquetas(id_etiqueta) ON DELETE CASCADE
 );
 
--- Insertar datos en usuarioVirtual
-INSERT INTO usuarioVirtual (nombre, apellido, usuario, email,  is_Admin, descripcion, imagen, intereses,telefono, contrasena) 
+
+INSERT INTO usuarios (nombre, apellido, usuario, email,  is_Admin, descripcion, imagen, intereses,telefono, contrasena) 
 VALUES 
-('Juan', 'Perez', 'juanp', 'juan.perez@example.com',  FALSE, 'Me gusta ayudar a las personas', '/imagen11.jpg',ARRAY['tecnología', 'programación'],  '59892070235',crypt('Password123!', gen_salt('bf'))),
-('Maria', 'Lopez', 'marial', 'maria.lopez@example.com',  TRUE, 'Intento hacer un mundo mejor', '/imagen22.jpg',ARRAY['arte', 'diseño'],  '59891265322',crypt('Supersecurepassword1!', gen_salt('bf')));
+('Juan', 'Perez', 'juanp', 'juan.perez@example.com',  FALSE, 'Me gusta ayudar a las personas', '/boris.jpg',ARRAY['tecnología', 'programación'],  '59892070235',crypt('Password123!', gen_salt('bf'))),
+('Maria', 'Lopez', 'marial', 'maria.lopez@example.com',  TRUE, 'Intento hacer un mundo mejor', '/IMG_20230410_185647_349.jpg',ARRAY['arte', 'diseño'],  '59891265322',crypt('Supersecurepassword1!', gen_salt('bf')));
 
 
--- Insertar datos en publicaciones
+
 INSERT INTO publicaciones (titulo, id_creador, descripcion, imagenes, ubicacion) 
 VALUES 
-('Mi primer post', 1, 'Este es el contenido de mi primer post',  '/imagen11.jpg' , 'Quito'),
-('Diseño de logotipos', 2, 'Ofrezco servicios de diseño de logotipos', '/imagen11.jpg' , 'Guayaquil');
+('Mi primer post', 1, 'Me sobra esta mesa',  '/mesa.jpg' , 'Quito'),
+('Diseño de logotipos', 2, 'Me sobra esta silla', '/silla.jpeg' , 'Guayaquil');
 
--- Insertar datos en etiquetas
+
 INSERT INTO etiquetas (etiqueta)
 VALUES 
 ('tecnología'),
@@ -68,7 +67,7 @@ VALUES
 ('diseño'),
 ('arte');
 
--- Insertar datos en publicacion_etiquetas
+
 INSERT INTO publicacion_etiquetas (id_publicacion, id_etiqueta)
 VALUES 
 (1, 1), 

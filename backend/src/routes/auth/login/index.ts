@@ -44,7 +44,7 @@ const usuarioLoginRoute: FastifyPluginAsync = async (
       };
       try {
         const res = await query(
-          "SELECT id_persona, contrasena FROM usuarioVirtual WHERE email = $1",
+          "SELECT id_persona, contrasena FROM usuarios WHERE email = $1",
           [email]
         );
         if (res.rows.length === 0) {

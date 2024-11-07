@@ -162,4 +162,7 @@ export class CrearPublicacionComponent {
   registerOnTouched(fn: any): void {
     this.onTouched = fn;
   }
+  salir() {
+    this.router.navigate(['/inicio']);
+  }
 }
