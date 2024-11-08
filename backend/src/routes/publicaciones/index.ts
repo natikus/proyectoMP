@@ -33,10 +33,14 @@ const publicacionesRoute: FastifyPluginAsync = async (
         const filepath = path.join(
           process.cwd(),
           "uploads",
+          "publicaciones",
           publicacion.imagenes.filename
         );
+
         writeFileSync(filepath, fileBuffer);
-        imageUrl = `/uploads/${publicacion.imagenes.filename}`;
+
+        imageUrl = `/${publicacion.imagenes.filename}`;
+        console.log(imageUrl);
       }
       const titulo = publicacion.titulo.value;
       const descripcion = publicacion.descripcion.value;

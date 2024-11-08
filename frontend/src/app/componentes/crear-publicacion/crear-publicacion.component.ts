@@ -63,6 +63,11 @@ export class CrearPublicacionComponent {
   private _imageBlob: Blob | null | undefined = undefined;
   onChange = (image: Blob) => {};
   onTouched = () => {};
+  // Lógica de etiquetas
+  availableTagsList: { id_etiqueta: number; etiqueta: string }[] = [];
+  selectedTags: string[] = [];
+  showTagsList = false;
+
   constructor(private fb: FormBuilder, private sanitizer: DomSanitizer) {
     this.form = this.fb.group({
       titulo: ['', Validators.required],
@@ -72,6 +77,7 @@ export class CrearPublicacionComponent {
       imagen: [null, Validators.required],
     });
   }
+
   ngOnInit() {
     const storedId = localStorage.getItem('id_persona');
     if (!storedId) {
@@ -79,7 +85,39 @@ export class CrearPublicacionComponent {
     } else {
       console.log('ID de persona obtenido:', storedId);
     }
+    this.loadTags();
   }
+
+  async loadTags() {
+    const etiquetas = await this.apiService.get('etiquetas');
+    this.availableTagsList = etiquetas;
+  }
+
+  get availableTags(): string[] {
+    return this.availableTagsList
+      .filter((tag) => !this.selectedTags.includes(tag.etiqueta))
+      .map((tag) => tag.etiqueta);
+  }
+
+  toggleTagsList() {
+    this.showTagsList = !this.showTagsList;
+  }
+
+  selectTag(tagName: string) {
+    this.selectedTags.push(tagName);
+    this.updateTagsControl();
+    this.showTagsList = false;
+  }
+
+  removeTag(tagName: string) {
+    this.selectedTags = this.selectedTags.filter((tag) => tag !== tagName);
+    this.updateTagsControl();
+  }
+
+  private updateTagsControl() {
+    this.form.get('etiquetas')?.setValue(JSON.stringify(this.selectedTags));
+  }
+
   fileChangeEvent(event: Event): void {
     this.imageChangedEvent = event;
   }
@@ -131,7 +169,7 @@ export class CrearPublicacionComponent {
       formData.append('descripcion', this.form.get('descripcion')?.value || '');
       formData.append('ubicacion', this.form.get('ubicacion')?.value || '');
       formData.append('etiquetas', this.form.get('etiquetas')?.value || '');
-      formData.append('imagenes', this._imageBlob, 'image.webp');
+      formData.append('imagenes', this._imageBlob, `${storedId}.jpg`);
 
       console.log('Datos de FormData antes de enviar:', formData);
 

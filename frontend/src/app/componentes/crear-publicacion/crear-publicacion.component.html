@@ -56,15 +56,34 @@
         </mat-form-field>
 
         <!--etiquetas-->
-        <mat-form-field class="full-width">
+        <mat-form-field appearance="outline">
           <mat-label>Etiquetas</mat-label>
           <input
             matInput
             type="text"
             formControlName="etiquetas"
-            placeholder="Ingresa etiquetas separadas por comas"
+            (click)="toggleTagsList()"
           />
+          <div *ngIf="showTagsList" class="suggestions-list">
+            <div
+              *ngFor="let tag of availableTagsList"
+              class="tag-option"
+              (click)="selectTag(tag.etiqueta)"
+            >
+              {{ tag.etiqueta }}
+            </div>
+          </div>
+          <mat-error *ngIf="form.get('etiquetas')?.hasError('required')">
+            Ingrese sus etiquetas
+          </mat-error>
         </mat-form-field>
+
+        <div class="selected-tags">
+          <div *ngFor="let tag of selectedTags" class="tag-chip">
+            {{ tag }}
+            <span class="remove-tag" (click)="removeTag(tag)">&times;</span>
+          </div>
+        </div>
 
         <!--selección de imagen -->
         <div class="image-upload-section">
@@ -92,3 +111,4 @@
     </div>
   </mat-card>
 </div>
+
