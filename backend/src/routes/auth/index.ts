@@ -33,23 +33,27 @@ const usuarioAuthRoute: FastifyPluginAsync = async (
         writeFileSync(filepath, fileBuffer);
         imageUrl = `/uploads/${personaPost.imagen.filename}`;
       }
+
       const nombre = personaPost.nombre.value;
       const email = personaPost.email.value;
       const apellido = personaPost.apellido.value;
       const usuario = personaPost.usuario.value;
       const descripcion = personaPost.descripcion.value;
-      const intereses = personaPost.intereses.value;
       const telefono = personaPost.telefono.value;
       const hashedPassword = await bcrypt.hash(
         personaPost.contrasena.value,
         10
       );
 
+      const intereses = Array.isArray(personaPost.intereses.value)
+        ? personaPost.intereses.value
+        : JSON.parse(personaPost.intereses.value || "[]");
+
       const res = await query(
         `INSERT INTO usuarios
-       (nombre, apellido, usuario, email, descripcion, intereses, telefono, contrasena, imagen)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-       RETURNING id_persona;`,
+         (nombre, apellido, usuario, email, descripcion, intereses, telefono, contrasena, imagen)
+         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+         RETURNING id_persona;`,
         [
           nombre,
           apellido,
@@ -69,6 +73,26 @@ const usuarioAuthRoute: FastifyPluginAsync = async (
       }
 
       const id_persona = res.rows[0].id_persona;
+
+      // Crear el payload completo con todas las propiedades necesarias
+      const tokenPayload = {
+        id_persona,
+        email,
+        nombre,
+        apellido,
+        usuario,
+        imagen: imageUrl,
+        descripcion,
+        intereses,
+        telefono,
+        is_Admin: false, // Establecer valores por defecto si es necesario
+        fechaCreacion: new Date().toISOString(), // Ejemplo de campo adicional
+      };
+
+      // Generar el token con el payload completo
+      const token = fastify.jwt.sign(tokenPayload);
+
+      // Enviar la respuesta con el token
       reply.code(201).send({
         id_persona,
         nombre,
@@ -78,9 +102,11 @@ const usuarioAuthRoute: FastifyPluginAsync = async (
         intereses,
         telefono,
         imageUrl,
+        token, // Enviar el token aquí
       });
     },
   });
+
   fastify.get("/", {
     schema: {
       tags: ["auth"],

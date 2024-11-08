@@ -28,7 +28,7 @@ export class AuthService {
       throw new Error(data);
     }
   }
-  async getIntereses(): Promise<string[]> {
+  async getIntereses() {
     try {
       const response = await fetch(`${this.API_URL}intereses`);
       if (!response.ok) throw new Error('Error al obtener intereses');
