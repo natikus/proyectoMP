@@ -1,0 +1,96 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button (click)="toggleMenu()"></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Mi Aplicación</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<!-- Menú principal para usuarios logueados -->
+<ion-menu
+  *ngIf="isValidUser()"
+  side="start"
+  menuId="first"
+  contentId="main-content"
+>
+  <ion-header>
+    <ion-toolbar color="secondary">
+      <ion-title>Menú</ion-title>
+      <ion-buttons slot="end">
+        <ion-button (click)="closeMenu()">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="feather feather-x"
+          >
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content class="ion-padding">
+    <ion-list>
+      <ion-item href="#inicio" (click)="closeMenu()">Inicio</ion-item>
+      <ion-item href="#perfil" (click)="closeMenu()">Perfil</ion-item>
+      <ion-item href="#mensajes" (click)="closeMenu()">Mensajes</ion-item>
+      <ion-item href="#ajustes" (click)="closeMenu()">Ajustes</ion-item>
+      <ion-item href="#ayuda" (click)="closeMenu()">Ayuda</ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<!-- Menú alternativo para usuarios no logueados -->
+<ion-menu
+  *ngIf="!isValidUser()"
+  side="start"
+  menuId="second"
+  contentId="main-content"
+>
+  <ion-header>
+    <ion-toolbar color="secondary">
+      <ion-title>Menú Invitado</ion-title>
+      <ion-buttons slot="end">
+        <ion-button (click)="closeMenu()">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            class="feather feather-x"
+          >
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </ion-button>
+      </ion-buttons>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content class="ion-padding">
+    <ion-list>
+      <ion-item href="#iniciar-sesion" (click)="closeMenu()"
+        >Iniciar Sesión</ion-item
+      >
+      <ion-item href="#registro" (click)="closeMenu()">Registro</ion-item>
+      <ion-item href="#ayuda" (click)="closeMenu()">Ayuda</ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<ion-router-outlet id="main-content"></ion-router-outlet>

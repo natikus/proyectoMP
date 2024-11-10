@@ -29,7 +29,7 @@ export class PublicacionCardComponent {
   usuario?: usuarios;
   id!: number;
   etiquetas?: etiquetas[];
-  etiquetasNombres: string[] = []; // Inicializado como un array vacío
+  etiquetasNombres: string[] = [];
 
   constructor(private route: ActivatedRoute) {}
 
@@ -76,9 +76,7 @@ export class PublicacionCardComponent {
     const storedId = localStorage.getItem('id_persona');
     this.usuario = await this.apiService.get(`usuario/${storedId}`);
     const phoneNumber = this.usuario?.telefono;
-    const message = 'Hola, me gustaría obtener más información.';
-    const url = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(
-      message
+    const url = `https://wa.me/${phoneNumber}?
     )}`;
 
     window.open(url, '_blank');

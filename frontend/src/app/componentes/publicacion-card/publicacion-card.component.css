@@ -1,0 +1,16 @@
+.contenedor-scroll {
+  overflow-y: auto;
+  max-height: 100vh;
+  padding: 10px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centra el contenido horizontalmente */
+}
+.post-image {
+    width: 100%; /* Ocupa el ancho del contenedor */
+    max-width: 500px; /* Tamaño máximo para controlar que no sea muy grande */
+    height: auto; /* Mantiene la proporción */
+    object-fit: cover; /* Ajusta la imagen dentro del contenedor */
+    margin-top: 10px; /* Espacio arriba de la imagen */
+  }

@@ -1,11 +1,12 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { inject, Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   constructor() {}
   readonly API_URL = 'http://localhost/backend/auth/';
+  private router: Router = inject(Router);
   setToken(token: string) {
     localStorage.setItem('token', token);
   }
@@ -76,5 +77,9 @@ export class AuthService {
       console.error(error);
       return null;
     }
+  }
+  logOut() {
+    localStorage.clear();
+    this.router.navigate(['auth/login']);
   }
 }
