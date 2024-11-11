@@ -7,18 +7,26 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { etiquetas } from '../../interface/etiqueta';
-import { IonButton } from '@ionic/angular/standalone';
+import {
+  IonButton,
+  IonContent,
+  IonImg,
+  IonText,
+} from '@ionic/angular/standalone';
 import { usuarios } from '../../interface/persona';
 
 @Component({
   selector: 'app-publicacion-card',
   standalone: true,
   imports: [
+    IonContent,
     PublicacionComponent,
     RouterLink,
     CommonModule,
     DatePipe,
     IonButton,
+    IonImg,
+    IonText,
   ],
   templateUrl: './publicacion-card.component.html',
   styleUrls: ['./publicacion-card.component.scss'],

@@ -3,17 +3,7 @@ import { Component, inject } from '@angular/core';
 import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
-import { MatCardModule } from '@angular/material/card';
-import {
-  MatError,
-  MatFormField,
-  MatInput,
-  MatLabel,
-} from '@angular/material/input';
-import { MatIcon } from '@angular/material/icon';
 import { createValidator } from './asyncValidators';
-import { MatButton } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { FormControl } from '@angular/forms';
 import { ValidatorsService } from '../../../servicios/validators.service';
@@ -21,15 +11,10 @@ import { ValidatorsService } from '../../../servicios/validators.service';
   selector: 'app-auth',
   standalone: true,
   imports: [
-    MatCardModule,
-    MatInput,
-    MatIcon,
-    MatButton,
+
     ReactiveFormsModule,
     CommonModule,
-    MatFormField,
-    MatLabel,
-    MatError,
+ 
   ],
   templateUrl: './auth.page.html',
   styleUrl: './auth.page.css',

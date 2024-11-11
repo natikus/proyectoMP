@@ -1,26 +1,26 @@
 body {
   font-family: Arial, sans-serif;
-  background-color: #f0f2f5; /* Fondo similar al de Facebook */
+  background-color: #e8e2f7; /* Fondo lila suave */
   display: flex;
   justify-content: center;
   padding: 20px;
 }
 
 .card {
-  background-color: #ffffff;
+  background-color: #f9f3ff; /* Fondo lila claro */
   border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px rgba(134, 120, 192, 0.3); /* Sombra violeta */
   width: 500px;
   margin-bottom: 20px;
   overflow: hidden;
-  color: black;
+  color: #4b3b6b; /* Texto en violeta oscuro */
 }
 
 .card-header {
   display: flex;
   align-items: center;
   padding: 10px;
-  border-bottom: 1px solid #e9ecef;
+  border-bottom: 1px solid #d9c9f0; /* Borde inferior lila */
 }
 
 .avatar {
@@ -35,10 +35,11 @@ body {
 
 .username {
   font-weight: bold;
+  color: #6b4a9b; /* Violeta */
 }
 
 .timestamp {
-  color: #666;
+  color: #8b7ba6; /* Violeta grisáceo */
   font-size: 0.9em;
 }
 
@@ -56,33 +57,34 @@ body {
   display: flex;
   justify-content: space-around;
   padding: 10px;
-  border-top: 1px solid #e9ecef;
+  border-top: 1px solid #d9c9f0; /* Borde superior lila */
 }
 
 button {
-  background-color: #e7f3ff;
+  background-color: #dec6ff; /* Botón lila suave */
   border: none;
   border-radius: 5px;
   padding: 8px 12px;
   cursor: pointer;
   transition: background-color 0.2s;
+  color: #4b3b6b; /* Texto en violeta oscuro */
 }
 
 button:hover {
-  background-color: #d0e8ff;
+  background-color: #c5a3ff; /* Color más oscuro al pasar el cursor */
 }
 
 .avatar {
-  width: 50px; /* Ajusta el ancho */
-  height: 50px; /* Ajusta la altura */
-  border-radius: 50%; /* Hace que sea circular */
-  object-fit: cover; /* Ajusta la imagen para que ocupe todo el espacio */
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 
 .post-image {
-  width: 100%; /* Ocupa el ancho del contenedor */
-  max-width: 500px; /* Tamaño máximo para controlar que no sea muy grande */
-  height: auto; /* Mantiene la proporción */
-  object-fit: cover; /* Ajusta la imagen dentro del contenedor */
-  margin-top: 10px; /* Espacio arriba de la imagen */
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  object-fit: cover;
+  margin-top: 10px;
 }

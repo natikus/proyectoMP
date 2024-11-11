@@ -3,10 +3,26 @@ import { usuarios } from '../../interface/persona';
 import { ApiRestService } from '../../servicios/api-rest.service';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import {
+  IonAvatar,
+  IonContent,
+  IonItem,
+  IonLabel,
+  IonList,
+  IonText,
+} from '@ionic/angular/standalone';
 @Component({
   selector: 'app-perfil-card',
   standalone: true,
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    IonText,
+    IonList,
+    IonItem,
+    IonLabel,
+    IonContent,
+    IonAvatar,
+  ],
   templateUrl: './perfil-card.component.html',
   styleUrls: ['./perfil-card.component.scss'],
 })

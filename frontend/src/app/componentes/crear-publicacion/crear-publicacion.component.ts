@@ -2,20 +2,7 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Validators } from '@angular/forms';
 import { ApiRestService } from '../../servicios/api-rest.service';
-import { MatButton } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIcon } from '@angular/material/icon';
-import { MatInput } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
-import {
-  MatCardHeader,
-  MatCardTitle,
-  MatCardContent,
-} from '@angular/material/card';
-import { MatFormField } from '@angular/material/form-field';
-import { MatLabel } from '@angular/material/form-field';
-import { MatError } from '@angular/material/form-field';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import {
   ImageCropperComponent,
@@ -25,24 +12,39 @@ import {
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Router } from '@angular/router';
+import {
+  IonButton,
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCardTitle,
+  IonChip,
+  IonContent,
+  IonIcon,
+  IonItem,
+  IonLabel,
+  IonList,
+  IonText,
+} from '@ionic/angular/standalone';
 @Component({
   selector: 'app-crear-publicacion',
   standalone: true,
   imports: [
     ImageCropperComponent,
-    MatCardHeader,
-    MatCardTitle,
-    MatCardContent,
-    MatFormField,
-    MatLabel,
-    MatError,
-    MatCardModule,
-    MatInput,
-    MatFormFieldModule,
-    MatIcon,
-    MatButton,
     ReactiveFormsModule,
     CommonModule,
+    IonChip,
+    IonIcon,
+    IonList,
+    IonItem,
+    IonLabel,
+    IonText,
+    IonCard,
+    IonCardContent,
+    IonCardHeader,
+    IonContent,
+    IonCardTitle,
+    IonButton,
   ],
   templateUrl: './crear-publicacion.component.html',
   styleUrls: ['./crear-publicacion.component.scss'],

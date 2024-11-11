@@ -1,16 +1,42 @@
 .contenedor-scroll {
-  overflow-y: auto;
-  max-height: 100vh;
-  padding: 10px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Centra el contenido horizontalmente */
+  padding: 20px;
+  background-color: var(--lilac);
+  border-radius: 10px;
+  max-width: 600px;
+  margin: auto;
 }
+
+.detalle-titulo {
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--violet-dark);
+}
+
+.detalle-descripcion {
+  font-size: 18px;
+  color: var(--text-color);
+}
+
+.detalle-info p {
+  font-size: 16px;
+  color: var(--violet-dark);
+}
+
+.tag-option {
+  background-color: var(--violet-light);
+  padding: 5px 10px;
+  margin: 5px 0;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 .post-image {
-    width: 100%; /* Ocupa el ancho del contenedor */
-    max-width: 500px; /* Tamaño máximo para controlar que no sea muy grande */
-    height: auto; /* Mantiene la proporción */
-    object-fit: cover; /* Ajusta la imagen dentro del contenedor */
-    margin-top: 10px; /* Espacio arriba de la imagen */
-  }
+  max-width: 100%;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+.detalle-footer {
+  text-align: center;
+  margin-top: 20px;
+}

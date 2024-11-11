@@ -6,6 +6,7 @@ import { PerfilPage } from './pages/perfil/perfil.page';
 import { CrearPage } from './pages/crear/crear.page';
 import { RegistroPage } from './pages/registro/registro.page';
 import { VerPublicacionPage } from './pages/publicacion/publicacion.page';
+import { AjustesPage } from './pages/ajustes/ajustes.page';
 export const routes: Routes = [
   {
     path: 'auth/login',
@@ -34,6 +35,11 @@ export const routes: Routes = [
   {
     path: 'inicio/:id_publicacion',
     component: VerPublicacionPage,
+    canActivate: [logueadoGuard],
+  },
+  {
+    path: 'inicio/porfile/:id/settings',
+    component: AjustesPage,
     canActivate: [logueadoGuard],
   },
 ];

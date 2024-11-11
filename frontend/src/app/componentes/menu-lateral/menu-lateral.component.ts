@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../servicios/auth.service';
 import {
   IonButton,
@@ -36,6 +36,7 @@ import {
     IonList,
     IonItem,
     IonIcon,
+    RouterLink,
   ],
   templateUrl: './menu-lateral.component.html',
   styleUrls: ['./menu-lateral.component.css'],
@@ -43,6 +44,7 @@ import {
 export class MenuLateralComponent {
   apiService: AuthService = inject(AuthService);
   private menuController = inject(MenuController);
+  router: Router = inject(Router);
 
   toggleMenu() {
     this.menuController.toggle();
@@ -58,5 +60,10 @@ export class MenuLateralComponent {
 
   logOut() {
     this.apiService.logOut();
+  }
+  miPerfil() {
+    this.menuController.close();
+    const id_perspna = localStorage.getItem('id_persona');
+    this.router.navigate(['/inicio/porfile', id_perspna]);
   }
 }

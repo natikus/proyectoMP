@@ -22,7 +22,7 @@
   contentId="main-content"
 >
   <ion-header>
-    <ion-toolbar color="secondary">
+    <ion-toolbar>
       <ion-title>Menú</ion-title>
       <ion-buttons slot="end">
         <ion-button (click)="closeMenu()">
@@ -48,11 +48,19 @@
 
   <ion-content class="ion-padding">
     <ion-list>
-      <ion-item href="#inicio" (click)="closeMenu()">Inicio</ion-item>
-      <ion-item href="#perfil" (click)="closeMenu()">Perfil</ion-item>
-      <ion-item href="#mensajes" (click)="closeMenu()">Mensajes</ion-item>
-      <ion-item href="#ajustes" (click)="closeMenu()">Ajustes</ion-item>
-      <ion-item href="#ayuda" (click)="closeMenu()">Ayuda</ion-item>
+      <ion-item (click)="closeMenu()" [routerLink]="['/inicio']"
+        >Inicio</ion-item
+      >
+      <ion-item href="#Buscar" (click)="closeMenu()"
+        >Buscar (implementar)</ion-item
+      >
+      <ion-item (click)="miPerfil()">Mi perfil</ion-item>
+      <ion-item href="#ajustes" (click)="closeMenu()"
+        >Ajustes(implementar)</ion-item
+      >
+      <ion-item href="#ayuda" (click)="closeMenu()"
+        >Sobre nosotros (implementar)</ion-item
+      >
     </ion-list>
   </ion-content>
 </ion-menu>

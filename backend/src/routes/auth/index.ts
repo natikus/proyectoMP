@@ -3,7 +3,6 @@ import { UsuarioPostSchema, UsuarioPostType } from "../../tipos/usuario.js";
 import { FastifyInstance } from "fastify/types/instance.js";
 import { query } from "../../services/database.js";
 import bcrypt from "bcrypt";
-import { Type } from "@sinclair/typebox";
 import path from "path";
 import { writeFileSync } from "fs";
 
