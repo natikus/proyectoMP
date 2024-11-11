@@ -7,14 +7,30 @@ import { createValidator } from './asyncValidators';
 import { CommonModule } from '@angular/common';
 import { FormControl } from '@angular/forms';
 import { ValidatorsService } from '../../../servicios/validators.service';
+import {
+  IonButton,
+  IonContent,
+  IonHeader,
+  IonItem,
+  IonLabel,
+  IonText,
+  IonTitle,
+  IonToolbar,
+} from '@ionic/angular/standalone';
 @Component({
   selector: 'app-auth',
   standalone: true,
   imports: [
-
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonContent,
+    IonItem,
+    IonLabel,
+    IonText,
+    IonButton,
     ReactiveFormsModule,
     CommonModule,
- 
   ],
   templateUrl: './auth.page.html',
   styleUrl: './auth.page.css',
