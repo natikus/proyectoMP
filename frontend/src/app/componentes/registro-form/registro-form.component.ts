@@ -5,6 +5,11 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIcon } from '@angular/material/icon';
+import { MatInput } from '@angular/material/input';
 import {
   PasswordStateMatcher,
   crossPasswordMatchingValidatior,
@@ -13,39 +18,21 @@ import {
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../servicios/auth.service';
-import {
-  IonButton,
-  IonCard,
-  IonCardContent,
-  IonCardHeader,
-  IonCardTitle,
-  IonChip,
-  IonContent,
-  IonIcon,
-  IonItem,
-  IonLabel,
-  IonList,
-  IonText,
-} from '@ionic/angular/standalone';
+import { IonText, IonContent } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-registro-form',
   standalone: true,
   imports: [
+    IonContent,
+    IonText,
+    MatCardModule,
+    MatInput,
+    MatFormFieldModule,
+    MatIcon,
+    MatButton,
     ReactiveFormsModule,
     CommonModule,
-    IonButton,
-    IonItem,
-    IonLabel,
-    IonText,
-    IonList,
-    IonChip,
-    IonIcon,
-    IonCardContent,
-    IonCardHeader,
-    IonCardTitle,
-    IonCard,
-    IonContent,
   ],
   templateUrl: './registro-form.component.html',
   styleUrls: ['./registro-form.component.scss'],

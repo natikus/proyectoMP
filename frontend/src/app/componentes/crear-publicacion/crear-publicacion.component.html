@@ -1,122 +1,113 @@
-<ion-content class="form-container">
-  <ion-card>
-    <ion-card-header>
-      <ion-card-title>Crear Publicación</ion-card-title>
-    </ion-card-header>
-
-    <ion-card-content>
+<div class="form-container mat-elevation-z8">
+  <mat-card>
+    <mat-card-title>Crear Publicación</mat-card-title>
+    <div class="scrollable-form">
       <form [formGroup]="form" (ngSubmit)="onSubmit()">
-        <!-- Título -->
-        <ion-item>
-          <ion-label position="floating">Título</ion-label>
-          <ion-input
+        <!-- titulo -->
+        <mat-form-field class="full-width">
+          <mat-label>Título</mat-label>
+          <input
+            matInput
             type="text"
             formControlName="titulo"
             placeholder="Ingresa el título"
-          ></ion-input>
-          <ion-text
-            color="danger"
+          />
+          <mat-error
             *ngIf="form.get('titulo')?.invalid && form.get('titulo')?.touched"
           >
             El título es obligatorio.
-          </ion-text>
-        </ion-item>
+          </mat-error>
+        </mat-form-field>
 
-        <!-- Descripción -->
-        <ion-item>
-          <ion-label position="floating">Descripción</ion-label>
-          <ion-textarea
+        <!-- descripcion -->
+        <mat-form-field class="full-width">
+          <mat-label>Descripción</mat-label>
+          <textarea
+            matInput
             formControlName="descripcion"
             placeholder="Ingresa la descripción"
-          ></ion-textarea>
-          <ion-text
-            color="danger"
+          ></textarea>
+          <mat-error
             *ngIf="
               form.get('descripcion')?.invalid &&
               form.get('descripcion')?.touched
             "
           >
             La descripción es obligatoria.
-          </ion-text>
-        </ion-item>
+          </mat-error>
+        </mat-form-field>
 
-        <!-- Ubicación -->
-        <ion-item>
-          <ion-label position="floating">Ubicación</ion-label>
-          <ion-input
+        <!-- Ubicacion-->
+        <mat-form-field class="full-width">
+          <mat-label>Ubicación</mat-label>
+          <input
+            matInput
             type="text"
             formControlName="ubicacion"
             placeholder="Ingresa la ubicación"
-          ></ion-input>
-          <ion-text
-            color="danger"
+          />
+          <mat-error
             *ngIf="
               form.get('ubicacion')?.invalid && form.get('ubicacion')?.touched
             "
           >
             La ubicación es obligatoria.
-          </ion-text>
-        </ion-item>
+          </mat-error>
+        </mat-form-field>
 
-        <!-- Etiquetas -->
-        <ion-item>
-          <ion-label position="floating">Etiquetas</ion-label>
-          <ion-input
+        <!--etiquetas-->
+        <mat-form-field appearance="outline">
+          <mat-label>Etiquetas</mat-label>
+          <input
+            matInput
             type="text"
             formControlName="etiquetas"
             (click)="toggleTagsList()"
-          ></ion-input>
-          <ion-text
-            color="danger"
-            *ngIf="form.get('etiquetas')?.hasError('required')"
-          >
+          />
+          <div *ngIf="showTagsList" class="suggestions-list">
+            <div
+              *ngFor="let tag of availableTagsList"
+              class="tag-option"
+              (click)="selectTag(tag.etiqueta)"
+            >
+              {{ tag.etiqueta }}
+            </div>
+          </div>
+          <mat-error *ngIf="form.get('etiquetas')?.hasError('required')">
             Ingrese sus etiquetas
-          </ion-text>
-        </ion-item>
-
-        <ion-list *ngIf="showTagsList">
-          <ion-item
-            *ngFor="let tag of availableTagsList"
-            (click)="selectTag(tag.etiqueta)"
-          >
-            {{ tag.etiqueta }}
-          </ion-item>
-        </ion-list>
+          </mat-error>
+        </mat-form-field>
 
         <div class="selected-tags">
-          <ion-chip *ngFor="let tag of selectedTags">
+          <div *ngFor="let tag of selectedTags" class="tag-chip">
             {{ tag }}
-            <ion-icon name="close-circle" (click)="removeTag(tag)"></ion-icon>
-          </ion-chip>
+            <span class="remove-tag" (click)="removeTag(tag)">&times;</span>
+          </div>
         </div>
 
-        <!-- Selección de imagen -->
-        <ion-item>
-          <ion-label>Imagen</ion-label>
+        <!--selección de imagen -->
+        <div class="image-upload-section">
           <input type="file" (change)="fileChangeEvent($event)" />
-        </ion-item>
-        <image-cropper
-          [imageChangedEvent]="imageChangedEvent"
-          [maintainAspectRatio]="true"
-          [aspectRatio]="4 / 3"
-          format="png"
-          (imageCropped)="imageCropped($event)"
-          (imageLoaded)="imageLoaded($event)"
-          (cropperReady)="cropperReady()"
-          (loadImageFailed)="loadImageFailed()"
-        ></image-cropper>
-        <div class="cropped-preview">
-          <img [src]="croppedImage" *ngIf="croppedImage" />
+          <image-cropper
+            [imageChangedEvent]="imageChangedEvent"
+            [maintainAspectRatio]="true"
+            [aspectRatio]="4 / 3"
+            format="png"
+            (imageCropped)="imageCropped($event)"
+            (imageLoaded)="imageLoaded($event)"
+            (cropperReady)="cropperReady()"
+            (loadImageFailed)="loadImageFailed()"
+          ></image-cropper>
+          <div class="cropped-preview">
+            <img [src]="croppedImage" *ngIf="croppedImage" />
+          </div>
         </div>
-
-        <!-- Enviar y Cancelar -->
-        <div class="buttons">
-          <ion-button expand="full" (click)="save()">Enviar</ion-button>
-          <ion-button expand="full" color="danger" (click)="salir()"
-            >Cancelar</ion-button
-          >
-        </div>
+        <button mat-raised-button (click)="save()">enviar</button>
+        <!--envío -->
+        <button mat-raised-button (click)="salir()" color="primary">
+          Cancelar
+        </button>
       </form>
-    </ion-card-content>
-  </ion-card>
-</ion-content>
+    </div>
+  </mat-card>
+</div>

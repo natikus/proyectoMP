@@ -167,16 +167,36 @@ const publicacionesRoute: FastifyPluginAsync = async (
   fastify.get("/:id_publicacion", {
     schema: {
       summary: "Obtener una publicación específica",
-      description: "Obtiene la publicación correspondiente al ID especificado.",
+      description:
+        "Obtiene los detalles de una publicación específica por su ID.",
       tags: ["publicacion"],
+      params: {
+        type: "object",
+        properties: {
+          id_publicacion: {
+            type: "integer",
+            description: "ID de la publicación",
+          },
+        },
+        required: ["id_publicacion"],
+      },
       response: {
         200: {
-          description: "Publicación encontrada",
+          description: "Detalles de la publicación solicitada.",
           type: "object",
-          properties: publicacionSchema.properties,
+          properties: {
+            id_publicacion: { type: "integer" },
+            titulo: { type: "string" },
+            estado: { type: "boolean" },
+            id_creador: { type: "integer" },
+            descripcion: { type: "string" },
+            imagenes: { type: "string" },
+            ubicacion: { type: "string" },
+            fechaCreacion: { type: "string", format: "date-time" },
+          },
         },
         404: {
-          description: "Publicación no encontrada",
+          description: "Publicación no encontrada.",
           type: "object",
           properties: {
             message: { type: "string" },
@@ -187,25 +207,28 @@ const publicacionesRoute: FastifyPluginAsync = async (
     onRequest: fastify.authenticate,
     handler: async function (request, reply) {
       const { id_publicacion } = request.params as { id_publicacion: number };
-
       const res = await query(
         `
-          SELECT
-            id_publicacion,
-            titulo,
-            estado,
-            id_creador,
-            descripcion,
-            imagenes,
-            ubicacion,
-            fechaCreacion
-          FROM publicaciones WHERE id_publicacion = $1;`,
+            SELECT
+                id_publicacion,
+                titulo,
+                estado,
+                id_creador,
+                descripcion,
+                imagenes,
+                ubicacion,
+                fechaCreacion
+            FROM publicaciones 
+            WHERE id_publicacion = $1 AND estado = true;
+          `,
         [id_publicacion]
       );
+
       if (res.rows.length === 0) {
-        reply.code(404).send({ message: "publicación no encontrada" });
+        reply.code(404).send({ message: "Publicación no encontrada" });
         return;
       }
+
       return res.rows[0];
     },
   });

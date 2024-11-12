@@ -7,6 +7,7 @@ body {
 
 form {
   display: flex;
+
   flex-direction: column;
   align-items: center;
   max-width: 400px;
@@ -27,45 +28,33 @@ input[type="email"] {
 ion-label {
   align-self: flex-start;
   margin: 5px 0;
-  color: #6a1b9a !important; /* Forzar el color del texto */
+  color: #3d0061 !important;
 }
 
 input:focus {
   border-color: #6a1b9a;
   outline: none;
+  color: transparent !important;
 }
 
 ion-button {
-  --background: #6a1b9a !important; /* Color de fondo lila */
-  --background-activated: #4a0072; /* Color al hacer clic */
-  --color: white !important; /* Color del texto blanco */
+  --background: #6a1b9a !important;
+  --background-activated: #4a0072;
+  --color: white !important;
   --border-radius: 5px;
-  --box-shadow: none !important; /* Eliminar cualquier sombra */
+  --box-shadow: none !important;
   width: 100%;
-  padding: 10px 15px;
+  padding: 12px 15px;
   cursor: pointer;
   transition: background-color 0.3s;
   border: none;
+  font-size: 16px;
 }
 
 ion-button:hover {
-  --background: #4a0072 !important; /* Color de fondo en hover */
-}
-ion-label {
-  color: #6a1b9a !important; /* Color lila del label */
+  --background: #4a0072 !important;
 }
 
-/* Ajustes adicionales en los campos de entrada */
-ion-input {
-  margin-top: 8px;
-  color: #333; /* Color del texto en el input */
-}
-
-/* Asegura que el botón tenga el estilo deseado */
-ion-button {
-  --background: #6a1b9a;
-  --background-activated: #4a0072;
-  --color: white;
-  --border-radius: 5px;
-  width: 100%;
+ion-button:active {
+  --background: #3d0061 !important;
 }

@@ -1,171 +1,141 @@
-<ion-content class="ion-padding">
-  <ion-card class="card">
-    <ion-card-header>
-      <ion-card-title>Registro</ion-card-title>
-    </ion-card-header>
+<div class="container">
+  <mat-card class="card">
+    <mat-card-header class="card__title">
+      <mat-card-title>Registro</mat-card-title>
+    </mat-card-header>
 
-    <ion-card-content>
-      <form [formGroup]="formGroup" (ngSubmit)="clickRegister()">
-        <ion-item>
-          <ion-label position="floating">Nombres</ion-label>
-          <ion-input type="text" formControlName="nombre"></ion-input>
-        </ion-item>
-        <ion-text
-          color="danger"
-          *ngIf="formGroup.get('nombre')?.hasError('required')"
-        >
-          Ingrese sus nombres
-        </ion-text>
+    <mat-card-content>
+      <form class="form" [formGroup]="formGroup" (ngSubmit)="clickRegister()">
+        <mat-form-field appearance="outline">
+          <mat-label>Nombres</mat-label>
+          <input matInput type="text" formControlName="nombre" />
+          <mat-error *ngIf="formGroup.get('nombre')?.hasError('required')">
+            Ingrese sus nombres
+          </mat-error>
+        </mat-form-field>
 
-        <ion-item>
-          <ion-label position="floating">Apellidos</ion-label>
-          <ion-input type="text" formControlName="apellido"></ion-input>
-        </ion-item>
-        <ion-text
-          color="danger"
-          *ngIf="formGroup.get('apellido')?.hasError('required')"
-        >
-          Ingrese sus apellidos
-        </ion-text>
+        <mat-form-field appearance="outline">
+          <mat-label>Apellidos</mat-label>
+          <input matInput type="text" formControlName="apellido" />
+          <mat-error *ngIf="formGroup.get('apellido')?.hasError('required')">
+            Ingrese sus apellidos
+          </mat-error>
+        </mat-form-field>
 
-        <ion-item>
-          <ion-label position="floating">Usuario</ion-label>
-          <ion-input type="text" formControlName="usuario"></ion-input>
-        </ion-item>
-        <ion-text
-          color="danger"
-          *ngIf="formGroup.get('usuario')?.hasError('required')"
-        >
-          Ingrese un usuario
-        </ion-text>
+        <mat-form-field appearance="outline">
+          <mat-label>Usuario</mat-label>
+          <input matInput type="text" formControlName="usuario" />
+          <mat-error *ngIf="formGroup.get('usuario')?.hasError('required')">
+            Ingrese un usuario
+          </mat-error>
+        </mat-form-field>
 
-        <ion-item>
-          <ion-label position="floating">E-mail</ion-label>
-          <ion-input type="email" formControlName="email"></ion-input>
-        </ion-item>
-        <ion-text
-          color="danger"
-          *ngIf="formGroup.get('email')?.hasError('required')"
-        >
-          Ingrese su e-mail
-        </ion-text>
-        <ion-text
-          color="danger"
-          *ngIf="formGroup.get('email')?.hasError('email')"
-        >
-          Ingrese un e-mail válido
-        </ion-text>
+        <mat-form-field appearance="outline">
+          <mat-label>E-mail</mat-label>
+          <input matInput type="email" formControlName="email" />
+          <mat-error *ngIf="formGroup.get('email')?.hasError('required')">
+            Ingrese su e-mail
+          </mat-error>
+          <mat-error *ngIf="formGroup.get('email')?.hasError('email')">
+            Ingrese un e-mail válido
+          </mat-error>
+        </mat-form-field>
 
-        <ion-item>
-          <ion-label position="floating">Teléfono</ion-label>
-          <ion-input type="text" formControlName="celular"></ion-input>
-        </ion-item>
-        <ion-text
-          color="danger"
-          *ngIf="formGroup.get('celular')?.hasError('required')"
-        >
-          Ingrese su número de teléfono
-        </ion-text>
+        <mat-form-field appearance="outline">
+          <mat-label>Teléfono</mat-label>
+          <input matInput type="text" formControlName="celular" />
+          <mat-error *ngIf="formGroup.get('celular')?.hasError('required')">
+            Ingrese su número de teléfono
+          </mat-error>
+        </mat-form-field>
 
-        <ion-item>
-          <ion-label position="floating">Contraseña</ion-label>
-          <ion-input type="password" formControlName="contrasena"></ion-input>
-        </ion-item>
-        <ion-text
-          color="danger"
-          *ngIf="
-            formGroup.get('contrasena')?.hasError('customPasswordValidator')
-          "
-        >
-          La contraseña debe tener al menos una mayúscula, minúscula, símbolo,
-          número y ser mayor a 8 caracteres
-        </ion-text>
-        <ion-text
-          color="danger"
-          *ngIf="formGroup.get('contrasena')?.hasError('required')"
-        >
-          Ingrese una contraseña
-        </ion-text>
+        <mat-form-field appearance="outline">
+          <mat-label>Contraseña</mat-label>
+          <input matInput type="password" formControlName="contrasena" />
+          <mat-error
+            *ngIf="
+              formGroup.get('contrasena')?.hasError('customPasswordValidator')
+            "
+          >
+            La contraseña debe tener al menos una mayúscula, minúscula, símbolo,
+            número y ser mayor a 8 caracteres
+          </mat-error>
+          <mat-error *ngIf="formGroup.get('contrasena')?.hasError('required')">
+            Ingrese una contraseña
+          </mat-error>
+        </mat-form-field>
 
-        <ion-item>
-          <ion-label position="floating">Repetir contraseña</ion-label>
-          <ion-input
+        <mat-form-field appearance="outline">
+          <mat-label>Repetir contraseña</mat-label>
+          <input
+            matInput
             type="password"
             formControlName="confirmContrasena"
-          ></ion-input>
-        </ion-item>
-        <ion-text
-          color="danger"
-          *ngIf="formGroup.get('confirmContrasena')?.hasError('required')"
-        >
-          Ingrese una contraseña
-        </ion-text>
-        <ion-text
-          color="danger"
-          *ngIf="formGroup.hasError('crossConfirmPasswordError')"
-        >
-          La contraseña no coincide, verifique
-        </ion-text>
+            [errorStateMatcher]="passwordStateMatcher"
+          />
+          <mat-error
+            *ngIf="formGroup.get('confirmContrasena')?.hasError('required')"
+          >
+            Ingrese una contraseña
+          </mat-error>
+          <mat-error *ngIf="formGroup.hasError('crossConfirmPasswordError')">
+            La contraseña no coincide, verifique
+          </mat-error>
+        </mat-form-field>
 
         <!-- Campo de selección de intereses -->
-        <ion-item>
-          <ion-label position="floating">Intereses</ion-label>
-          <ion-input
+        <mat-form-field appearance="outline">
+          <mat-label>Intereses</mat-label>
+          <input
+            matInput
             type="text"
             formControlName="intereses"
             (click)="toggleInterestsList()"
-          ></ion-input>
-        </ion-item>
-        <ion-list *ngIf="showInterestsList">
-          <ion-item
-            *ngFor="let interest of availableInterests"
-            (click)="selectInterest(interest)"
-          >
+          />
+          <div *ngIf="showInterestsList" class="suggestions-list">
+            <div
+              *ngFor="let interest of availableInterests"
+              class="interest-option"
+              (click)="selectInterest(interest)"
+            >
+              {{ interest }}
+            </div>
+          </div>
+          <mat-error *ngIf="formGroup.get('intereses')?.hasError('required')">
+            Ingrese sus intereses
+          </mat-error>
+        </mat-form-field>
+
+        <div class="selected-interests">
+          <div *ngFor="let interest of selectedInterests" class="interest-chip">
             {{ interest }}
-          </ion-item>
-        </ion-list>
-        <ion-text
-          color="danger"
-          *ngIf="formGroup.get('intereses')?.hasError('required')"
-        >
-          Ingrese sus intereses
-        </ion-text>
+            <span class="remove-interest" (click)="removeInterest(interest)"
+              >&times;</span
+            >
+          </div>
+        </div>
 
-        <ion-list>
-          <ion-chip *ngFor="let interest of selectedInterests">
-            {{ interest }}
-            <ion-icon
-              name="close-circle"
-              (click)="removeInterest(interest)"
-            ></ion-icon>
-          </ion-chip>
-        </ion-list>
+        <mat-form-field appearance="outline">
+          <mat-label>Descripción</mat-label>
+          <input matInput type="text" formControlName="descripcion" />
+          <mat-error *ngIf="formGroup.get('descripcion')?.hasError('required')">
+            Debes contarnos sobre ti
+          </mat-error>
+        </mat-form-field>
 
-        <ion-item>
-          <ion-label position="floating">Descripción</ion-label>
-          <ion-input type="text" formControlName="descripcion"></ion-input>
-        </ion-item>
-        <ion-text
-          color="danger"
-          *ngIf="formGroup.get('descripcion')?.hasError('required')"
-        >
-          Debes contarnos sobre ti
-        </ion-text>
-
-        <ion-item>
-          <ion-label>Foto de perfil</ion-label>
+        <div class="form-field">
+          <label>Foto de perfil</label>
           <input
             type="file"
             (change)="onFileSelected($event)"
             accept="image/*"
           />
-          <ion-text color="medium">Sube una imagen de perfil</ion-text>
-        </ion-item>
-
-        <ion-button expand="block" color="primary" (click)="clickRegister()"
-          >Registrarse</ion-button
-        >
+          <mat-hint>Sube una imagen de perfil</mat-hint>
+        </div>
+        <button mat-raised-button color="primary" type="submit">
+          Registrarse
+        </button>
       </form>
-    </ion-card-content>
-  </ion-card>
-</ion-content>
+    </mat-card-content>
+  </mat-card>
+</div>

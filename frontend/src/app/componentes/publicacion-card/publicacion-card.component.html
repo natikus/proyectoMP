@@ -1,51 +1,61 @@
 <ion-content class="contenedor-scroll">
-  <ion-text color="dark">
-    <h1 class="detalle-titulo">{{ publicacion?.titulo }}</h1>
-  </ion-text>
-
-  <ion-text color="medium">
-    <p class="detalle-descripcion">{{ publicacion?.descripcion }}</p>
-  </ion-text>
-
-  <div class="detalle-info">
-    <ion-text color="medium">
-      <p><strong>Ubicación:</strong> {{ publicacion?.ubicacion }}</p>
-      <p>
-        <strong>Fecha de creación:</strong>
-        {{ publicacion?.fechaCreacion | date }}
-      </p>
-      <p><strong>Etiquetas:</strong></p>
-    </ion-text>
-
-    <div
-      *ngIf="etiquetasNombres && etiquetasNombres.length > 0; else noEtiquetas"
-    >
-      <ion-text
-        color="primary"
-        *ngFor="let etiqueta of etiquetasNombres; let isLast = last"
-      >
-        <span>{{ etiqueta }}</span
-        ><span *ngIf="!isLast">, </span>
+  <div class="detalle-contenido">
+    <div class="detalle-texto">
+      <ion-text color="dark">
+        <h1 class="detalle-titulo">{{ publicacion?.titulo }}</h1>
       </ion-text>
+
+      <ion-text color="medium">
+        <p class="detalle-descripcion">{{ publicacion?.descripcion }}</p>
+      </ion-text>
+
+      <div class="detalle-info">
+        <ion-text color="medium">
+          <p><strong>Ubicación:</strong> {{ publicacion?.ubicacion }}</p>
+          <p>
+            <strong>Fecha de creación:</strong>
+            {{ publicacion?.fechaCreacion | date }}
+          </p>
+          <p><strong>Etiquetas:</strong></p>
+        </ion-text>
+
+        <div
+          *ngIf="
+            etiquetasNombres && etiquetasNombres.length > 0;
+            else noEtiquetas
+          "
+        >
+          <ion-text
+            color="primary"
+            *ngFor="let etiqueta of etiquetasNombres; let isLast = last"
+          >
+            <span>{{ etiqueta }}</span
+            ><span *ngIf="!isLast">, </span>
+          </ion-text>
+        </div>
+
+        <ng-template #noEtiquetas>
+          <ion-text color="medium">No hay etiquetas disponibles.</ion-text>
+        </ng-template>
+      </div>
+
+      <div class="detalle-footer">
+        <ion-button color="primary" (click)="openWhatsApp()"
+          >Contactar por WhatsApp</ion-button
+        >
+      </div>
     </div>
 
-    <ng-template #noEtiquetas>
-      <ion-text color="medium">No hay etiquetas disponibles.</ion-text>
-    </ng-template>
-
-    <ion-img
-      *ngIf="publicacion?.imagenes"
-      [src]="
-        'http://localhost/backend/uploads/publicaciones' + publicacion?.imagenes
-      "
-      alt="Imagen de la publicación"
-      class="post-image"
-    ></ion-img>
-
-    <div class="detalle-footer">
-      <ion-button color="primary" (click)="openWhatsApp()">
-        Contactar por WhatsApp
-      </ion-button>
+    <div class="detalle-imagen">
+      <ion-img
+        *ngIf="publicacion?.imagenes"
+        [src]="
+          'http://localhost/backend/uploads/publicaciones' +
+          publicacion?.imagenes
+        "
+        alt="Imagen de la publicación"
+        class="post-image"
+      ></ion-img>
     </div>
   </div>
 </ion-content>

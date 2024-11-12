@@ -54,6 +54,9 @@
       <ion-item href="#Buscar" (click)="closeMenu()"
         >Buscar (implementar)</ion-item
       >
+      <ion-item (click)="closeMenu()" [routerLink]="['/inicio/create']"
+        >Crear publicacion</ion-item
+      >
       <ion-item (click)="miPerfil()">Mi perfil</ion-item>
       <ion-item href="#ajustes" (click)="closeMenu()"
         >Ajustes(implementar)</ion-item
@@ -73,7 +76,7 @@
   contentId="main-content"
 >
   <ion-header>
-    <ion-toolbar color="secondary">
+    <ion-toolbar>
       <ion-title>Bienvenido </ion-title>
       <ion-buttons slot="end">
         <ion-button (click)="closeMenu()">
