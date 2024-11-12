@@ -1,23 +1,31 @@
-<form id="loginForm" [formGroup]="loginForm">
-  <h3>Inicio de Sesión</h3>
+<ion-content>
+  <form id="loginForm" [formGroup]="loginForm">
+    <h3>Inicio de Sesión</h3>
 
-  <mat-form-field appearance="outline">
-    <mat-label>E-mail</mat-label>
-    <input matInput type="email" formControlName="email" />
-    <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
-      Ingrese su e-mail
-    </mat-error>
-  </mat-form-field>
+    <ion-item>
+      <ion-label position="floating">E-mail</ion-label>
+      <input matInput type="email" formControlName="email" />
+      <ion-text
+        color="danger"
+        *ngIf="loginForm.get('email')?.hasError('required') && (loginForm.get('email')?.touched || loginForm.get('email')?.dirty)"
+      >
+        <p>Ingrese su e-mail</p>
+      </ion-text>
+    </ion-item>
 
-  <mat-form-field appearance="outline">
-    <mat-label>Contraseña</mat-label>
-    <input matInput type="password" formControlName="contrasena" />
-    <mat-error *ngIf="loginForm.get('contrasena')?.hasError('required')">
-      Ingrese una contraseña
-    </mat-error>
-  </mat-form-field>
+    <ion-item>
+      <ion-label position="floating">Contraseña</ion-label>
+      <input matInput type="password" formControlName="contrasena" />
+      <ion-text
+        color="danger"
+        *ngIf="loginForm.get('contrasena')?.hasError('required') && (loginForm.get('contrasena')?.touched || loginForm.get('contrasena')?.dirty)"
+      >
+        <p>Ingrese una contraseña</p>
+      </ion-text>
+    </ion-item>
 
-  <button mat-raised-button color="primary" (click)="clickRegister()">
-    Registrarse
-  </button>
-</form>
+    <ion-button mat-raised-button (click)="clickRegister()">
+      Registrarse
+    </ion-button>
+  </form>
+</ion-content>

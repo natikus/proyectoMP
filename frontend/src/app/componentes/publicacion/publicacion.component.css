@@ -1,46 +1,43 @@
 body {
   font-family: Arial, sans-serif;
-  background-color: #e8e2f7; /* Fondo lila suave */
   display: flex;
   justify-content: center;
   padding: 20px;
 }
 
-.card {
-  background-color: #f9f3ff; /* Fondo lila claro */
+.card-container {
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(134, 120, 192, 0.3); /* Sombra violeta */
   width: 500px;
+  max-width: 500px;
   margin-bottom: 20px;
   overflow: hidden;
-  color: #4b3b6b; /* Texto en violeta oscuro */
+  color: whitesmoke;
+  display: flex;
+  flex-direction: column;
 }
 
 .card-header {
   display: flex;
   align-items: center;
-  padding: 10px;
-  border-bottom: 1px solid #d9c9f0; /* Borde inferior lila */
+  padding: 5px 10px; /* Reduce el padding para hacer más pequeña la parte superior */
+  border-bottom: 1px;
 }
 
-.avatar {
+ion-avatar img {
+  width: 40px; /* Reduce el tamaño del avatar */
+  height: 40px;
   border-radius: 50%;
-  margin-right: 10px;
+  object-fit: cover;
 }
 
-.user-info {
-  display: flex;
-  flex-direction: column;
+.card-header h2 {
+  font-size: 1rem; /* Tamaño más pequeño para el nombre */
+  margin: 0;
 }
 
-.username {
-  font-weight: bold;
-  color: #6b4a9b; /* Violeta */
-}
-
-.timestamp {
-  color: #8b7ba6; /* Violeta grisáceo */
-  font-size: 0.9em;
+.card-header p {
+  font-size: 0.8rem;
+  margin: 0;
 }
 
 .card-content {
@@ -49,6 +46,8 @@ body {
 
 .post-image {
   width: 100%;
+  height: 300px;
+  object-fit: cover;
   border-radius: 8px;
   margin-top: 10px;
 }
@@ -57,34 +56,15 @@ body {
   display: flex;
   justify-content: space-around;
   padding: 10px;
-  border-top: 1px solid #d9c9f0; /* Borde superior lila */
+  border-top: 1px solid;
 }
 
-button {
-  background-color: #dec6ff; /* Botón lila suave */
+ion-button {
+  width: 100%;
   border: none;
   border-radius: 5px;
   padding: 8px 12px;
   cursor: pointer;
   transition: background-color 0.2s;
-  color: #4b3b6b; /* Texto en violeta oscuro */
-}
-
-button:hover {
-  background-color: #c5a3ff; /* Color más oscuro al pasar el cursor */
-}
-
-.avatar {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  object-fit: cover;
-}
-
-.post-image {
-  width: 100%;
-  max-width: 500px;
-  height: auto;
-  object-fit: cover;
-  margin-top: 10px;
+  color: #4b3b6b;
 }
