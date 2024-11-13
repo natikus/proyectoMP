@@ -42,12 +42,6 @@ export const UsuarioSchema = Type.Object(
       maxLength: 300,
       description: "Descripción del usuario",
     }),
-    fechaCreacion: Type.Optional(
-      Type.String({
-        format: "date-time",
-        description: "Fecha de creación del usuario",
-      })
-    ),
 
     intereses: Type.Array(Type.String(), {
       description: "Intereses del usuario",
@@ -68,7 +62,6 @@ export const UsuarioSchema = Type.Object(
         imagen: "foto1.jpg",
         is_Admin: true,
         descripcion: "Descripción del usuario 1",
-        fechaCreacion: "2021-10-10T14:48:00.000Z",
         intereses: ["interes1", "interes2"],
         telefono: "123456789",
       },
@@ -81,7 +74,6 @@ export const UsuarioSchema = Type.Object(
         imagen: "foto2.jpg",
         is_Admin: false,
         descripcion: "Descripción del usuario 2",
-        fechaCreacion: "2021-10-10T14:48:00.000Z",
         intereses: ["interes3", "interes4"],
         telefono: "234567890",
       },

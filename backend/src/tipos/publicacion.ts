@@ -25,12 +25,6 @@ export const publicacionSchema = Type.Object(
       description: "Imágenes de la publicacion",
     }),
     ubicacion: Type.String({ description: "Ubicación del objeto" }),
-    fechaCreacion: Type.Optional(
-      Type.String({
-        format: "date-time",
-        description: "Fecha de creación de la publicacion",
-      })
-    ),
   },
   {
     examples: [
@@ -42,7 +36,6 @@ export const publicacionSchema = Type.Object(
         descripcion: "Descripción del post 1",
         imagenes: "imagen1.jpg",
         ubicacion: "Ubicación del post 1",
-        fechaCreacion: "2021-10-10T14:48:00.000Z",
       },
       {
         id_publicacion: 2,
@@ -52,7 +45,6 @@ export const publicacionSchema = Type.Object(
         descripcion: "Descripción del post 2",
         imagenes: "imagen3.jpg",
         ubicacion: "Ubicación del post 2",
-        fechaCreacion: "2021-10-10T14:48:00.000Z",
       },
     ],
   }

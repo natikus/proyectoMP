@@ -30,17 +30,12 @@ import { Router } from '@angular/router';
   standalone: true,
   imports: [
     ImageCropperComponent,
-    MatCardHeader,
-    MatCardTitle,
-    MatCardContent,
+
     MatFormField,
     MatLabel,
     MatError,
     MatCardModule,
-    MatInput,
-    MatFormFieldModule,
-    MatIcon,
-    MatButton,
+
     ReactiveFormsModule,
     CommonModule,
   ],

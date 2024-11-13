@@ -46,7 +46,6 @@ const usuariosRoute: FastifyPluginAsync = async (
         imagen,
         is_Admin,
         descripcion,
-        fechaCreacion,
         intereses,
         telefono
         FROM usuarios`);
@@ -79,7 +78,7 @@ const usuariosRoute: FastifyPluginAsync = async (
       const res = await query(
         `
         SELECT id_persona, nombre, apellido, usuario, email, imagen, 
-               is_Admin, descripcion, fechaCreacion, intereses, telefono 
+               is_Admin, descripcion, intereses, telefono 
         FROM usuarios WHERE id_persona = $1;`,
         [id_persona]
       );
@@ -248,8 +247,7 @@ const usuariosRoute: FastifyPluginAsync = async (
               id_creador,
               descripcion,
               imagenes,
-              ubicacion,
-              fechaCreacion
+              ubicacion
             FROM publicaciones WHERE id_creador = $1;`,
         [id_persona]
       );

@@ -20,13 +20,13 @@ import {
   standalone: true,
   imports: [
     IonCard,
-    JsonPipe,
+
     RouterLink,
     IonImg,
     IonLabel,
-    IonCard,
+
     IonCardContent,
-    IonCardHeader,
+
     IonText,
     IonAvatar,
     IonItem,

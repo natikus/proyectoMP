@@ -18,16 +18,7 @@ import { usuarios } from '../../interface/persona';
 @Component({
   selector: 'app-publicacion-card',
   standalone: true,
-  imports: [
-    IonContent,
-    PublicacionComponent,
-    RouterLink,
-    CommonModule,
-    DatePipe,
-    IonButton,
-    IonImg,
-    IonText,
-  ],
+  imports: [IonContent, CommonModule, IonButton, IonImg, IonText],
   templateUrl: './publicacion-card.component.html',
   styleUrls: ['./publicacion-card.component.scss'],
 })
@@ -53,6 +44,7 @@ export class PublicacionCardComponent {
     }
 
     try {
+      console.log('ENTRE ++++++++++');
       this.publicacion = await this.apiService.get(`publicaciones/${this.id}`);
       console.log(this.publicacion);
     } catch {

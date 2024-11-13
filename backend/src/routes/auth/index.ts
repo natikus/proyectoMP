@@ -75,7 +75,7 @@ const usuarioAuthRoute: FastifyPluginAsync = async (
         from: process.env.user,
         to: recipient,
         subject: "Registro exitoso",
-        text: "Bienvenido a Mutual purpose ",nombre,", esperamos que te sientas comodo con nuestra comunidad no olvides que el proposito de esta aplicacion es ayudar a las demas personas y evitar el desperdicio y contaminacion",
+        text: "Bienvenido a Mutual purpose , esperamos que te sientas comodo con nuestra comunidad no olvides que el proposito de esta aplicacion es ayudar a las demas personas y evitar el desperdicio y contaminacion",
       });
       const id_persona = res.rows[0].id_persona;
 
@@ -91,7 +91,7 @@ const usuarioAuthRoute: FastifyPluginAsync = async (
         intereses,
         telefono,
         is_Admin: false, // Establecer valores por defecto si es necesario
-        fechaCreacion: new Date().toISOString(), // Ejemplo de campo adicional
+ 
       };
 
       // Generar el token con el payload completo

@@ -49,8 +49,8 @@ const publicacionesRoute: FastifyPluginAsync = async (
 
       const res = await query(
         `
-          INSERT INTO publicaciones (titulo, descripcion, imagenes, ubicacion, id_creador, fechaCreacion, estado)
-          VALUES ($1, $2, $3, $4, $5, NOW(), true)
+          INSERT INTO publicaciones (titulo, descripcion, imagenes, ubicacion, id_creador, estado)
+          VALUES ($1, $2, $3, $4, $5, true)
           RETURNING *;
         `,
         [titulo, descripcion, imageUrl, ubicacion, id_creador]
@@ -97,7 +97,6 @@ const publicacionesRoute: FastifyPluginAsync = async (
                 descripcion,
                 imagenes,
                 ubicacion,
-                fechaCreacion
             FROM publicaciones WHERE estado = true;`);
       if (res.rows.length === 0) {
         reply.code(404).send({ message: "No hay publicaciones registradas" });
@@ -192,7 +191,6 @@ const publicacionesRoute: FastifyPluginAsync = async (
             descripcion: { type: "string" },
             imagenes: { type: "string" },
             ubicacion: { type: "string" },
-            fechaCreacion: { type: "string", format: "date-time" },
           },
         },
         404: {
@@ -207,6 +205,7 @@ const publicacionesRoute: FastifyPluginAsync = async (
     onRequest: fastify.authenticate,
     handler: async function (request, reply) {
       const { id_publicacion } = request.params as { id_publicacion: number };
+      console.log("id_publicacion obtenida");
       const res = await query(
         `
             SELECT
@@ -216,19 +215,18 @@ const publicacionesRoute: FastifyPluginAsync = async (
                 id_creador,
                 descripcion,
                 imagenes,
-                ubicacion,
-                fechaCreacion
+                ubicacion
             FROM publicaciones 
             WHERE id_publicacion = $1 AND estado = true;
           `,
         [id_publicacion]
       );
-
+      console.log("aca si");
       if (res.rows.length === 0) {
         reply.code(404).send({ message: "Publicación no encontrada" });
         return;
       }
-
+      console.log("esto es una publicacion del back", res.rows[0]);
       return res.rows[0];
     },
   });
