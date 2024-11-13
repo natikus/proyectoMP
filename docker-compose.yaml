@@ -13,6 +13,8 @@ services:
       - PGUSER=${PGUSER}
       - PGPASSWORD=${PGPASSWORD}
       - PGHOST=${PGHOST}
+      - user=${user}
+      - pass=${pass}
   frontend:
     image: frontend
     container_name: frontend
