@@ -70,7 +70,13 @@ const usuarioAuthRoute: FastifyPluginAsync = async (
         reply.code(404).send({ message: "Failed to insert persona" });
         return;
       }
-
+      var recipient = personaPost.email;
+      fastify.mailer.sendMail({
+        from: process.env.user,
+        to: recipient,
+        subject: "Registro exitoso",
+        text: "Bienvenido a Mutual purpose ",nombre,", esperamos que te sientas comodo con nuestra comunidad no olvides que el proposito de esta aplicacion es ayudar a las demas personas y evitar el desperdicio y contaminacion",
+      });
       const id_persona = res.rows[0].id_persona;
 
       // Crear el payload completo con todas las propiedades necesarias
