@@ -25,28 +25,36 @@ input[type="email"] {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-label {
+ion-label {
   align-self: flex-start;
   margin: 5px 0;
+  color: #3d0061 !important;
 }
 
 input:focus {
   border-color: #6a1b9a;
   outline: none;
+  color: transparent !important;
 }
 
-button {
-  background-color: #6a1b9a;
-  color: white;
-  padding: 10px 15px;
-  border: none;
-  border-radius: 5px;
+ion-button {
+  --background: #6a1b9a !important;
+  --background-activated: #4a0072;
+  --color: white !important;
+  --border-radius: 5px;
+  --box-shadow: none !important;
+  width: 100%;
+  padding: 12px 15px;
   cursor: pointer;
   transition: background-color 0.3s;
-  display: inline-block;
-  width: 100%;
+  border: none;
+  font-size: 16px;
 }
 
-button:hover {
-  background-color: #4a0072;
+ion-button:hover {
+  --background: #4a0072 !important;
+}
+
+ion-button:active {
+  --background: #3d0061 !important;
 }

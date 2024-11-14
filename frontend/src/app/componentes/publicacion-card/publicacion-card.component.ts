@@ -7,19 +7,18 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { etiquetas } from '../../interface/etiqueta';
-import { IonButton } from '@ionic/angular/standalone';
+import {
+  IonButton,
+  IonContent,
+  IonImg,
+  IonText,
+} from '@ionic/angular/standalone';
 import { usuarios } from '../../interface/persona';
 
 @Component({
   selector: 'app-publicacion-card',
   standalone: true,
-  imports: [
-    PublicacionComponent,
-    RouterLink,
-    CommonModule,
-    DatePipe,
-    IonButton,
-  ],
+  imports: [IonContent, CommonModule, IonButton, IonImg, IonText],
   templateUrl: './publicacion-card.component.html',
   styleUrls: ['./publicacion-card.component.scss'],
 })
@@ -45,6 +44,7 @@ export class PublicacionCardComponent {
     }
 
     try {
+      console.log('ENTRE ++++++++++');
       this.publicacion = await this.apiService.get(`publicaciones/${this.id}`);
       console.log(this.publicacion);
     } catch {

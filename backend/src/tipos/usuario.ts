@@ -2,6 +2,7 @@ import { Static, Type } from "@sinclair/typebox";
 import {
   emailSchema,
   FileSchema,
+  nombreSchema,
   stringArraySchema,
   stringSchema,
 } from "./esqyemasFeos.js";
@@ -41,12 +42,6 @@ export const UsuarioSchema = Type.Object(
       maxLength: 300,
       description: "Descripción del usuario",
     }),
-    fechaCreacion: Type.Optional(
-      Type.String({
-        format: "date-time",
-        description: "Fecha de creación del usuario",
-      })
-    ),
 
     intereses: Type.Array(Type.String(), {
       description: "Intereses del usuario",
@@ -67,7 +62,6 @@ export const UsuarioSchema = Type.Object(
         imagen: "foto1.jpg",
         is_Admin: true,
         descripcion: "Descripción del usuario 1",
-        fechaCreacion: "2021-10-10T14:48:00.000Z",
         intereses: ["interes1", "interes2"],
         telefono: "123456789",
       },
@@ -80,7 +74,6 @@ export const UsuarioSchema = Type.Object(
         imagen: "foto2.jpg",
         is_Admin: false,
         descripcion: "Descripción del usuario 2",
-        fechaCreacion: "2021-10-10T14:48:00.000Z",
         intereses: ["interes3", "interes4"],
         telefono: "234567890",
       },
@@ -89,57 +82,63 @@ export const UsuarioSchema = Type.Object(
 );
 export const UsuarioPutSchema = Type.Object(
   {
-    //esquema utilizado para hacer un put
-    usuario: Type.Optional(
-      Type.String({
-        minLength: 2,
-        maxLength: 50,
-        description: "Nombre de usuario",
-      })
-    ),
-    imagen: Type.Optional(Type.String({ description: "Foto del usuario" })),
-    descripcion: Type.Optional(
-      Type.String({ maxLength: 300, description: "Descripción del usuario" })
-    ),
-    intereses: Type.Optional(
-      Type.Array(Type.String(), { description: "Intereses del usuario" })
-    ),
-    contrasena: Type.Optional(
-      Type.String({
-        minLength: 8,
-        maxLength: 20,
-        pattern: passwordRegex.source,
-        description: "Contraseña del usuario",
-      })
-    ),
-    telefono: Type.Optional(
-      Type.String({
-        maxLength: 300,
-        description: "telefono del usuario",
-      })
-    ),
+    usuario: stringSchema,
+    imagen: FileSchema,
+    intereses: Type.Array(Type.String()),
+    contrasena: Type.String({
+      description: "Contraseña del usuario",
+      minLength: 8,
+      maxLength: 100,
+    }),
+    telefono: Type.String({
+      description: "Teléfono del usuario",
+      minLength: 10,
+      maxLength: 15,
+    }),
+    descripcion: Type.String({
+      description: "Descripción del usuario",
+      minLength: 1,
+      maxLength: 500,
+    }),
   },
   {
     examples: [
       {
-        usuario: "usuario1",
-        imagen: "foto1.jpg",
-        descripcion: "Descripción del usuario 1",
-        intereses: ["interes1", "interes2"],
+        usuario: {
+          type: "field",
+          fieldname: "usuario",
+          mimetype: "text/plain",
+          encoding: "7bit",
+          value: "usuario1",
+          fieldnameTruncated: false,
+          valueTruncated: false,
+        },
+        imagen: {
+          type: "file",
+          fieldname: "imagen",
+          filename: "foto1.jpg",
+          encoding: "7bit",
+          mimetype: "image/jpeg",
+          file: {},
+          _buf: {},
+        },
+        descripcion: {
+          type: "field",
+          fieldname: "descripcion",
+          mimetype: "text/plain",
+          encoding: "7bit",
+          value: "Descripción del usuario 1",
+          fieldnameTruncated: false,
+          valueTruncated: false,
+        },
+        intereses: ["interes3", "interes4"],
         contrasena: "Contrasena1",
         telefono: "234567890",
-      },
-      {
-        usuario: "usuario2",
-        imagen: "foto2.jpg",
-        descripcion: "Descripción del usuario 2",
-        intereses: ["interes3", "interes4"],
-        contrasena: "Contrasena2",
-        telefono: "234567899",
       },
     ],
   }
 );
+
 export const UsuarioIdSchema = Type.Object(
   {
     id_persona: Type.Number({ description: "Id para identificar el usuario" }),
@@ -164,8 +163,8 @@ export const UsuarioLoginSchema = Type.Object({
 });
 
 export const UsuarioPostSchema = Type.Object({
-  nombre: stringSchema,
-  apellido: stringSchema,
+  nombre: nombreSchema,
+  apellido: nombreSchema,
   usuario: stringSchema,
   email: emailSchema,
   imagen: FileSchema,

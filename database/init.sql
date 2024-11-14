@@ -10,7 +10,6 @@ CREATE TABLE IF NOT EXISTS usuarios (
     is_Admin BOOLEAN NOT NULL DEFAULT FALSE,
     descripcion TEXT NOT NULL,
     imagen TEXT NOT NULL,
-    fechaCreacion DATE NOT NULL DEFAULT CURRENT_DATE,
     intereses TEXT[] NOT NULL,
     telefono TEXT NOT NULL UNIQUE,
     contrasena TEXT NOT NULL
@@ -27,7 +26,6 @@ CREATE TABLE IF NOT EXISTS publicaciones (
     descripcion TEXT NOT NULL, 
     imagenes TEXT NOT NULL, 
     ubicacion TEXT NOT NULL, 
-    fechaCreacion TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_creador FOREIGN KEY (id_creador) REFERENCES usuarios(id_persona) ON DELETE CASCADE
 );
 

@@ -1,5 +1,3 @@
-
-
 export interface publicaciones {
   id_publicacion: number;
   titulo: string;
@@ -8,7 +6,6 @@ export interface publicaciones {
   descripcion: string;
   imagenes: string;
   ubicacion: string;
-  fechaCreacion: string;
   etiqueta: string[];
 }
 
@@ -18,8 +15,5 @@ export interface publicacionesPost {
   descripcion: string;
   imagenes: string;
   ubicacion: string;
-  fechaCreacion: string;
   etiqueta: string[];
 }
-
-

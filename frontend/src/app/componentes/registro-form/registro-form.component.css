@@ -12,7 +12,6 @@ html {
   justify-content: center;
   align-items: center;
   height: 100%;
-  background-color: #f5f5f5;
   padding: 20px;
   overflow: auto;
   color: black;
@@ -24,7 +23,7 @@ html {
   padding: 20px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
   border-radius: 8px;
-  background-color: #fff;
+  background-color: #181515;
   overflow-y: auto;
   max-height: 90vh; /* Ajusta la altura máxima para que sea desplazable */
 }
@@ -37,7 +36,7 @@ html {
 .card__title mat-card-title {
   font-size: 24px;
   font-weight: bold;
-  color: #333;
+  color: #e3dede;
 }
 
 /* Estilos del formulario */
@@ -68,44 +67,53 @@ html {
 .suggestions-list {
   border: 1px solid #ccc;
   border-radius: 4px;
-  background-color: #fafafa;
+  background-color: #000000;
   position: absolute;
   max-height: 150px;
   overflow-y: auto;
   width: 100%;
   z-index: 10;
   padding: 5px 0;
+  font-size: 16px; /* Igual que el tamaño del texto en los inputs */
+  color: #ffffff; /* Color similar al de los labels */
 }
 
 .suggestions-list div {
   padding: 10px;
   cursor: pointer;
-  font-size: 14px;
-  color: #555;
+  font-size: 16px; /* Igual al tamaño de fuente en los labels */
+  color: #ffffff; /* Color de texto similar a los labels */
+  transition: background-color 0.3s; /* Transición para hover */
 }
 
+/* Estilo para el hover en las opciones */
 .suggestions-list div:hover {
-  background-color: #e0f7fa;
-  color: #00796b;
+  background-color: #000000;
+  color: #ffffff;
+}
+
+/* Para mantener el estilo de texto del input de intereses */
+.mat-form-field input {
+  font-size: 16px;
+  color: #ffffff; /* Igual al color de los labels */
 }
 
 /* Estilos del botón */
 button[type="submit"] {
-  margin-top: 10px;
+  --background: #6a1b9a !important; /* Color de fondo lila */
+  --background-activated: #4a0072; /* Color al hacer clic */
+  --color: white !important; /* Color del texto blanco */
+  --border-radius: 5px;
+  --box-shadow: none !important; /* Eliminar cualquier sombra */
   width: 100%;
-  padding: 10px 0;
-  font-size: 16px;
-  font-weight: 500;
-  background-color: #4caf50;
-  color: white;
-  border: none;
-  border-radius: 4px;
+  padding: 10px 15px;
   cursor: pointer;
   transition: background-color 0.3s;
+  border: none;
 }
 
 button[type="submit"]:hover {
-  background-color: #388e3c;
+  --background: #4a0072 !important;
 }
 
 /* Estilos para la carga de imágenes */
@@ -114,7 +122,7 @@ button[type="submit"]:hover {
   flex-direction: column;
   align-items: flex-start;
   font-size: 14px;
-  color: #333;
+  color: #e9dbdb;
 }
 
 .form-field input[type="file"] {
@@ -132,9 +140,58 @@ button[type="submit"]:hover {
 .tag {
   display: inline-block;
   padding: 5px;
-  background-color: #e0e0e0;
   border-radius: 3px;
   margin-right: 5px;
   font-size: 14px;
-  color: #333;
+  color: #242222;
+}
+/* Estilo para los labels */
+.mat-form-field .mat-label {
+  color: #e9e4e4; /* Color base del texto */
+  transition: color 0.3s; /* Para transiciones suaves */
+}
+
+/* Estilo para cuando el label está enfocado o al pasar el mouse */
+.mat-form-field .mat-label:hover {
+  color: #e3dede; /* Color claro cuando se pasa el mouse */
+}
+
+/* Estilo para los input o elementos activos */
+.mat-form-field .mat-input-element:focus + .mat-label,
+.mat-form-field .mat-input-element:focus {
+  color: #e3dede; /* Color claro al enfocarse */
+}
+/* Estilos para los intereses seleccionados */
+.selected-interests {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px; /* Espaciado entre los intereses */
+  margin-top: 10px;
+}
+
+/* Estilo para cada interés seleccionado */
+.selected-interests .interest-chip {
+  background-color: #ab25c0; /* Fondo verde claro */
+  color: white; /* Color de texto blanco */
+  padding: 5px 10px;
+  border-radius: 20px; /* Forma redondeada */
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 500;
+}
+
+/* Estilo para el icono de eliminar interés */
+.selected-interests .remove-interest {
+  margin-left: 8px;
+  font-size: 18px;
+  cursor: pointer;
+  color: rgb(0, 0, 0);
+  transition: color 0.3s;
+}
+
+/* Cambio de color al pasar el mouse sobre el icono de eliminar */
+.selected-interests .remove-interest:hover {
+  color: #4a4a4a; /* Amarillo claro al pasar el mouse */
 }

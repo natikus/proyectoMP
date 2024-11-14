@@ -17,19 +17,25 @@ import { MatButton } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { FormControl } from '@angular/forms';
 import { ValidatorsService } from '../../../servicios/validators.service';
+import {
+  IonItem,
+  IonLabel,
+  IonContent,
+  IonButton,
+  IonText,
+} from '@ionic/angular/standalone';
+
 @Component({
   selector: 'app-auth',
   standalone: true,
   imports: [
-    MatCardModule,
-    MatInput,
-    MatIcon,
-    MatButton,
+    IonButton,
+    IonContent,
+    IonLabel,
+    IonItem,
+    IonText,
     ReactiveFormsModule,
     CommonModule,
-    MatFormField,
-    MatLabel,
-    MatError,
   ],
   templateUrl: './auth.page.html',
   styleUrl: './auth.page.css',

@@ -1,16 +1,25 @@
-<div class="perfil-container">
+<ion-content class="perfil-container">
   <div class="perfil-header">
-    <img [src]="usuario.imagen" alt="imagen de perfil" class="perfil-imagen" />
+    <ion-avatar class="perfil-imagen">
+      <img [src]="usuario.imagen" alt="Imagen de perfil" />
+    </ion-avatar>
     <div class="perfil-info">
-      <h2>{{ usuario.usuario }}</h2>
-      <p>Email: {{ usuario.email }}</p>
+      <ion-text color="dark">
+        <h2>{{ usuario.usuario }}</h2>
+        <p>Email: {{ usuario.email }}</p>
+      </ion-text>
     </div>
   </div>
-  <p class="perfil-descripcion">{{ usuario.descripcion }}</p>
+
+  <ion-text color="medium" class="perfil-descripcion">{{
+    usuario.descripcion
+  }}</ion-text>
+
   <h3>Intereses</h3>
-  <ul class="perfil-intereses">
-    <li *ngFor="let interes of usuario.intereses" class="interes-item">
-      {{ interes }}
-    </li>
-  </ul>
-</div>
+
+  <ion-list class="perfil-intereses">
+    <ion-item *ngFor="let interes of usuario.intereses" class="interes-item">
+      <ion-label>{{ interes }}</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

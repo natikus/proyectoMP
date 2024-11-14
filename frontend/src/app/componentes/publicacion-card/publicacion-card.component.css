@@ -8,9 +8,37 @@
   align-items: center; /* Centra el contenido horizontalmente */
 }
 .post-image {
-    width: 100%; /* Ocupa el ancho del contenedor */
-    max-width: 500px; /* Tamaño máximo para controlar que no sea muy grande */
-    height: auto; /* Mantiene la proporción */
-    object-fit: cover; /* Ajusta la imagen dentro del contenedor */
-    margin-top: 10px; /* Espacio arriba de la imagen */
-  }
+  width: 100%; /* Ocupa el ancho del contenedor */
+  max-width: 500px; /* Tamaño máximo para controlar que no sea muy grande */
+  height: auto; /* Mantiene la proporción */
+  object-fit: cover; /* Ajusta la imagen dentro del contenedor */
+  margin-top: 10px; /* Espacio arriba de la imagen */
+}
+.detalle-contenido {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 20px; /* Para que no quede pegado al borde de la pantalla */
+}
+
+.detalle-texto,
+.detalle-imagen {
+  width: 48%; /* Ocupa el 48% del ancho para dejar espacio entre los dos */
+}
+
+.detalle-texto {
+  margin-right: 10px;
+}
+
+.detalle-imagen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.post-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: cover; /* Ajusta la imagen dentro del contenedor */
+  border-radius: 8px; /* Opcional: para darle bordes redondeados */
+}

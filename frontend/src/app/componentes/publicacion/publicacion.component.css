@@ -1,45 +1,43 @@
 body {
   font-family: Arial, sans-serif;
-  background-color: #f0f2f5; /* Fondo similar al de Facebook */
   display: flex;
   justify-content: center;
   padding: 20px;
 }
 
-.card {
-  background-color: #ffffff;
+.card-container {
   border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   width: 500px;
+  max-width: 500px;
   margin-bottom: 20px;
   overflow: hidden;
-  color: black;
+  color: whitesmoke;
+  display: flex;
+  flex-direction: column;
 }
 
 .card-header {
   display: flex;
   align-items: center;
-  padding: 10px;
-  border-bottom: 1px solid #e9ecef;
+  padding: 5px 10px; /* Reduce el padding para hacer más pequeña la parte superior */
+  border-bottom: 1px;
 }
 
-.avatar {
+ion-avatar img {
+  width: 40px; /* Reduce el tamaño del avatar */
+  height: 40px;
   border-radius: 50%;
-  margin-right: 10px;
+  object-fit: cover;
 }
 
-.user-info {
-  display: flex;
-  flex-direction: column;
+.card-header h2 {
+  font-size: 1rem; /* Tamaño más pequeño para el nombre */
+  margin: 0;
 }
 
-.username {
-  font-weight: bold;
-}
-
-.timestamp {
-  color: #666;
-  font-size: 0.9em;
+.card-header p {
+  font-size: 0.8rem;
+  margin: 0;
 }
 
 .card-content {
@@ -48,6 +46,8 @@ body {
 
 .post-image {
   width: 100%;
+  height: 300px;
+  object-fit: cover;
   border-radius: 8px;
   margin-top: 10px;
 }
@@ -56,33 +56,15 @@ body {
   display: flex;
   justify-content: space-around;
   padding: 10px;
-  border-top: 1px solid #e9ecef;
+  border-top: 1px solid;
 }
 
-button {
-  background-color: #e7f3ff;
+ion-button {
+  width: 100%;
   border: none;
   border-radius: 5px;
   padding: 8px 12px;
   cursor: pointer;
   transition: background-color 0.2s;
-}
-
-button:hover {
-  background-color: #d0e8ff;
-}
-
-.avatar {
-  width: 50px; /* Ajusta el ancho */
-  height: 50px; /* Ajusta la altura */
-  border-radius: 50%; /* Hace que sea circular */
-  object-fit: cover; /* Ajusta la imagen para que ocupe todo el espacio */
-}
-
-.post-image {
-  width: 100%; /* Ocupa el ancho del contenedor */
-  max-width: 500px; /* Tamaño máximo para controlar que no sea muy grande */
-  height: auto; /* Mantiene la proporción */
-  object-fit: cover; /* Ajusta la imagen dentro del contenedor */
-  margin-top: 10px; /* Espacio arriba de la imagen */
+  color: #4b3b6b;
 }

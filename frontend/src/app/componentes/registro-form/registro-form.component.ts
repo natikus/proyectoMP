@@ -18,11 +18,14 @@ import {
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../servicios/auth.service';
+import { IonText, IonContent } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-registro-form',
   standalone: true,
   imports: [
+    IonContent,
+    IonText,
     MatCardModule,
     MatInput,
     MatFormFieldModule,

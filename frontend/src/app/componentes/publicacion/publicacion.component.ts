@@ -3,11 +3,35 @@ import { JsonPipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { publicaciones } from '../../interface/publicacion';
 import { usuarios } from '../../interface/persona';
-import { ApiRestService } from '../../servicios/api-rest.service';
+import {
+  IonAvatar,
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonFooter,
+  IonImg,
+  IonItem,
+  IonLabel,
+  IonText,
+} from '@ionic/angular/standalone';
+
 @Component({
   selector: 'app-publicacion',
   standalone: true,
-  imports: [JsonPipe, RouterLink],
+  imports: [
+    IonCard,
+
+    RouterLink,
+    IonImg,
+    IonLabel,
+
+    IonCardContent,
+
+    IonText,
+    IonAvatar,
+    IonItem,
+    IonFooter,
+  ],
   templateUrl: './publicacion.component.html',
   styleUrl: './publicacion.component.css',
 })

@@ -9,6 +9,9 @@ import {
   UsuarioSchema,
 } from "../../tipos/usuario.js";
 import { publicacionSchema } from "../../tipos/publicacion.js";
+import bcrypt from "bcrypt";
+import path from "path";
+import { writeFileSync } from "fs";
 const usuariosRoute: FastifyPluginAsync = async (
   fastify: FastifyInstance,
   opts: FastifyPluginOptions
@@ -43,7 +46,6 @@ const usuariosRoute: FastifyPluginAsync = async (
         imagen,
         is_Admin,
         descripcion,
-        fechaCreacion,
         intereses,
         telefono
         FROM usuarios`);
@@ -76,7 +78,7 @@ const usuariosRoute: FastifyPluginAsync = async (
       const res = await query(
         `
         SELECT id_persona, nombre, apellido, usuario, email, imagen, 
-               is_Admin, descripcion, fechaCreacion, intereses, telefono 
+               is_Admin, descripcion, intereses, telefono 
         FROM usuarios WHERE id_persona = $1;`,
         [id_persona]
       );
@@ -122,12 +124,12 @@ const usuariosRoute: FastifyPluginAsync = async (
     },
   });
 
-  // Ruta para editar un Usuario
   fastify.put("/:id_persona", {
     schema: {
       tags: ["usuarios"],
       summary: "Editar un usuario",
       description: "Actualiza un usuario por ID",
+      consumes: ["multipart/form-data"],
       params: UsuarioIdSchema,
       body: UsuarioPutSchema,
       response: {
@@ -142,7 +144,7 @@ const usuariosRoute: FastifyPluginAsync = async (
     },
     onRequest: fastify.verifySelfOrAdmin,
     handler: async function (request, reply) {
-      const { id_persona } = request.params as UsuarioIdType;
+      const { id_persona } = request.params as { id_persona: number };
       const usuarioPut = request.body as UsuarioPutType;
       const userIdFromToken = request.user.id_persona;
 
@@ -151,6 +153,28 @@ const usuariosRoute: FastifyPluginAsync = async (
           .code(403)
           .send({ message: "No tienes permiso para modificar este usuario" });
       }
+
+      let imageUrl = "";
+      if (usuarioPut.imagen) {
+        // Procesar la imagen si existe en la solicitud
+        const fileBuffer = usuarioPut.imagen._buf as Buffer;
+        const filepath = path.join(
+          process.cwd(),
+          "uploads",
+          usuarioPut.imagen.filename
+        );
+        writeFileSync(filepath, fileBuffer);
+        imageUrl = `/uploads/${usuarioPut.imagen.filename}`;
+      }
+
+      // Opcionalmente, encriptar la contraseña si se proporciona una nueva
+      const hashedPassword = usuarioPut.contrasena
+        ? await bcrypt.hash(usuarioPut.contrasena, 10)
+        : undefined;
+
+      const intereses = Array.isArray(usuarioPut.intereses)
+        ? usuarioPut.intereses
+        : JSON.parse(usuarioPut.intereses || "");
 
       const res = await query(
         `
@@ -165,10 +189,10 @@ const usuariosRoute: FastifyPluginAsync = async (
         RETURNING id_persona;`,
         [
           usuarioPut.usuario,
-          usuarioPut.imagen,
+          imageUrl || null,
           usuarioPut.descripcion,
-          usuarioPut.intereses,
-          usuarioPut.contrasena,
+          intereses,
+          hashedPassword,
           usuarioPut.telefono,
           id_persona,
         ]
@@ -177,9 +201,18 @@ const usuariosRoute: FastifyPluginAsync = async (
       if (res.rows.length === 0) {
         return reply.code(404).send({ message: "Usuario no encontrado" });
       }
-      reply.code(200).send({ ...usuarioPut, id_persona });
+
+      reply.code(200).send({
+        id_persona,
+        usuario: usuarioPut.usuario,
+        descripcion: usuarioPut.descripcion,
+        intereses,
+        telefono: usuarioPut.telefono,
+        imagen: imageUrl,
+      });
     },
   });
+
   fastify.get("/:id_persona/publicaciones", {
     schema: {
       summary: "Obtener las publicaciones de una persona especifica",
@@ -214,8 +247,7 @@ const usuariosRoute: FastifyPluginAsync = async (
               id_creador,
               descripcion,
               imagenes,
-              ubicacion,
-              fechaCreacion
+              ubicacion
             FROM publicaciones WHERE id_creador = $1;`,
         [id_persona]
       );

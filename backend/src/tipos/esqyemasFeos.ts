@@ -7,7 +7,9 @@ export const FileSchema = Type.Object(
     fieldname: Type.String({
       description: "Nombre del campo donde se sube el archivo",
     }),
-    filename: Type.String({ description: "Nombre del archivo subido" }),
+    filename: Type.String({
+      description: "Nombre del archivo subido",
+    }),
     encoding: Type.String({ description: "Tipo de codificación del archivo" }),
     mimetype: Type.String({ description: "Tipo MIME del archivo" }),
     file: Type.Object(
@@ -21,16 +23,23 @@ export const FileSchema = Type.Object(
   },
   { additionalProperties: false }
 );
-
-export const stringSchema = Type.Object(
+export const nombreSchema = Type.Object(
   {
     type: Type.Literal("field", {
       description: "Tipo de campo, en este caso es un campo de formulario",
     }),
-    fieldname: Type.String({ description: "Nombre del campo del formulario" }),
+    fieldname: Type.String({
+      description: "Nombre del campo del formulario",
+      minLength: 3,
+      maxLength: 50,
+    }),
     mimetype: Type.String({ description: "Tipo MIME del campo" }),
     encoding: Type.String({ description: "Codificación del campo" }),
-    value: Type.String({ description: "Valor del campo del formulario" }),
+    value: Type.String({
+      description: "Valor del campo del formulario",
+      minLength: 1,
+      maxLength: 500,
+    }),
     fieldnameTruncated: Type.Boolean({
       description: "Indica si el nombre del campo fue truncado",
     }),
@@ -40,6 +49,7 @@ export const stringSchema = Type.Object(
   },
   { additionalProperties: false }
 );
+
 export const numberSchema = Type.Object(
   {
     type: Type.Literal("field", {
@@ -63,10 +73,18 @@ export const stringArraySchema = Type.Object(
     type: Type.Literal("field", {
       description: "Tipo de campo, en este caso es un campo de formulario",
     }),
-    fieldname: Type.String({ description: "Nombre del campo del formulario" }),
-    mimetype: Type.Array(Type.String(), { description: "Tipo MIME del campo" }),
+    fieldname: Type.String({
+      description: "Nombre del campo del formulario",
+      minLength: 3,
+      maxLength: 50,
+    }),
+    mimetype: Type.String({ description: "Tipo MIME del campo" }),
     encoding: Type.String({ description: "Codificación del campo" }),
-    value: Type.String({ description: "Valor del campo del formulario" }),
+    value: Type.String({
+      description: "Valor del campo del formulario",
+      minLength: 1,
+      maxLength: 50,
+    }),
     fieldnameTruncated: Type.Boolean({
       description: "Indica si el nombre del campo fue truncado",
     }),
@@ -88,6 +106,50 @@ export const emailSchema = Type.Object(
     mimetype: Type.String({ description: "Tipo MIME del campo de email" }),
     encoding: Type.String({ description: "Codificación del campo de email" }),
     value: Type.String({ description: "Valor del campo de email" }),
+    fieldnameTruncated: Type.Boolean({
+      description: "Indica si el nombre del campo fue truncado",
+    }),
+    valueTruncated: Type.Boolean({
+      description: "Indica si el valor del campo fue truncado",
+    }),
+  },
+  { additionalProperties: false }
+);
+export const descripcionSchema = Type.Object(
+  {
+    type: Type.Literal("field", {
+      description: "Tipo de campo, en este caso es un campo de formulario",
+    }),
+    fieldname: Type.String({
+      description: "Nombre del campo del formulario",
+      minLength: 3,
+      maxLength: 50,
+    }),
+    mimetype: Type.String({ description: "Tipo MIME del campo" }),
+    encoding: Type.String({ description: "Codificación del campo" }),
+    value: Type.String({
+      description: "Valor del campo del formulario",
+      minLength: 1,
+      maxLength: 500,
+    }),
+    fieldnameTruncated: Type.Boolean({
+      description: "Indica si el nombre del campo fue truncado",
+    }),
+    valueTruncated: Type.Boolean({
+      description: "Indica si el valor del campo fue truncado",
+    }),
+  },
+  { additionalProperties: false }
+);
+export const stringSchema = Type.Object(
+  {
+    type: Type.Literal("field", {
+      description: "Tipo de campo, en este caso es un campo de formulario",
+    }),
+    fieldname: Type.String({ description: "Nombre del campo del formulario" }),
+    mimetype: Type.String({ description: "Tipo MIME del campo" }),
+    encoding: Type.String({ description: "Codificación del campo" }),
+    value: Type.String({ description: "Valor del campo del formulario" }),
     fieldnameTruncated: Type.Boolean({
       description: "Indica si el nombre del campo fue truncado",
     }),

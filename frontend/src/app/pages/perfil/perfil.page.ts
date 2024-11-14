@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { PerfilCardComponent } from '../../componentes/perfil-card/perfil-card.component';
-import { PublicacionComponent } from '../../componentes/publicacion/publicacion.component';
 import { CommonModule } from '@angular/common';
 import { SelfPerfilComponent } from '../../componentes/self-perfil/self-perfil.component';
 @Component({

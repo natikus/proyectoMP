@@ -3,7 +3,6 @@ import { UsuarioPostSchema, UsuarioPostType } from "../../tipos/usuario.js";
 import { FastifyInstance } from "fastify/types/instance.js";
 import { query } from "../../services/database.js";
 import bcrypt from "bcrypt";
-import { Type } from "@sinclair/typebox";
 import path from "path";
 import { writeFileSync } from "fs";
 
@@ -71,7 +70,13 @@ const usuarioAuthRoute: FastifyPluginAsync = async (
         reply.code(404).send({ message: "Failed to insert persona" });
         return;
       }
-
+      var recipient = personaPost.email;
+      fastify.mailer.sendMail({
+        from: process.env.user,
+        to: recipient,
+        subject: "Registro exitoso",
+        text: "Bienvenido a Mutual purpose , esperamos que te sientas comodo con nuestra comunidad no olvides que el proposito de esta aplicacion es ayudar a las demas personas y evitar el desperdicio y contaminacion",
+      });
       const id_persona = res.rows[0].id_persona;
 
       // Crear el payload completo con todas las propiedades necesarias
@@ -86,7 +91,7 @@ const usuarioAuthRoute: FastifyPluginAsync = async (
         intereses,
         telefono,
         is_Admin: false, // Establecer valores por defecto si es necesario
-        fechaCreacion: new Date().toISOString(), // Ejemplo de campo adicional
+ 
       };
 
       // Generar el token con el payload completo

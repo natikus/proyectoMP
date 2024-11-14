@@ -13,6 +13,10 @@ services:
       - PGUSER=${PGUSER}
       - PGPASSWORD=${PGPASSWORD}
       - PGHOST=${PGHOST}
+      - user=${user}
+      - pass=${pass}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
   frontend:
     image: frontend
     container_name: frontend
@@ -39,8 +43,15 @@ services:
     build: ./proxy
     ports:
       - 80:80
+      - 443:443
+    volumes:
+      - ./proxy/default.conf.template:/etc/nginx/templates/default.conf.template
+      - ./proxy/certs:/etc/nginx/certs
+
+    environment:
+      - FRONT_PORT=4200
+      - FRONTEND_URL=${FRONTEND_URL}
+      - BACKEND_URL=${BACKEND_URL}
     depends_on:
       - frontend
       - backend
-    environment:
-      - FRONT_PORT=4200

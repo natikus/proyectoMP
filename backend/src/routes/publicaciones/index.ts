@@ -49,8 +49,8 @@ const publicacionesRoute: FastifyPluginAsync = async (
 
       const res = await query(
         `
-          INSERT INTO publicaciones (titulo, descripcion, imagenes, ubicacion, id_creador, fechaCreacion, estado)
-          VALUES ($1, $2, $3, $4, $5, NOW(), true)
+          INSERT INTO publicaciones (titulo, descripcion, imagenes, ubicacion, id_creador, estado)
+          VALUES ($1, $2, $3, $4, $5, true)
           RETURNING *;
         `,
         [titulo, descripcion, imageUrl, ubicacion, id_creador]
@@ -97,7 +97,6 @@ const publicacionesRoute: FastifyPluginAsync = async (
                 descripcion,
                 imagenes,
                 ubicacion,
-                fechaCreacion
             FROM publicaciones WHERE estado = true;`);
       if (res.rows.length === 0) {
         reply.code(404).send({ message: "No hay publicaciones registradas" });
@@ -167,16 +166,35 @@ const publicacionesRoute: FastifyPluginAsync = async (
   fastify.get("/:id_publicacion", {
     schema: {
       summary: "Obtener una publicación específica",
-      description: "Obtiene la publicación correspondiente al ID especificado.",
+      description:
+        "Obtiene los detalles de una publicación específica por su ID.",
       tags: ["publicacion"],
+      params: {
+        type: "object",
+        properties: {
+          id_publicacion: {
+            type: "integer",
+            description: "ID de la publicación",
+          },
+        },
+        required: ["id_publicacion"],
+      },
       response: {
         200: {
-          description: "Publicación encontrada",
+          description: "Detalles de la publicación solicitada.",
           type: "object",
-          properties: publicacionSchema.properties,
+          properties: {
+            id_publicacion: { type: "integer" },
+            titulo: { type: "string" },
+            estado: { type: "boolean" },
+            id_creador: { type: "integer" },
+            descripcion: { type: "string" },
+            imagenes: { type: "string" },
+            ubicacion: { type: "string" },
+          },
         },
         404: {
-          description: "Publicación no encontrada",
+          description: "Publicación no encontrada.",
           type: "object",
           properties: {
             message: { type: "string" },
@@ -187,25 +205,28 @@ const publicacionesRoute: FastifyPluginAsync = async (
     onRequest: fastify.authenticate,
     handler: async function (request, reply) {
       const { id_publicacion } = request.params as { id_publicacion: number };
-
+      console.log("id_publicacion obtenida");
       const res = await query(
         `
-          SELECT
-            id_publicacion,
-            titulo,
-            estado,
-            id_creador,
-            descripcion,
-            imagenes,
-            ubicacion,
-            fechaCreacion
-          FROM publicaciones WHERE id_publicacion = $1;`,
+            SELECT
+                id_publicacion,
+                titulo,
+                estado,
+                id_creador,
+                descripcion,
+                imagenes,
+                ubicacion
+            FROM publicaciones 
+            WHERE id_publicacion = $1 AND estado = true;
+          `,
         [id_publicacion]
       );
+      console.log("aca si");
       if (res.rows.length === 0) {
-        reply.code(404).send({ message: "publicación no encontrada" });
+        reply.code(404).send({ message: "Publicación no encontrada" });
         return;
       }
+      console.log("esto es una publicacion del back", res.rows[0]);
       return res.rows[0];
     },
   });

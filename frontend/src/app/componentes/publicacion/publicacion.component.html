@@ -1,37 +1,40 @@
-<div class="card">
-  <div class="card-header">
-    <img
-      [src]="'http://localhost/backend/uploads/' + usuario()?.imagen"
-      alt="Avatar"
-      class="avatar"
-    />
-    <div class="user-info">
-      <span class="username"
-        >{{ usuario()?.nombre }} {{ usuario()?.apellido }}</span
-      >
-      <span class="timestamp">{{ publicacion()?.fechaCreacion }}</span>
-    </div>
-  </div>
-  <div class="card-content">
-    <p>{{ publicacion()?.descripcion }}</p>
-    <img
+<ion-card class="card-container">
+  <ion-item lines="none" class="card-header">
+    <ion-avatar slot="start">
+      <img
+        [src]="'http://localhost/backend/uploads/' + usuario()?.imagen"
+        alt="Avatar"
+      />
+    </ion-avatar>
+    <ion-label>
+      <h2>{{ usuario()?.nombre }} {{ usuario()?.apellido }}</h2>
+    </ion-label>
+  </ion-item>
+
+  <ion-card-content>
+    <ion-text>
+      <p>{{ publicacion()?.descripcion }}</p>
+    </ion-text>
+    <ion-img
       [src]="
         'http://localhost/backend/uploads/publicaciones' +
         publicacion()?.imagenes
       "
       alt="Publicación"
       class="post-image"
-    />
-  </div>
-  <div class="card-footer">
-    <a
+    ></ion-img>
+  </ion-card-content>
+
+  <ion-footer>
+    <ion-button
+      color="dark"
       (click)="
         verPublicacion(publicacion()?.id_publicacion, publicacion()?.id_creador)
       "
-      class="like-button"
       [routerLink]="['/inicio', publicacion()?.id_publicacion]"
+      expand="full"
     >
       Ver publicación
-    </a>
-  </div>
-</div>
+    </ion-button>
+  </ion-footer>
+</ion-card>

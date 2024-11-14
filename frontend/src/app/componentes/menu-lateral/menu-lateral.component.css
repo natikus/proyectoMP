@@ -1,29 +1,23 @@
-ion-menu {
-  width: auto;
-  --background: #333;
-  color: white;
-}
-
 ion-toolbar {
-  --background: #222;
-  --color: white;
+  display: flex;
+  justify-content: flex-start; /* Alinea los elementos al inicio, a la izquierda */
+  align-items: center; /* Centra verticalmente los elementos */
+  background-color: #e0bbe4; /* Color de fondo de la barra */
+  padding: 0 10px; /* Espaciado para el padding si es necesario */
 }
 
-ion-item {
-  --color: white;
-  padding: 10px;
-  font-size: 18px;
+.header-content {
+  display: flex;
+  justify-content: flex-start; /* Alinea los elementos horizontalmente */
+  align-items: center; /* Centra verticalmente los elementos */
+  width: 8%; /* Asegura que ocupe el 100% del espacio disponible */
 }
 
-ion-item:hover {
-  background-color: #444;
+.header-content ion-title {
+  margin-right: 10px; /* Espacio entre el título y la imagen */
 }
 
-ion-menu-button {
-  font-size: 24px;
-  color: white;
-}
-
-ion-menu-button:hover {
-  color: #ccc;
+.icono {
+  width: 35px; /* Ajusta el tamaño de la imagen */
+  height: auto; /* Mantiene la relación de aspecto */
 }
