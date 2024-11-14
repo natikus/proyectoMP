@@ -15,8 +15,6 @@ services:
       - PGHOST=${PGHOST}
       - user=${user}
       - pass=${pass}
-      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
-      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
   frontend:
     image: frontend
     container_name: frontend
