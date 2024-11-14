@@ -9,6 +9,11 @@ import { VerPublicacionPage } from './pages/publicacion/publicacion.page';
 import { AjustesPage } from './pages/ajustes/ajustes.page';
 export const routes: Routes = [
   {
+    path: '',
+    redirectTo: 'auth/login',
+    pathMatch: 'full',
+  },
+  {
     path: 'auth/login',
     component: AuthPage,
   },

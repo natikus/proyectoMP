@@ -8,7 +8,7 @@ import { AuthService } from './servicios/auth.service';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [IonApp, RouterOutlet, MenuLateralComponent, CommonModule],
+  imports: [RouterOutlet, MenuLateralComponent, CommonModule],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
@@ -16,5 +16,4 @@ export class AppComponent {
   title = 'Mutual Purpose';
   apiService: AuthService = inject(AuthService);
   isCollapsed = false;
-
 }
