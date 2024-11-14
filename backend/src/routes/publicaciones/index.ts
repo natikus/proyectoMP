@@ -96,7 +96,7 @@ const publicacionesRoute: FastifyPluginAsync = async (
                 id_creador,
                 descripcion,
                 imagenes,
-                ubicacion,
+                ubicacion
             FROM publicaciones WHERE estado = true;`);
       if (res.rows.length === 0) {
         reply.code(404).send({ message: "No hay publicaciones registradas" });
