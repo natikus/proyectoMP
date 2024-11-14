@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 })
 export class AuthService {
   constructor() {}
-  readonly API_URL = 'http://localhost/backend/auth/';
+  readonly API_URL = 'https://localhost/backend/auth/';
   private router: Router = inject(Router);
   setToken(token: string) {
     localStorage.setItem('token', token);

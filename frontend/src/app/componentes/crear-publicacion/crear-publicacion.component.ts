@@ -4,7 +4,10 @@ import { Validators } from '@angular/forms';
 import { ApiRestService } from '../../servicios/api-rest.service';
 import { MatButton } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
+import {
+  MatFormFieldControl,
+  MatFormFieldModule,
+} from '@angular/material/form-field';
 import { MatIcon } from '@angular/material/icon';
 import { MatInput } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -25,19 +28,51 @@ import {
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Router } from '@angular/router';
+import {
+  IonButton,
+  IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCardSubtitle,
+  IonCardTitle,
+  IonCol,
+  IonContent,
+  IonGrid,
+  IonIcon,
+  IonInput,
+  IonInputPasswordToggle,
+  IonItem,
+  IonLabel,
+  IonList,
+  IonNote,
+  IonRow,
+  IonText,
+} from '@ionic/angular/standalone';
 @Component({
   selector: 'app-crear-publicacion',
   standalone: true,
   imports: [
-    ImageCropperComponent,
-
-    MatFormField,
-    MatLabel,
-    MatError,
-    MatCardModule,
-
-    ReactiveFormsModule,
+    IonText,
+    IonCard,
+    IonCardHeader,
+    IonCardTitle,
+    IonCardSubtitle,
+    IonCardContent,
+    IonContent,
+    IonInput,
+    IonInputPasswordToggle,
+    IonButton,
+    IonItem,
+    IonList,
+    IonRow,
+    IonIcon,
+    IonCol,
+    IonGrid,
+    IonLabel,
+    IonNote,
     CommonModule,
+    ReactiveFormsModule,
+    ImageCropperComponent,
   ],
   templateUrl: './crear-publicacion.component.html',
   styleUrls: ['./crear-publicacion.component.scss'],
@@ -52,7 +87,7 @@ import { Router } from '@angular/router';
 export class CrearPublicacionComponent {
   router: Router = inject(Router);
   apiService: ApiRestService = inject(ApiRestService);
-  form: FormGroup;
+  Loginform: FormGroup;
   imageChangedEvent: Event | null = null;
   croppedImage: SafeUrl = '';
   private _imageBlob: Blob | null | undefined = undefined;
@@ -64,7 +99,7 @@ export class CrearPublicacionComponent {
   showTagsList = false;
 
   constructor(private fb: FormBuilder, private sanitizer: DomSanitizer) {
-    this.form = this.fb.group({
+    this.Loginform = this.fb.group({
       titulo: ['', Validators.required],
       descripcion: ['', Validators.required],
       ubicacion: ['', Validators.required],
@@ -110,7 +145,9 @@ export class CrearPublicacionComponent {
   }
 
   private updateTagsControl() {
-    this.form.get('etiquetas')?.setValue(JSON.stringify(this.selectedTags));
+    this.Loginform.get('etiquetas')?.setValue(
+      JSON.stringify(this.selectedTags)
+    );
   }
 
   fileChangeEvent(event: Event): void {
@@ -160,10 +197,19 @@ export class CrearPublicacionComponent {
 
       const formData = new FormData();
       formData.append('id_creador', storedId);
-      formData.append('titulo', this.form.get('titulo')?.value || '');
-      formData.append('descripcion', this.form.get('descripcion')?.value || '');
-      formData.append('ubicacion', this.form.get('ubicacion')?.value || '');
-      formData.append('etiquetas', this.form.get('etiquetas')?.value || '');
+      formData.append('titulo', this.Loginform.get('titulo')?.value || '');
+      formData.append(
+        'descripcion',
+        this.Loginform.get('descripcion')?.value || ''
+      );
+      formData.append(
+        'ubicacion',
+        this.Loginform.get('ubicacion')?.value || ''
+      );
+      formData.append(
+        'etiquetas',
+        this.Loginform.get('etiquetas')?.value || ''
+      );
       formData.append('imagenes', this._imageBlob, `${storedId}.jpg`);
 
       console.log('Datos de FormData antes de enviar:', formData);
@@ -177,8 +223,8 @@ export class CrearPublicacionComponent {
   }
 
   onSubmit() {
-    if (this.form.valid) {
-      console.log('Formulario enviado:', this.form.value);
+    if (this.Loginform.valid) {
+      console.log('Formulario enviado:', this.Loginform.value);
       this.save();
     }
   }

@@ -11,7 +11,7 @@ export class ApiRestService {
     localStorage.setItem('token', token);
   }
 
-  readonly API_URL = 'http://localhost/backend/';
+  readonly API_URL = 'https://localhost/backend/';
 
   private getHeaders(): HeadersInit {
     const token = localStorage.getItem('token');

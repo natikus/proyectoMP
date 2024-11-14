@@ -7,7 +7,7 @@ import { Observable, from } from 'rxjs';
 export class ValidatorsService {
   getUsuarioPorEmail(username: string): Observable<any | null> {
     return from(
-      fetch(`http://localhost/backend/auth`, { method: 'GET' })
+      fetch(`https://localhost/backend/auth`, { method: 'GET' })
         .then((response) => {
           if (!response.ok) {
             throw new Error('Error al obtener los usuarios');
