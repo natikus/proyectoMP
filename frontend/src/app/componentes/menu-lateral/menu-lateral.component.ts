@@ -23,7 +23,6 @@ import {
   standalone: true,
   imports: [
     IonRouterOutlet,
-    RouterLink,
     CommonModule,
     IonHeader,
     IonToolbar,
@@ -35,7 +34,6 @@ import {
     IonContent,
     IonList,
     IonItem,
-    IonIcon,
     RouterLink,
   ],
   templateUrl: './menu-lateral.component.html',
