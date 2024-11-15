@@ -1,5 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { usuarios } from '../interface/persona';
 @Injectable({
   providedIn: 'root',
 })
@@ -81,5 +82,22 @@ export class AuthService {
   logOut() {
     localStorage.clear();
     this.router.navigate(['auth/login']);
+  }
+  loginGoogle(user: string, token: string) {
+    try {
+      if (user && token) {
+        localStorage.setItem('token', token);
+
+        localStorage.setItem('user', JSON.stringify(user));
+        this.setToken(token);
+        this.router.navigate(['/inicio']);
+      } else {
+        console.error('Login con google no disponible');
+        //no se pq funciona pero tira esto, lo importante es que fundiona :)
+      }
+    } catch (error) {
+      console.error('Google login error:', error);
+      throw error;
+    }
   }
 }

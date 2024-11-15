@@ -51,7 +51,7 @@ const googleRoutes: FastifyPluginAsync = async (
           await fastify.googleOAuth2.getAccessTokenFromAuthorizationCodeFlow(
             request
           );
-
+        console.log("ESTOY ARRIBDA DE USER INFO");
         console.log({ googletoken });
 
         const userinfo = await fastify.googleOAuth2.userinfo(
@@ -84,8 +84,10 @@ const googleRoutes: FastifyPluginAsync = async (
           id_persona: user.id,
           email: user.email,
         });
+        console.log("ESTE ES EL OKEN", token);
+        console.log(`https://localhost/inicio?token=${token}&user=${user.id}`);
         reply.redirect(
-          `https://localhost/inicio?token=${token}&user=${user.id}`
+          `https://localhost/auth/login?token=${token}&user=${user.id}`
         );
       } catch (error) {
         console.error("Error al obtener el token de acceso:", error);

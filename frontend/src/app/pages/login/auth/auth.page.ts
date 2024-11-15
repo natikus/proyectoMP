@@ -22,6 +22,7 @@ import {
   IonCard,
   IonInput,
 } from '@ionic/angular/standalone';
+import { AuthService } from '../../../servicios/auth.service';
 
 @Component({
   selector: 'app-auth',
@@ -57,10 +58,16 @@ export class AuthPage {
     contrasena: ['', Validators.required],
   });
   private apiService: ApiRestService = inject(ApiRestService);
+  private authService: AuthService = inject(AuthService);
   private router: Router = inject(Router);
   ngOnInit() {
     localStorage.clear();
     console.log('localStroage limiado');
+    try {
+      this.GoogleLogin();
+    } catch {
+      console.log('No tienes autorizado el login con google');
+    }
   }
   async clickRegister(): Promise<void> {
     if (this.loginForm.valid) {
@@ -85,5 +92,31 @@ export class AuthPage {
   }
   get Email(): FormControl<string> {
     return this.loginForm.controls.email;
+  }
+  async GoogleLogin() {
+    console.log('Verificando si hay datos de Google en la URL...');
+    try {
+      const { user, token } = await this.getGoogleInfo();
+      if (user && token) {
+        console.log('Datos de Google obtenidos:', { user, token });
+        await this.authService.loginGoogle(user, token);
+        window.alert('Login exitoso');
+        document.dispatchEvent(new Event('authChanged'));
+      } else {
+        console.error(
+          'No se encontraron parámetros "user" o "token" en la URL'
+        );
+      }
+    } catch {
+      console.error('Login fallido:');
+    }
+  }
+
+  async getGoogleInfo() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const user = urlParams.get('user');
+    const token = urlParams.get('token');
+    console.log('Parámetros obtenidos:', { user, token });
+    return { user, token };
   }
 }
