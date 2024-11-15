@@ -1,75 +1,14 @@
-.form-container {
-  max-width: 600px;
-  margin: auto;
-  padding: 20px;
-  background-color: var(--lilac);
-  border-radius: 10px;
-}
-
 .scrollable-form {
-  max-height: 70vh;
+  max-height: 90vh;
   overflow-y: auto;
 }
-
-ion-card,
-mat-card {
-  background-color: var(--background-color);
-  border-radius: 10px;
-}
-
-ion-item,
-mat-form-field {
-  margin-bottom: 15px;
-  width: 100%;
-  --background: var(--lilac);
-  --ion-color-base: var(--violet-dark);
-  --ion-color-focused: var(--violet-light);
-  color: var(--text-color);
-}
-
-.mat-error,
-ion-text[color="danger"] {
-  color: var(--error-color);
-}
-
-.suggestions-list {
-  background-color: var(--lilac);
-  border: 1px solid var(--violet-dark);
-  border-radius: 5px;
-  padding: 10px;
-}
-
-.selected-tags {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin: 10px 0;
-}
-
-.tag-chip {
-  background-color: var(--violet-light);
-  color: #fff;
-  padding: 5px 10px;
-  border-radius: 5px;
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.image-upload-section input[type="file"] {
-  background-color: var(--background-color);
-  color: var(--text-color);
-}
-
-.cropped-preview img {
-  max-width: 100%;
+.image-upload-section {
+  max-width: 25%;
   border-radius: 10px;
   margin-top: 10px;
 }
-
-.buttons {
-  display: flex;
-  gap: 10px;
-  justify-content: center;
-  margin-top: 20px;
+.cropped-preview img {
+  max-width: 25%;
+  border-radius: 10px;
+  margin-top: 10px;
 }

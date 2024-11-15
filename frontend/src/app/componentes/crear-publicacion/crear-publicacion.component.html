@@ -100,9 +100,10 @@
             </div>
 
             <!-- Selección de imagen -->
-            <div class="image-upload-section">
+            <div>
               <input type="file" (change)="fileChangeEvent($event)" />
               <image-cropper
+                class="image-upload-section"
                 [imageChangedEvent]="imageChangedEvent"
                 [maintainAspectRatio]="true"
                 [aspectRatio]="4 / 3"

@@ -2,23 +2,7 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Validators } from '@angular/forms';
 import { ApiRestService } from '../../servicios/api-rest.service';
-import { MatButton } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import {
-  MatFormFieldControl,
-  MatFormFieldModule,
-} from '@angular/material/form-field';
-import { MatIcon } from '@angular/material/icon';
-import { MatInput } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
-import {
-  MatCardHeader,
-  MatCardTitle,
-  MatCardContent,
-} from '@angular/material/card';
-import { MatFormField } from '@angular/material/form-field';
-import { MatLabel } from '@angular/material/form-field';
-import { MatError } from '@angular/material/form-field';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import {
   ImageCropperComponent,
@@ -26,27 +10,18 @@ import {
   LoadedImage,
 } from 'ngx-image-cropper';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Router } from '@angular/router';
 import {
   IonButton,
   IonCard,
   IonCardContent,
   IonCardHeader,
-  IonCardSubtitle,
   IonCardTitle,
   IonCol,
-  IonContent,
-  IonGrid,
-  IonIcon,
   IonInput,
-  IonInputPasswordToggle,
-  IonItem,
-  IonLabel,
-  IonList,
   IonNote,
   IonRow,
-  IonText,
 } from '@ionic/angular/standalone';
 @Component({
   selector: 'app-crear-publicacion',

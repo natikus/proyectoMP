@@ -1,229 +1,272 @@
 <ion-row
-  ><ion-col
-    ><ion-card>
-      <ion-card-header>
-        <ion-card-title>
-          <h2>Registro</h2>
-        </ion-card-title></ion-card-header
-      >
+  ><ion-col>
+    <div class="scrollable-form">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>
+            <h2>Registro</h2>
+          </ion-card-title></ion-card-header
+        >
 
-      <ion-card-content>
-        <form class="form" [formGroup]="formGroup" (ngSubmit)="clickRegister()">
-          <!-- Nombre -->
-          <ion-input
-            type="text"
-            label="Nombre"
-            label-placement="stacked"
-            fill="outline"
-            formControlName="nombre"
-            name="Nombre"
-            required
-          ></ion-input>
-          <ion-note
-            [style.color]="'red'"
-            *ngIf="formGroup.get('nombre')?.hasError('required')"
+        <ion-card-content>
+          <form
+            class="form"
+            [formGroup]="formGroup"
+            (ngSubmit)="clickRegister()"
           >
-            Ingrese sus nombres
-          </ion-note>
-
-          <!-- Apellido -->
-          <ion-input
-            type="text"
-            label="Apellido"
-            label-placement="stacked"
-            fill="outline"
-            formControlName="apellido"
-            name="Apellido"
-            required
-          ></ion-input>
-          <ion-note
-            [style.color]="'red'"
-            *ngIf="formGroup.get('apellido')?.hasError('required')"
-          >
-            Ingrese sus apellidos
-          </ion-note>
-
-          <!-- Usuario -->
-          <ion-input
-            type="text"
-            label="Usuario"
-            label-placement="stacked"
-            fill="outline"
-            formControlName="usuario"
-            name="Usuario"
-            required
-          ></ion-input>
-          <ion-note
-            [style.color]="'red'"
-            *ngIf="formGroup.get('usuario')?.hasError('required')"
-          >
-            Ingrese un usuario
-          </ion-note>
-
-          <!-- Email -->
-          <ion-input
-            type="email"
-            label="Email"
-            label-placement="stacked"
-            fill="outline"
-            formControlName="email"
-            name="Email"
-            required
-          ></ion-input>
-          <ion-note
-            [style.color]="'red'"
-            *ngIf="formGroup.get('email')?.hasError('required')"
-          >
-            Ingrese su e-mail
-          </ion-note>
-          <ion-note
-            [style.color]="'red'"
-            *ngIf="formGroup.get('email')?.hasError('email')"
-          >
-            Ingrese un e-mail válido
-          </ion-note>
-          <!-- Celular -->
-          <ion-input
-            type="text"
-            label="Numero de celular"
-            label-placement="stacked"
-            fill="outline"
-            formControlName="celular"
-            name="celular"
-            required
-          ></ion-input>
-          <ion-note
-            [style.color]="'red'"
-            *ngIf="formGroup.get('celular')?.hasError('required')"
-          >
-            Ingrese su número de teléfono
-          </ion-note>
-          <!-- Contraseña -->
-          <ion-input
-            type="password"
-            label="Contraseña"
-            label-placement="stacked"
-            fill="outline"
-            formControlName="contrasena"
-            name="contrasena"
-            required
-          ></ion-input>
-          <ion-note
-            [style.color]="'red'"
-            *ngIf="
-              formGroup.get('contrasena')?.hasError('customPasswordValidator')
-            "
-          >
-            La contraseña debe tener al menos una mayúscula, minúscula, símbolo,
-            número y ser mayor a 8 caracteres
-          </ion-note>
-          <ion-note
-            [style.color]="'red'"
-            *ngIf="formGroup.get('contrasena')?.hasError('required')"
-          >
-            Ingrese una contraseña
-          </ion-note>
-
-          <!-- Confirmar Contraseña -->
-          <ion-input
-            type="password"
-            label="Confirmar Contraseña"
-            label-placement="stacked"
-            fill="outline"
-            formControlName="confirmContrasena"
-            name="confirmContrasena"
-            required
-          ></ion-input>
-          <ion-note
-            [style.color]="'red'"
-            *ngIf="formGroup.get('confirmContrasena')?.hasError('required')"
-          >
-            Ingrese una contraseña
-          </ion-note>
-          <ion-note
-            [style.color]="'red'"
-            *ngIf="formGroup.hasError('crossConfirmPasswordError')"
-          >
-            La contraseña no coincide, verifique
-          </ion-note>
-
-          <!-- Campo de selección de intereses -->
-
-          <ion-input
-            type="text"
-            label="Intereses"
-            label-placement="stacked"
-            fill="outline"
-            formControlName="intereses"
-            name="Intereses"
-            (click)="toggleInterestsList()"
-          ></ion-input>
-          <div *ngIf="showInterestsList" class="suggestions-list">
-            <div
-              *ngFor="let interest of availableInterests"
-              class="interest-option"
-              (click)="selectInterest(interest)"
+            <!-- Nombre -->
+            <ion-input
+              type="text"
+              label="Nombre"
+              label-placement="stacked"
+              fill="outline"
+              formControlName="nombre"
+              name="Nombre"
+              required
+            ></ion-input>
+            <ion-note
+              [style.color]="'red'"
+              *ngIf="
+                formGroup.get('nombre')?.hasError('required') &&
+                formGroup.get('nombre')?.touched
+              "
             >
-              {{ interest }}
-            </div>
-          </div>
-          <ion-note
-            [style.color]="'red'"
-            *ngIf="formGroup.get('intereses')?.hasError('required')"
-          >
-            Ingrese sus intereses
-          </ion-note>
+              Ingrese sus nombres
+            </ion-note>
 
-          <div class="selected-interests">
-            <div
-              *ngFor="let interest of selectedInterests"
-              class="interest-chip"
+            <!-- Apellido -->
+            <ion-input
+              type="text"
+              label="Apellido"
+              label-placement="stacked"
+              fill="outline"
+              formControlName="apellido"
+              name="Apellido"
+              required
+            ></ion-input>
+            <ion-note
+              [style.color]="'red'"
+              *ngIf="
+                formGroup.get('apellido')?.hasError('required') &&
+                formGroup.get('apellido')?.touched
+              "
             >
-              {{ interest }}
-              <span class="remove-interest" (click)="removeInterest(interest)"
-                >&times;</span
+              Ingrese sus apellidos
+            </ion-note>
+
+            <!-- Usuario -->
+            <ion-input
+              type="text"
+              label="Usuario"
+              label-placement="stacked"
+              fill="outline"
+              formControlName="usuario"
+              name="Usuario"
+              required
+            ></ion-input>
+            <ion-note
+              [style.color]="'red'"
+              *ngIf="
+                formGroup.get('usuario')?.hasError('required') &&
+                formGroup.get('usuario')?.touched
+              "
+            >
+              Ingrese un usuario
+            </ion-note>
+
+            <!-- Email -->
+            <ion-input
+              type="email"
+              label="Email"
+              label-placement="stacked"
+              fill="outline"
+              formControlName="email"
+              name="Email"
+              required
+            ></ion-input>
+            <ion-note
+              [style.color]="'red'"
+              *ngIf="
+                formGroup.get('email')?.hasError('required') &&
+                formGroup.get('email')?.touched
+              "
+            >
+              Ingrese su e-mail
+            </ion-note>
+            <ion-note
+              [style.color]="'red'"
+              *ngIf="
+                formGroup.get('email')?.hasError('email') &&
+                formGroup.get('email')?.touched
+              "
+            >
+              Ingrese un e-mail válido
+            </ion-note>
+            <!-- Celular -->
+            <ion-input
+              type="text"
+              label="Numero de celular"
+              label-placement="stacked"
+              fill="outline"
+              formControlName="celular"
+              name="celular"
+              required
+            ></ion-input>
+            <ion-note
+              [style.color]="'red'"
+              *ngIf="
+                formGroup.get('celular')?.hasError('required') &&
+                formGroup.get('celular')?.touched
+              "
+            >
+              Ingrese su número de teléfono
+            </ion-note>
+            <!-- Contraseña -->
+            <ion-input
+              type="password"
+              label="Contraseña"
+              label-placement="stacked"
+              fill="outline"
+              formControlName="contrasena"
+              name="contrasena"
+              required
+            ></ion-input>
+            <ion-note
+              [style.color]="'red'"
+              *ngIf="
+                formGroup
+                  .get('contrasena')
+                  ?.hasError('customPasswordValidator') &&
+                formGroup.get('contrasena')?.touched
+              "
+            >
+              La contraseña debe tener al menos una mayúscula, minúscula,
+              símbolo, número y ser mayor a 8 caracteres
+            </ion-note>
+            <ion-note
+              [style.color]="'red'"
+              *ngIf="
+                formGroup.get('contrasena')?.hasError('required') &&
+                formGroup.get('contrasena')?.touched
+              "
+            >
+              Ingrese una contraseña
+            </ion-note>
+
+            <!-- Confirmar Contraseña -->
+            <ion-input
+              type="password"
+              label="Confirmar Contraseña"
+              label-placement="stacked"
+              fill="outline"
+              formControlName="confirmContrasena"
+              name="confirmContrasena"
+              required
+            ></ion-input>
+            <ion-note
+              [style.color]="'red'"
+              *ngIf="
+                formGroup.get('confirmContrasena')?.hasError('required') &&
+                formGroup.get('confirmContrasena')?.touched
+              "
+            >
+              Ingrese una contraseña
+            </ion-note>
+            <ion-note
+              [style.color]="'red'"
+              *ngIf="
+                formGroup.hasError('crossConfirmPasswordError') &&
+                formGroup.get('confirmContrasena')?.touched
+              "
+            >
+              La contraseña no coincide, verifique
+            </ion-note>
+
+            <!-- Campo de selección de intereses -->
+
+            <ion-input
+              type="text"
+              label="Intereses"
+              label-placement="stacked"
+              fill="outline"
+              formControlName="intereses"
+              name="Intereses"
+              (click)="toggleInterestsList()"
+            ></ion-input>
+            <div *ngIf="showInterestsList" class="suggestions-list">
+              <div
+                *ngFor="let interest of availableInterests"
+                class="interest-option"
+                (click)="selectInterest(interest)"
               >
+                {{ interest }}
+              </div>
             </div>
-          </div>
+            <ion-note
+              [style.color]="'red'"
+              *ngIf="
+                formGroup.get('intereses')?.hasError('required') &&
+                formGroup.get('intereses')?.touched
+              "
+            >
+              Ingrese sus intereses
+            </ion-note>
 
-          <!-- Descripcion -->
-          <ion-input
-            type="text"
-            label="Descripcion"
-            label-placement="stacked"
-            fill="outline"
-            formControlName="descripcion"
-            name="Descripcion"
-            required
-          ></ion-input>
-          <ion-note
-            [style.color]="'red'"
-            *ngIf="formGroup.get('descripcion')?.hasError('required')"
-          >
-            Debes contarnos sobre ti
-          </ion-note>
-
-          <div class="image-upload-section">
-            <input type="file" (change)="fileChangeEvent($event)" />
-            <image-cropper
-              [imageChangedEvent]="imageChangedEvent"
-              [maintainAspectRatio]="true"
-              [aspectRatio]="4 / 3"
-              format="png"
-              (imageCropped)="imageCropped($event)"
-              (imageLoaded)="imageLoaded($event)"
-              (cropperReady)="cropperReady()"
-              (loadImageFailed)="loadImageFailed()"
-            ></image-cropper>
-            <div class="cropped-preview">
-              <img [src]="croppedImage" *ngIf="croppedImage" />
+            <div class="selected-interests">
+              <div
+                *ngFor="let interest of selectedInterests"
+                class="interest-chip"
+              >
+                {{ interest }}
+                <span class="remove-interest" (click)="removeInterest(interest)"
+                  >&times;</span
+                >
+              </div>
             </div>
-          </div>
-          <ion-button mat-raised-button color="primary" type="submit">
-            Registrarse
-          </ion-button>
-        </form>
-      </ion-card-content>
-    </ion-card></ion-col
+
+            <!-- Descripcion -->
+            <ion-input
+              type="text"
+              label="Descripcion"
+              label-placement="stacked"
+              fill="outline"
+              formControlName="descripcion"
+              name="Descripcion"
+              required
+            ></ion-input>
+            <ion-note
+              [style.color]="'red'"
+              *ngIf="
+                formGroup.get('descripcion')?.hasError('required') &&
+                formGroup.get('descripcion')?.touched
+              "
+            >
+              Cuentanos sobre ti
+            </ion-note>
+
+            <div>
+              <input type="file" (change)="fileChangeEvent($event)" />
+              <image-cropper
+                class="image-upload-section"
+                [imageChangedEvent]="imageChangedEvent"
+                [maintainAspectRatio]="true"
+                [aspectRatio]="4 / 3"
+                format="png"
+                (imageCropped)="imageCropped($event)"
+                (imageLoaded)="imageLoaded($event)"
+                (cropperReady)="cropperReady()"
+                (loadImageFailed)="loadImageFailed()"
+              ></image-cropper>
+              <div class="cropped-preview">
+                <img [src]="croppedImage" *ngIf="croppedImage" />
+              </div>
+            </div>
+            <ion-button mat-raised-button color="primary" type="submit">
+              Registrarse
+            </ion-button>
+          </form>
+        </ion-card-content>
+      </ion-card>
+    </div></ion-col
   ></ion-row
 >
