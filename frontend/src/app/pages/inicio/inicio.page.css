@@ -1,30 +1,14 @@
-.contenedor-scroll {
-  overflow-y: auto; /* Permite la barra de desplazamiento solo si el contenido supera la altura */
-  max-height: 100vh; /* Limita la altura para que aparezca el scroll cuando el contenido excede */
-  padding: 10px;
-  box-sizing: border-box;
-}
-.contenedor-scroll {
-  overflow-y: auto;
-  max-height: 100vh;
-  padding: 10px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Centra el contenido horizontalmente */
-}
-
 .publicaciones-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Centra las tarjetas horizontalmente */
-  gap: 16px; /* Espacio entre las tarjetas */
-  width: 100%; /* Ajusta el ancho según tus necesidades */
-  max-width: 600px; /* Tamaño máximo para las tarjetas */
+  margin-top: 2cm;
+  justify-content: center;
 }
 
-.like-button {
-  display: block;
-  margin-top: 16px;
-  text-align: center;
+.card-container {
+  border-radius: 15px;
+  width: 100%; /* Ocupa todo el espacio de la columna */
+  max-width: 400px; /* Máximo ancho */
+  margin: 0 auto; /* Centrar tarjeta en la columna */
+  overflow: hidden;
+  color: whitesmoke;
+  height: auto;
 }

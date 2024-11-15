@@ -14,12 +14,14 @@ import {
   IonLabel,
   IonText,
   IonRow,
+  IonContent,
 } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-publicacion',
   standalone: true,
   imports: [
+    IonContent,
     IonRow,
     IonCard,
     RouterLink,

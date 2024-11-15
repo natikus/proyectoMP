@@ -5,11 +5,28 @@ import { PublicacionComponent } from '../../componentes/publicacion/publicacion.
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { usuarios } from '../../interface/persona';
+import {
+  IonContent,
+  IonGrid,
+  IonCol,
+  IonRow,
+  IonCard,
+  IonText,
+} from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-inicio',
   standalone: true,
-  imports: [PublicacionComponent, CommonModule],
+  imports: [
+    IonText,
+    IonCard,
+    IonRow,
+    IonCol,
+    IonGrid,
+    IonContent,
+    PublicacionComponent,
+    CommonModule,
+  ],
   templateUrl: './inicio.page.html',
   styleUrl: './inicio.page.css',
 })

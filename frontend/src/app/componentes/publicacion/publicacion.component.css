@@ -1,11 +1,3 @@
-body {
-  font-family: Arial, sans-serif;
-  display: flex;
-  justify-content: center;
-  padding: 20px;
-  height: auto;
-}
-
 .card-container {
   border-radius: 8px;
   width: 500px;
@@ -59,8 +51,4 @@ ion-avatar img {
   justify-content: space-around;
   padding: 10px;
   border-top: 1px solid;
-}
-
-a {
-  color: white;
 }
