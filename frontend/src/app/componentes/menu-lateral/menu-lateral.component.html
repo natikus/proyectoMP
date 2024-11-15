@@ -61,9 +61,7 @@
       <ion-item href="#ajustes" (click)="closeMenu()"
         >Ajustes(implementar)</ion-item
       >
-      <ion-item href="#ayuda" (click)="closeMenu()"
-        >Sobre nosotros (implementar)</ion-item
-      >
+      <ion-item [routerLink]="['help']" (click)="closeMenu()">Ayuda</ion-item>
     </ion-list>
   </ion-content>
 </ion-menu>
@@ -109,7 +107,7 @@
         >Registro</ion-item
       >
 
-      <ion-item href="#ayuda" (click)="closeMenu()">Ayuda</ion-item>
+      <ion-item [routerLink]="['help']" (click)="closeMenu()">Ayuda</ion-item>
     </ion-list>
   </ion-content>
 </ion-menu>
