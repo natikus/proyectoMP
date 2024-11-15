@@ -11,11 +11,12 @@ declare module "fastify" {
   interface FastifyInstance {
     authenticate: AuthenticateFunction;
     verifySelfOrAdmin: AuthenticateFunction;
+    googleOAuth2: any;
   }
 }
 declare module "@fastify/jwt" {
   interface FastifyJWT {
-    payload: UsuarioType;
+    payload: { id_persona: string; email: string };
     user: UsuarioType;
   }
 }
