@@ -31,6 +31,7 @@ import {
   LoadedImage,
 } from 'ngx-image-cropper';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { EventListenerFocusTrapInertStrategy } from '@angular/cdk/a11y';
 
 @Component({
   selector: 'app-registro-form',
@@ -94,7 +95,6 @@ export class RegistroFormComponent implements OnInit {
       confirmContrasena: ['', Validators.required],
       descripcion: ['', Validators.required],
       intereses: ['', Validators.required],
-      imagen: [null, Validators.required],
     },
     {
       validators: crossPasswordMatchingValidatior,
@@ -110,6 +110,7 @@ export class RegistroFormComponent implements OnInit {
 
   ngOnInit() {
     this.loadInterests();
+    this.cargarUrlDatos();
   }
   async loadInterests() {
     const intereses = await this.apiService.getIntereses();
@@ -175,7 +176,7 @@ export class RegistroFormComponent implements OnInit {
         console.error('Imagen o ID no presentes');
         return;
       }
-      formData.append('imagenes', this._imageBlob);
+      formData.append('imagen', this._imageBlob);
 
       try {
         const response = await this.apiService.register('', formData);
@@ -263,5 +264,37 @@ export class RegistroFormComponent implements OnInit {
 
   loadImageFailed() {
     console.log('Error al cargar la imagen');
+  }
+  getUserDataFromURL() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const email = urlParams.get('email');
+    const nombre = urlParams.get('given_name');
+    const apellido = urlParams.get('family_name');
+    if (!email || !nombre || !apellido) {
+      console.error('No se han encontrado los datos esperados en la URL');
+      return null;
+    }
+    return { email, nombre: nombre, apellido };
+  }
+  cargarUrlDatos() {
+    const userData = this.getUserDataFromURL();
+    if (userData) {
+      console.log(userData);
+
+      if (userData.apellido === 'undefined') {
+        this.formGroup.patchValue({
+          nombre: userData.nombre,
+          email: userData.email,
+        });
+        console.log('No tienes un apellido ligado a tu cuenta');
+      }
+      if (userData.apellido != 'undefined') {
+        this.formGroup.patchValue({
+          nombre: userData.nombre,
+          apellido: userData.apellido,
+          email: userData.email,
+        });
+      }
+    }
   }
 }

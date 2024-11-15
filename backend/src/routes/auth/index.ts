@@ -11,55 +11,66 @@ const usuarioAuthRoute: FastifyPluginAsync = async (
   opts: FastifyPluginOptions
 ): Promise<void> => {
   // Ruta para crear un usuario
+
+  // Ruta para crear una nueva persona
   fastify.post("/", {
     schema: {
-      tags: ["usuarios"],
+      tags: ["persona"],
       consumes: ["multipart/form-data"],
       body: UsuarioPostSchema,
     },
 
     handler: async function (request, reply) {
-      const personaPost = request.body as UsuarioPostType;
+      const usuarioPost = request.body as UsuarioPostType;
 
       let imageUrl = "";
-      if (personaPost.imagen) {
-        const fileBuffer = personaPost.imagen._buf as Buffer;
+      if (usuarioPost.imagen) {
+        const fileBuffer = usuarioPost.imagen._buf as Buffer;
         const filepath = path.join(
           process.cwd(),
           "uploads",
-          personaPost.imagen.filename
+          usuarioPost.imagen.filename
         );
         writeFileSync(filepath, fileBuffer);
-        imageUrl = `/uploads/${personaPost.imagen.filename}`;
+        imageUrl = `/uploads/${usuarioPost.imagen.filename}`;
       }
+      const nombre = usuarioPost.nombre.value;
+      const apellido = usuarioPost.apellido.value;
+      const email = usuarioPost.email.value;
+      const usuario = usuarioPost.usuario.value;
+      const descripcion = usuarioPost.descripcion.value;
+      let intereses;
+      try {
+        intereses = JSON.parse(usuarioPost.intereses.value);
+      } catch (e) {
+        reply.code(400).send({ message: "Formato de intereses inválido" });
+        return;
+      }
+      const telefono = usuarioPost.telefono.value;
 
-      const nombre = personaPost.nombre.value;
-      const email = personaPost.email.value;
-      const apellido = personaPost.apellido.value;
-      const usuario = personaPost.usuario.value;
-      const descripcion = personaPost.descripcion.value;
-      const telefono = personaPost.telefono.value;
       const hashedPassword = await bcrypt.hash(
-        personaPost.contrasena.value,
+        usuarioPost.contrasena.value,
         10
       );
 
-      const intereses = Array.isArray(personaPost.intereses.value)
-        ? personaPost.intereses.value
-        : JSON.parse(personaPost.intereses.value || "[]");
-
       const res = await query(
         `INSERT INTO usuarios
-         (nombre, apellido, usuario, email, descripcion, intereses, telefono, contrasena, imagen)
-         VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
-         RETURNING id_persona;`,
+       (
+        nombre,
+        apellido,
+        usuario,
+        descripcion,
+        intereses,email,
+        telefono, contrasena, imagen)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8,$9)
+       RETURNING id_persona;`,
         [
           nombre,
           apellido,
           usuario,
-          email,
           descripcion,
           intereses,
+          email,
           telefono,
           hashedPassword,
           imageUrl,
@@ -70,7 +81,8 @@ const usuarioAuthRoute: FastifyPluginAsync = async (
         reply.code(404).send({ message: "Failed to insert persona" });
         return;
       }
-      var recipient = personaPost.email;
+      var recipient = email;
+      console.log(recipient, "AAAAAAAAAAAAAAAAAAAA");
       fastify.mailer.sendMail({
         from: process.env.user,
         to: recipient,
@@ -91,12 +103,11 @@ const usuarioAuthRoute: FastifyPluginAsync = async (
         intereses,
         telefono,
         is_Admin: false, // Establecer valores por defecto si es necesario
- 
       };
 
       // Generar el token con el payload completo
       const token = fastify.jwt.sign(tokenPayload);
-
+      console.log(token, "llllllllllllllllllllll");
       // Enviar la respuesta con el token
       reply.code(201).send({
         id_persona,
