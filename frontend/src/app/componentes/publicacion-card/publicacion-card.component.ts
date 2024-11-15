@@ -12,15 +12,27 @@ import {
   IonContent,
   IonImg,
   IonText,
+  IonGrid,
+  IonRow,
+  IonCol,
 } from '@ionic/angular/standalone';
 import { usuarios } from '../../interface/persona';
 
 @Component({
   selector: 'app-publicacion-card',
   standalone: true,
-  imports: [IonContent, CommonModule, IonButton, IonImg, IonText],
+  imports: [
+    IonRow,
+    IonCol,
+    IonGrid,
+    IonContent,
+    CommonModule,
+    IonButton,
+    IonImg,
+    IonText,
+  ],
   templateUrl: './publicacion-card.component.html',
-  styleUrls: ['./publicacion-card.component.scss'],
+  styleUrls: ['./publicacion-card.component.css'],
 })
 export class PublicacionCardComponent {
   apiService = inject(ApiRestService);

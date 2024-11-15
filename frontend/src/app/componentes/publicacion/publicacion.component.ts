@@ -15,6 +15,8 @@ import {
   IonText,
   IonRow,
   IonContent,
+  IonGrid,
+  IonCol,
 } from '@ionic/angular/standalone';
 
 @Component({
@@ -32,6 +34,8 @@ import {
     IonItem,
     IonFooter,
     IonLabel,
+    IonGrid,
+    IonCol,
   ],
   templateUrl: './publicacion.component.html',
   styleUrl: './publicacion.component.css',

@@ -1,39 +1,56 @@
-<ion-item lines="none" class="card-header">
-  <ion-avatar slot="start">
-    <img
-      [src]="'http://localhost/backend/uploads/' + usuario()?.imagen"
-      alt="Avatar"
-    />
-  </ion-avatar>
-  <ion-label>
-    <a (click)="verUsuario(usuario()?.id_persona)"
-      >{{ usuario()?.nombre }} {{ usuario()?.apellido }}</a
-    >
-  </ion-label>
-</ion-item>
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col size="12">
+        <!-- Cabecera de la tarjeta -->
+        <ion-item lines="none" class="card-header">
+          <ion-avatar slot="start">
+            <img
+              [src]="'http://localhost/backend/uploads/' + usuario()?.imagen"
+              alt="Avatar"
+            />
+          </ion-avatar>
+          <ion-label>
+            <a (click)="verUsuario(usuario()?.id_persona)">
+              {{ usuario()?.nombre }} {{ usuario()?.apellido }}
+            </a>
+          </ion-label>
+        </ion-item>
 
-<ion-card-content>
-  <ion-text>
-    <p>{{ publicacion()?.descripcion }}</p>
-  </ion-text>
-  <ion-img
-    [src]="
-      'http://localhost/backend/uploads/publicaciones' + publicacion()?.imagenes
-    "
-    alt="Publicación"
-    class="post-image"
-  ></ion-img>
-</ion-card-content>
+        <!-- Contenido de la publicación -->
+        <ion-card>
+          <ion-card-content>
+            <ion-text>
+              <p>{{ publicacion()?.descripcion }}</p>
+            </ion-text>
+            <ion-img
+              [src]="
+                'http://localhost/backend/uploads/publicaciones' +
+                publicacion()?.imagenes
+              "
+              alt="Publicación"
+              class="post-image"
+            ></ion-img>
+          </ion-card-content>
 
-<ion-footer>
-  <ion-button
-    color="dark"
-    (click)="
-      verPublicacion(publicacion()?.id_publicacion, publicacion()?.id_creador)
-    "
-    [routerLink]="['/inicio', publicacion()?.id_publicacion]"
-    expand="full"
-  >
-    Ver publicación
-  </ion-button>
-</ion-footer>
+          <!-- Botón de acción -->
+          <ion-footer>
+            <ion-button
+              color="dark"
+              (click)="
+                verPublicacion(
+                  publicacion()?.id_publicacion,
+                  publicacion()?.id_creador
+                )
+              "
+              [routerLink]="['/inicio', publicacion()?.id_publicacion]"
+              expand="full"
+            >
+              Ver publicación
+            </ion-button>
+          </ion-footer>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
