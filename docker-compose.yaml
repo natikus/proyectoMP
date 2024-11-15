@@ -41,8 +41,15 @@ services:
     build: ./proxy
     ports:
       - 80:80
+      - 443:443
+    volumes:
+      - ./proxy/myconf.template:/etc/nginx/templates/default.conf.template
+      - ./proxy/certs:/etc/nginx/certs
+
+    environment:
+      - FRONT_PORT=4200
+      - FRONTEND_URL=${FRONTEND_URL}
+      - BACKEND_URL=${BACKEND_URL}
     depends_on:
       - frontend
       - backend
-    environment:
-      - FRONT_PORT=4200

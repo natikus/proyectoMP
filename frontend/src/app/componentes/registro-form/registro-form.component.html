@@ -1,97 +1,163 @@
-<div class="container">
-  <mat-card class="card">
-    <mat-card-header class="card__title">
-      <mat-card-title>Registro</mat-card-title>
-    </mat-card-header>
+<ion-row
+  ><ion-col
+    ><ion-card>
+      <ion-card-header>
+        <ion-card-title>
+          <h2>Registro</h2>
+        </ion-card-title></ion-card-header
+      >
 
-    <mat-card-content>
-      <form class="form" [formGroup]="formGroup" (ngSubmit)="clickRegister()">
-        <mat-form-field appearance="outline">
-          <mat-label>Nombres</mat-label>
-          <input matInput type="text" formControlName="nombre" />
-          <mat-error *ngIf="formGroup.get('nombre')?.hasError('required')">
+      <ion-card-content>
+        <form class="form" [formGroup]="formGroup" (ngSubmit)="clickRegister()">
+          <!-- Nombre -->
+          <ion-input
+            type="text"
+            label="Nombre"
+            label-placement="stacked"
+            fill="outline"
+            formControlName="nombre"
+            name="Nombre"
+            required
+          ></ion-input>
+          <ion-note
+            [style.color]="'red'"
+            *ngIf="formGroup.get('nombre')?.hasError('required')"
+          >
             Ingrese sus nombres
-          </mat-error>
-        </mat-form-field>
+          </ion-note>
 
-        <mat-form-field appearance="outline">
-          <mat-label>Apellidos</mat-label>
-          <input matInput type="text" formControlName="apellido" />
-          <mat-error *ngIf="formGroup.get('apellido')?.hasError('required')">
+          <!-- Apellido -->
+          <ion-input
+            type="text"
+            label="Apellido"
+            label-placement="stacked"
+            fill="outline"
+            formControlName="apellido"
+            name="Apellido"
+            required
+          ></ion-input>
+          <ion-note
+            [style.color]="'red'"
+            *ngIf="formGroup.get('apellido')?.hasError('required')"
+          >
             Ingrese sus apellidos
-          </mat-error>
-        </mat-form-field>
+          </ion-note>
 
-        <mat-form-field appearance="outline">
-          <mat-label>Usuario</mat-label>
-          <input matInput type="text" formControlName="usuario" />
-          <mat-error *ngIf="formGroup.get('usuario')?.hasError('required')">
+          <!-- Usuario -->
+          <ion-input
+            type="text"
+            label="Usuario"
+            label-placement="stacked"
+            fill="outline"
+            formControlName="usuario"
+            name="Usuario"
+            required
+          ></ion-input>
+          <ion-note
+            [style.color]="'red'"
+            *ngIf="formGroup.get('usuario')?.hasError('required')"
+          >
             Ingrese un usuario
-          </mat-error>
-        </mat-form-field>
+          </ion-note>
 
-        <mat-form-field appearance="outline">
-          <mat-label>E-mail</mat-label>
-          <input matInput type="email" formControlName="email" />
-          <mat-error *ngIf="formGroup.get('email')?.hasError('required')">
+          <!-- Email -->
+          <ion-input
+            type="email"
+            label="Email"
+            label-placement="stacked"
+            fill="outline"
+            formControlName="email"
+            name="Email"
+            required
+          ></ion-input>
+          <ion-note
+            [style.color]="'red'"
+            *ngIf="formGroup.get('email')?.hasError('required')"
+          >
             Ingrese su e-mail
-          </mat-error>
-          <mat-error *ngIf="formGroup.get('email')?.hasError('email')">
+          </ion-note>
+          <ion-note
+            [style.color]="'red'"
+            *ngIf="formGroup.get('email')?.hasError('email')"
+          >
             Ingrese un e-mail válido
-          </mat-error>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline">
-          <mat-label>Teléfono</mat-label>
-          <input matInput type="text" formControlName="celular" />
-          <mat-error *ngIf="formGroup.get('celular')?.hasError('required')">
+          </ion-note>
+          <!-- Celular -->
+          <ion-input
+            type="text"
+            label="Numero de celular"
+            label-placement="stacked"
+            fill="outline"
+            formControlName="celular"
+            name="celular"
+            required
+          ></ion-input>
+          <ion-note
+            [style.color]="'red'"
+            *ngIf="formGroup.get('celular')?.hasError('required')"
+          >
             Ingrese su número de teléfono
-          </mat-error>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline">
-          <mat-label>Contraseña</mat-label>
-          <input matInput type="password" formControlName="contrasena" />
-          <mat-error
+          </ion-note>
+          <!-- Contraseña -->
+          <ion-input
+            type="password"
+            label="Contraseña"
+            label-placement="stacked"
+            fill="outline"
+            formControlName="contrasena"
+            name="contrasena"
+            required
+          ></ion-input>
+          <ion-note
+            [style.color]="'red'"
             *ngIf="
               formGroup.get('contrasena')?.hasError('customPasswordValidator')
             "
           >
             La contraseña debe tener al menos una mayúscula, minúscula, símbolo,
             número y ser mayor a 8 caracteres
-          </mat-error>
-          <mat-error *ngIf="formGroup.get('contrasena')?.hasError('required')">
+          </ion-note>
+          <ion-note
+            [style.color]="'red'"
+            *ngIf="formGroup.get('contrasena')?.hasError('required')"
+          >
             Ingrese una contraseña
-          </mat-error>
-        </mat-form-field>
+          </ion-note>
 
-        <mat-form-field appearance="outline">
-          <mat-label>Repetir contraseña</mat-label>
-          <input
-            matInput
+          <!-- Confirmar Contraseña -->
+          <ion-input
             type="password"
+            label="Confirmar Contraseña"
+            label-placement="stacked"
+            fill="outline"
             formControlName="confirmContrasena"
-            [errorStateMatcher]="passwordStateMatcher"
-          />
-          <mat-error
+            name="confirmContrasena"
+            required
+          ></ion-input>
+          <ion-note
+            [style.color]="'red'"
             *ngIf="formGroup.get('confirmContrasena')?.hasError('required')"
           >
             Ingrese una contraseña
-          </mat-error>
-          <mat-error *ngIf="formGroup.hasError('crossConfirmPasswordError')">
+          </ion-note>
+          <ion-note
+            [style.color]="'red'"
+            *ngIf="formGroup.hasError('crossConfirmPasswordError')"
+          >
             La contraseña no coincide, verifique
-          </mat-error>
-        </mat-form-field>
+          </ion-note>
 
-        <!-- Campo de selección de intereses -->
-        <mat-form-field appearance="outline">
-          <mat-label>Intereses</mat-label>
-          <input
-            matInput
+          <!-- Campo de selección de intereses -->
+
+          <ion-input
             type="text"
+            label="Intereses"
+            label-placement="stacked"
+            fill="outline"
             formControlName="intereses"
+            name="Intereses"
             (click)="toggleInterestsList()"
-          />
+          ></ion-input>
           <div *ngIf="showInterestsList" class="suggestions-list">
             <div
               *ngFor="let interest of availableInterests"
@@ -101,41 +167,63 @@
               {{ interest }}
             </div>
           </div>
-          <mat-error *ngIf="formGroup.get('intereses')?.hasError('required')">
+          <ion-note
+            [style.color]="'red'"
+            *ngIf="formGroup.get('intereses')?.hasError('required')"
+          >
             Ingrese sus intereses
-          </mat-error>
-        </mat-form-field>
+          </ion-note>
 
-        <div class="selected-interests">
-          <div *ngFor="let interest of selectedInterests" class="interest-chip">
-            {{ interest }}
-            <span class="remove-interest" (click)="removeInterest(interest)"
-              >&times;</span
+          <div class="selected-interests">
+            <div
+              *ngFor="let interest of selectedInterests"
+              class="interest-chip"
             >
+              {{ interest }}
+              <span class="remove-interest" (click)="removeInterest(interest)"
+                >&times;</span
+              >
+            </div>
           </div>
-        </div>
 
-        <mat-form-field appearance="outline">
-          <mat-label>Descripción</mat-label>
-          <input matInput type="text" formControlName="descripcion" />
-          <mat-error *ngIf="formGroup.get('descripcion')?.hasError('required')">
+          <!-- Descripcion -->
+          <ion-input
+            type="text"
+            label="Descripcion"
+            label-placement="stacked"
+            fill="outline"
+            formControlName="descripcion"
+            name="Descripcion"
+            required
+          ></ion-input>
+          <ion-note
+            [style.color]="'red'"
+            *ngIf="formGroup.get('descripcion')?.hasError('required')"
+          >
             Debes contarnos sobre ti
-          </mat-error>
-        </mat-form-field>
+          </ion-note>
 
-        <div class="form-field">
-          <label>Foto de perfil</label>
-          <input
-            type="file"
-            (change)="onFileSelected($event)"
-            accept="image/*"
-          />
-          <mat-hint>Sube una imagen de perfil</mat-hint>
-        </div>
-        <button mat-raised-button color="primary" type="submit">
-          Registrarse
-        </button>
-      </form>
-    </mat-card-content>
-  </mat-card>
-</div>
+          <div class="image-upload-section">
+            <input type="file" (change)="fileChangeEvent($event)" />
+            <image-cropper
+              [imageChangedEvent]="imageChangedEvent"
+              [maintainAspectRatio]="true"
+              [aspectRatio]="4 / 3"
+              format="png"
+              (imageCropped)="imageCropped($event)"
+              (imageLoaded)="imageLoaded($event)"
+              (cropperReady)="cropperReady()"
+              (loadImageFailed)="loadImageFailed()"
+            ></image-cropper>
+            <div class="cropped-preview">
+              <img [src]="croppedImage" *ngIf="croppedImage" />
+            </div>
+          </div>
+          <ion-button mat-raised-button color="primary" type="submit">
+            Registrarse
+          </ion-button>
+        </form>
+      </ion-card-content>
+    </ion-card></ion-col
+  ></ion-row
+>

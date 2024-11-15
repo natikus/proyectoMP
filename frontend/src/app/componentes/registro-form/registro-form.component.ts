@@ -1,15 +1,21 @@
 import { Component, inject, OnInit } from '@angular/core';
 import {
   FormControl,
+  NG_VALUE_ACCESSOR,
   NonNullableFormBuilder,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { MatButton } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIcon } from '@angular/material/icon';
-import { MatInput } from '@angular/material/input';
+import {
+  IonButton,
+  IonCardContent,
+  IonCardHeader,
+  IonCardTitle,
+  IonCol,
+  IonInput,
+  IonNote,
+  IonRow,
+} from '@ionic/angular/standalone';
 import {
   PasswordStateMatcher,
   crossPasswordMatchingValidatior,
@@ -18,26 +24,48 @@ import {
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../servicios/auth.service';
-import { IonText, IonContent } from '@ionic/angular/standalone';
+import { IonCard } from '@ionic/angular/standalone';
+import {
+  ImageCroppedEvent,
+  ImageCropperComponent,
+  LoadedImage,
+} from 'ngx-image-cropper';
+import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-registro-form',
   standalone: true,
   imports: [
-    IonContent,
-    IonText,
-    MatCardModule,
-    MatInput,
-    MatFormFieldModule,
-    MatIcon,
-    MatButton,
-    ReactiveFormsModule,
+    IonCard,
+    IonCardHeader,
+    IonCardTitle,
+    IonCardContent,
+    IonInput,
+    IonButton,
+    IonRow,
+    IonCol,
+    IonNote,
     CommonModule,
+    ReactiveFormsModule,
+    ImageCropperComponent,
   ],
   templateUrl: './registro-form.component.html',
   styleUrls: ['./registro-form.component.scss'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: RegistroFormComponent,
+      multi: true,
+    },
+  ],
 })
 export class RegistroFormComponent implements OnInit {
+  imageChangedEvent: Event | null = null;
+  croppedImage: SafeUrl = '';
+  private _imageBlob: Blob | null | undefined = undefined;
+  onChange = (image: Blob) => {};
+  onTouched = () => {};
+  constructor(private sanitizer: DomSanitizer) {}
   //declaracion del fromGrup
   private readonly _formBuilder = inject(NonNullableFormBuilder);
   passwordStateMatcher = new PasswordStateMatcher();
@@ -66,6 +94,7 @@ export class RegistroFormComponent implements OnInit {
       confirmContrasena: ['', Validators.required],
       descripcion: ['', Validators.required],
       intereses: ['', Validators.required],
+      imagen: [null, Validators.required],
     },
     {
       validators: crossPasswordMatchingValidatior,
@@ -74,7 +103,6 @@ export class RegistroFormComponent implements OnInit {
 
   private apiService: AuthService = inject(AuthService);
   private router: Router = inject(Router);
-  selectedFile: File | null = null;
   //logica de intereses
   availableInterestsList: string[] = [];
   selectedInterests: string[] = [];
@@ -116,12 +144,6 @@ export class RegistroFormComponent implements OnInit {
       .get('intereses')
       ?.setValue(JSON.stringify(this.selectedInterests));
   }
-  onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      this.selectedFile = input.files[0];
-    }
-  }
 
   async clickRegister(): Promise<void> {
     console.log('Verificando información');
@@ -149,11 +171,11 @@ export class RegistroFormComponent implements OnInit {
       } else {
         console.error('No se han seleccionado intereses.');
       }
-
-      // Añadir la imagen seleccionada al FormData
-      if (this.selectedFile) {
-        formData.append('imagen', this.selectedFile);
+      if (!this._imageBlob) {
+        console.error('Imagen o ID no presentes');
+        return;
       }
+      formData.append('imagenes', this._imageBlob);
 
       try {
         const response = await this.apiService.register('', formData);
@@ -207,5 +229,39 @@ export class RegistroFormComponent implements OnInit {
   }
   get Descripcion(): FormControl<string> {
     return this.formGroup.controls.descripcion;
+  }
+  fileChangeEvent(event: Event): void {
+    this.imageChangedEvent = event;
+  }
+  imageCropped(event: ImageCroppedEvent) {
+    if (event.objectUrl != undefined) {
+      this.croppedImage = this.sanitizer.bypassSecurityTrustUrl(
+        event.objectUrl
+      );
+      this._imageBlob = event.blob;
+
+      console.log('Imagen recortada y blob almacenado:', this._imageBlob);
+
+      // Solo llama a onChange si _imageBlob es un Blob válido
+      if (this._imageBlob instanceof Blob) {
+        this.onChange(this._imageBlob);
+        this.onTouched();
+      } else {
+        console.error(
+          'No se pudo obtener un Blob válido de la imagen recortada'
+        );
+      }
+    }
+  }
+  imageLoaded(image: LoadedImage) {
+    console.log('Imagen cargada', image);
+  }
+
+  cropperReady() {
+    console.log('Imagen lista para recortar');
+  }
+
+  loadImageFailed() {
+    console.log('Error al cargar la imagen');
   }
 }

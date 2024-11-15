@@ -2,17 +2,17 @@
   <ion-col>
     <div class="scrollable-form">
       <ion-card>
-        <ion-card-header
-          ><ion-card-title class="ion-text-center" style="color: blue"
-            >Crear publicacion</ion-card-title
-          ></ion-card-header
-        >
+        <ion-card-header>
+          <ion-card-title class="ion-text-center" style="color: blue"
+            >Crear publicación</ion-card-title
+          >
+        </ion-card-header>
         <ion-card-content>
           <form [formGroup]="Loginform" (ngSubmit)="onSubmit()">
-            <!-- titulo -->
+            <!-- Título -->
             <ion-input
               type="text"
-              label="Titulo"
+              label="Título"
               label-placement="stacked"
               fill="outline"
               formControlName="titulo"
@@ -29,11 +29,10 @@
               El título es obligatorio.
             </ion-note>
 
-            <!-- descripcion -->
-
+            <!-- Descripción -->
             <ion-input
               type="text"
-              label="Descripcion"
+              label="Descripción"
               label-placement="stacked"
               fill="outline"
               formControlName="descripcion"
@@ -50,10 +49,10 @@
               La descripción es obligatoria.
             </ion-note>
 
-            <!-- Ubicacion-->
+            <!-- Ubicación -->
             <ion-input
               type="text"
-              label="Ubicacion"
+              label="Ubicación"
               label-placement="stacked"
               fill="outline"
               formControlName="ubicacion"
@@ -69,7 +68,7 @@
               La ubicación es obligatoria.
             </ion-note>
 
-            <!--etiquetas-->
+            <!-- Etiquetas -->
             <ion-input
               type="text"
               label="Etiquetas"
@@ -78,6 +77,7 @@
               formControlName="etiquetas"
               name="Etiquetas"
               required
+              (click)="toggleTagsList()"
             ></ion-input>
             <div *ngIf="showTagsList" class="suggestions-list">
               <div
@@ -99,7 +99,7 @@
               </div>
             </div>
 
-            <!--selección de imagen -->
+            <!-- Selección de imagen -->
             <div class="image-upload-section">
               <input type="file" (change)="fileChangeEvent($event)" />
               <image-cropper
@@ -116,11 +116,10 @@
                 <img [src]="croppedImage" *ngIf="croppedImage" />
               </div>
             </div>
-            <button mat-raised-button (click)="save()">enviar</button>
-            <!--envío -->
-            <ion-button mat-raised-button (click)="salir()" color="primary">
-              Cancelar
-            </ion-button>
+
+            <!-- Botones de Enviar y Cancelar -->
+            <ion-button expand="block" (click)="save()">Enviar</ion-button>
+            <ion-button color="primary" (click)="salir()">Cancelar</ion-button>
           </form>
         </ion-card-content>
       </ion-card>
