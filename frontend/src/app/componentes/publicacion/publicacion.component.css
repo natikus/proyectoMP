@@ -52,3 +52,6 @@ ion-avatar img {
   padding: 10px;
   border-top: 1px solid;
 }
+ion-button {
+  margin-top: auto; /* Empuja el botón al final */
+}
