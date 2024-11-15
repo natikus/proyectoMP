@@ -1,28 +1,54 @@
-<ion-content>
-  <form id="loginForm" [formGroup]="loginForm">
-    <h3>Inicio de Sesión</h3>
+<ion-row>
+  <ion-col>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title><h3>Inicio de Sesión</h3></ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <form
+          id="loginForm"
+          [formGroup]="loginForm"
+          (ngSubmit)="clickRegister()"
+        >
+          <!-- Email -->
+          <ion-input
+            type="email"
+            label="Email"
+            label-placement="stacked"
+            fill="outline"
+            formControlName="email"
+            name="email"
+            required
+          ></ion-input>
+          <ion-note
+            [style.color]="'red'"
+            *ngIf="loginForm.get('email')?.hasError('required') && (loginForm.get('email')?.touched || loginForm.get('email')?.dirty)"
+          >
+            Ingrese su e-mail</ion-note
+          >
 
-    <!-- Campo de E-mail -->
-    <ion-label position="floating">E-mail</ion-label>
-    <ion-input type="email" formControlName="email"></ion-input>
-    <ion-text
-      color="danger"
-      *ngIf="loginForm.get('email')?.hasError('required') && (loginForm.get('email')?.touched || loginForm.get('email')?.dirty)"
-    >
-      <p>Ingrese su e-mail</p>
-    </ion-text>
+          <!-- Contraseña -->
+          <ion-input
+            type="password"
+            label="Contraseña"
+            label-placement="stacked"
+            fill="outline"
+            formControlName="contrasena"
+            name="contrasena"
+            required
+          ></ion-input>
+          <ion-note
+            [style.color]="'red'"
+            *ngIf="loginForm.get('contrasena')?.hasError('required') && (loginForm.get('contrasena')?.touched || loginForm.get('contrasena')?.dirty)"
+          >
+            Ingrese una contraseña</ion-note
+          >
 
-    <!-- Campo de Contraseña -->
-    <ion-label position="floating">Contraseña</ion-label>
-    <ion-input type="password" formControlName="contrasena"></ion-input>
-    <ion-text
-      color="danger"
-      *ngIf="loginForm.get('contrasena')?.hasError('required') && (loginForm.get('contrasena')?.touched || loginForm.get('contrasena')?.dirty)"
-    >
-      <p>Ingrese una contraseña</p>
-    </ion-text>
-
-    <!-- Botón de Login -->
-    <ion-button expand="block" (click)="clickRegister()">Login</ion-button>
-  </form>
-</ion-content>
+          <ion-button expand="block" (click)="clickRegister()"
+            >Login</ion-button
+          >
+        </form></ion-card-content
+      ></ion-card
+    ></ion-col
+  >
+</ion-row>

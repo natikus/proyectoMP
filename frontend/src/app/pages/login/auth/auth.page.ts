@@ -1,41 +1,44 @@
 import { ApiRestService } from '../../../servicios/api-rest.service';
 import { Component, inject } from '@angular/core';
-import { NonNullableFormBuilder, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormsModule,
+  NonNullableFormBuilder,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { Validators } from '@angular/forms';
-import { RouterLink } from '@angular/router';
-import { MatCardModule } from '@angular/material/card';
-import {
-  MatError,
-  MatFormField,
-  MatInput,
-  MatLabel,
-} from '@angular/material/input';
-import { MatIcon } from '@angular/material/icon';
 import { createValidator } from './asyncValidators';
-import { MatButton } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { FormControl } from '@angular/forms';
 import { ValidatorsService } from '../../../servicios/validators.service';
 import {
-  IonItem,
-  IonLabel,
-  IonContent,
   IonButton,
-  IonText,
+  IonRow,
+  IonCol,
+  IonCardHeader,
+  IonCardTitle,
+  IonNote,
+  IonCardContent,
+  IonCard,
+  IonInput,
 } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-auth',
   standalone: true,
   imports: [
+    IonCard,
+    IonCardHeader,
+    IonCardTitle,
+    IonCardContent,
+    IonInput,
     IonButton,
-    IonContent,
-    IonLabel,
-    IonItem,
-    IonText,
-    ReactiveFormsModule,
+    IonRow,
+    IonCol,
+    IonNote,
     CommonModule,
+    ReactiveFormsModule,
+    FormsModule,
   ],
   templateUrl: './auth.page.html',
   styleUrl: './auth.page.css',

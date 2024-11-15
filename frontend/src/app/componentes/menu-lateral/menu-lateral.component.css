@@ -13,10 +13,6 @@ ion-toolbar {
   width: 8%; /* Asegura que ocupe el 100% del espacio disponible */
 }
 
-.header-content ion-title {
-  margin-right: 10px; /* Espacio entre el título y la imagen */
-}
-
 .icono {
   width: 35px; /* Ajusta el tamaño de la imagen */
   height: auto; /* Mantiene la relación de aspecto */
