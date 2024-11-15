@@ -100,7 +100,6 @@ export class AuthPage {
       if (user && token) {
         console.log('Datos de Google obtenidos:', { user, token });
         await this.authService.loginGoogle(user, token);
-        window.alert('Login exitoso');
         document.dispatchEvent(new Event('authChanged'));
       } else {
         console.error(

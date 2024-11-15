@@ -8,11 +8,16 @@ import { RegistroPage } from './pages/registro/registro.page';
 import { VerPublicacionPage } from './pages/publicacion/publicacion.page';
 import { AjustesPage } from './pages/ajustes/ajustes.page';
 import { BuscarPage } from './pages/buscar/buscar.page';
+import { AyudaPage } from './pages/ayuda/ayuda.page';
 export const routes: Routes = [
   {
     path: '',
     redirectTo: 'auth/login',
     pathMatch: 'full',
+  },
+  {
+    path: 'help',
+    component: AyudaPage,
   },
   {
     path: 'auth/login',
@@ -42,6 +47,7 @@ export const routes: Routes = [
     component: BuscarPage,
     canActivate: [logueadoGuard],
   },
+
   {
     path: 'inicio/:id_publicacion',
     component: VerPublicacionPage,

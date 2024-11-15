@@ -51,9 +51,9 @@
       <ion-item (click)="closeMenu()" [routerLink]="['/inicio']"
         >Inicio</ion-item
       >
-      <ion-item href="#Buscar" (click)="closeMenu()"
-        >Buscar (implementar)</ion-item
-      >
+      <ion-item [routerLink]="['/inicio/search']" (click)="closeMenu()"
+        >Buscar
+      </ion-item>
       <ion-item (click)="closeMenu()" [routerLink]="['/inicio/create']"
         >Crear publicacion</ion-item
       >
@@ -102,10 +102,13 @@
 
   <ion-content class="ion-padding">
     <ion-list>
-      <ion-item href="#iniciar-sesion" (click)="closeMenu()"
+      <ion-item (click)="closeMenu()" [routerLink]="['/auth/login']"
         >Iniciar Sesión</ion-item
       >
-      <ion-item href="#registro" (click)="closeMenu()">Registro</ion-item>
+      <ion-item [routerLink]="['/auth/registro']" (click)="closeMenu()"
+        >Registro</ion-item
+      >
+
       <ion-item href="#ayuda" (click)="closeMenu()">Ayuda</ion-item>
     </ion-list>
   </ion-content>
