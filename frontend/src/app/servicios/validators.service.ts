@@ -26,4 +26,26 @@ export class ValidatorsService {
         })
     );
   }
+  getPublicaciones(buscado: string): Observable<any | null> {
+    return from(
+      fetch(`https://localhost/backend/publicaciones`, { method: 'GET' })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Error al obtener las publicaciones');
+          }
+          return response.json();
+        })
+        .then(
+          (publicaciones) =>
+            publicaciones.find(
+              (publicacion: { titulo: string }) =>
+                publicacion.titulo === buscado
+            ) || null
+        )
+        .catch((error) => {
+          console.error('Error en la obtención de publicaciones:', error);
+          return null;
+        })
+    );
+  }
 }

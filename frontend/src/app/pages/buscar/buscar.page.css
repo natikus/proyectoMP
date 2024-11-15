@@ -1,0 +1,24 @@
+.contenedor-scroll {
+  overflow-y: auto;
+  max-height: 65vh;
+  padding: 10px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centra el contenido horizontalmente */
+}
+
+.publicaciones-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centra las tarjetas horizontalmente */
+  gap: 16px; /* Espacio entre las tarjetas */
+  width: 100%; /* Ajusta el ancho según tus necesidades */
+  max-width: 600px; /* Tamaño máximo para las tarjetas */
+}
+
+.like-button {
+  display: block;
+  margin-top: 16px;
+  text-align: center;
+}

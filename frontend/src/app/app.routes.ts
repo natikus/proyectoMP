@@ -7,6 +7,7 @@ import { CrearPage } from './pages/crear/crear.page';
 import { RegistroPage } from './pages/registro/registro.page';
 import { VerPublicacionPage } from './pages/publicacion/publicacion.page';
 import { AjustesPage } from './pages/ajustes/ajustes.page';
+import { BuscarPage } from './pages/buscar/buscar.page';
 export const routes: Routes = [
   {
     path: '',
@@ -36,7 +37,11 @@ export const routes: Routes = [
     component: PerfilPage,
     canActivate: [logueadoGuard],
   },
-
+  {
+    path: 'inicio/search',
+    component: BuscarPage,
+    canActivate: [logueadoGuard],
+  },
   {
     path: 'inicio/:id_publicacion',
     component: VerPublicacionPage,

@@ -1,0 +1,41 @@
+<ion-title>Buscador</ion-title>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <!-- Input del buscador -->
+      <ion-col>
+        <ion-input
+          placeholder="Escribe tu búsqueda"
+          [(ngModel)]="buscado"
+          clear-input="true"
+        >
+        </ion-input>
+        <ion-button expand="block" (click)="buscar()"> Buscar </ion-button>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <!-- Lista de resultados -->
+      <ion-col size="12">
+        <div class="contenedor-scroll">
+          <ion-list
+            *ngIf="filtrados.length > 0"
+            class="publicaciones-container"
+          >
+            <ion-item *ngFor="let filtrado of filtrados; let i = index">
+              <app-publicacion
+                [publicacion]="filtrado"
+                [usuario]="usuarios[i]"
+                [showLink]="true"
+              ></app-publicacion>
+            </ion-item>
+          </ion-list>
+          <ion-item *ngIf="filtrados.length === 0">
+            <ion-label>No se encontraron resultados.</ion-label>
+          </ion-item>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

@@ -25,12 +25,10 @@
               required
             ></ion-input>
             <ion-note
-              [style.color]="'red'"
-              *ngIf="
-                formGroup.get('nombre')?.hasError('required') &&
-                formGroup.get('nombre')?.touched
-              "
-            >
+            [style.color]="'red'"
+            *ngIf="formGroup.get('nombre')?.hasError('required') &&
+              formGroup.get('nombre')?.touched"
+          >
               Ingrese sus nombres
             </ion-note>
 
@@ -46,10 +44,8 @@
             ></ion-input>
             <ion-note
               [style.color]="'red'"
-              *ngIf="
-                formGroup.get('apellido')?.hasError('required') &&
-                formGroup.get('apellido')?.touched
-              "
+              *ngIf="formGroup.get('apellido')?.hasError('required') &&
+                formGroup.get('apellido')?.touched"
             >
               Ingrese sus apellidos
             </ion-note>

@@ -9,7 +9,7 @@ import { usuarios } from '../../interface/persona';
 @Component({
   selector: 'app-inicio',
   standalone: true,
-  imports: [PublicacionComponent, RouterLink, CommonModule],
+  imports: [PublicacionComponent, CommonModule],
   templateUrl: './inicio.page.html',
   styleUrl: './inicio.page.css',
 })
