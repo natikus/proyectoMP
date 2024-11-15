@@ -144,9 +144,12 @@ const usuariosRoute: FastifyPluginAsync = async (
     },
     onRequest: fastify.verifySelfOrAdmin,
     handler: async function (request, reply) {
+      console.log("Params recibidos:", request.params);
+
       const { id_persona } = request.params as UsuarioIdType;
       const usuarioPut = request.body as UsuarioPutType;
       const userIdFromToken = request.user.id_persona;
+      console.log("Cuerpo recibido (raw):", request.body);
 
       if (userIdFromToken !== id_persona) {
         return reply
@@ -172,9 +175,20 @@ const usuariosRoute: FastifyPluginAsync = async (
         ? await bcrypt.hash(usuarioPut.contrasena, 10)
         : undefined;
 
-      const intereses = Array.isArray(usuarioPut.intereses)
-        ? usuarioPut.intereses
-        : JSON.parse(usuarioPut.intereses || "");
+      const intereses = (() => {
+        try {
+          if (Array.isArray(usuarioPut.intereses)) {
+            return usuarioPut.intereses;
+          } else if (typeof usuarioPut.intereses === "string") {
+            return JSON.parse(usuarioPut.intereses); // Intentar parsear la cadena
+          } else {
+            return []; // Valor por defecto
+          }
+        } catch (error) {
+          console.error("Error al procesar intereses:", error);
+          return []; // O manejar el error adecuadamente
+        }
+      })();
 
       const res = await query(
         `

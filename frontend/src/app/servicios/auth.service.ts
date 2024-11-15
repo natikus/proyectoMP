@@ -79,6 +79,29 @@ export class AuthService {
       return null;
     }
   }
+  async update(id_persona: string | null | undefined, formData: FormData) {
+    console.log('SOY EL TOKEN Y ESOY EDITANDO', localStorage.getItem('token'));
+    try {
+      const response = await fetch(
+        `https://localhost/backend/usuario/${id_persona}`,
+        {
+          method: 'PUT',
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            // NO agregues 'Content-Type' aquí porque el navegador lo define automáticamente para 'FormData'
+          },
+          body: formData, // Asegúrate de pasar el objeto FormData correctamente
+        }
+      );
+      if (!response.ok) throw new Error('Error al editar la persona');
+
+      return await response.json();
+    } catch (error) {
+      console.error(error);
+      return null;
+    }
+  }
+
   logOut() {
     localStorage.clear();
     this.router.navigate(['auth/login']);

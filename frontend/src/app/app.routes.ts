@@ -17,7 +17,7 @@ export const routes: Routes = [
   },
   {
     path: 'help',
-    component: AyudaPage,
+    component: AuthPage,
   },
   {
     path: 'auth/login',

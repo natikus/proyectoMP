@@ -25,17 +25,40 @@ export default fp<FastifyJWTOptions>(async (fastify) => {
   );
 
   fastify.decorate(
-    //verifica si la persona que hizo la solicitud es admin o el creador
     "verifySelfOrAdmin",
     async function (request: FastifyRequest, reply: FastifyReply) {
-      console.log("Verificando si es administrador o self.");
-      const usuarioToken = request.user;
-      const id_usuario = Number((request.params as UsuarioIdType).id_persona);
-      console.log({ usuarioToken, id_usuario });
-      if (!usuarioToken.is_Admin && usuarioToken.id_persona !== id_usuario)
-        throw reply.unauthorized(
-          "No estás autorizado a modificar ese recurso que no te pertenece si no eres admin."
-        );
+      try {
+        console.log("ESOY");
+        try {
+          console.log("VERIFICANDO QUE SOS VOS");
+          await request.jwtVerify();
+        } catch {
+          console.log("NO ANDAAAA");
+        }
+
+        const user = request.user; // El usuario debería estar definido después de jwtVerify
+        console.log(user, "SOY EL USUARIO VIENDOOO");
+        if (!user) {
+          console.log("USUARIO NO VALIDO");
+          throw new Error("No se encontró el usuario en el token");
+        }
+        console.log("USUARIO CALIDO!!!");
+
+        // Verificar si el usuario es el mismo o tiene privilegios de administrador
+        console.log("PARAMETROSSSS", request.params);
+        const { id_persona } = request.params as UsuarioIdType;
+        if (user.id_persona != id_persona && !user.is_Admin) {
+          console.log("SOY EL USUARIO PERO NO ESE");
+          return reply.code(403).send({
+            message: "No tienes permisos para realizar esta acción",
+          });
+        }
+
+        // Si pasa las validaciones, continuar
+      } catch (err) {
+        console.error("Error en verifySelfOrAdmin:", err);
+        return reply.code(401).send({ message: "Unauthorized" });
+      }
     }
   );
 });

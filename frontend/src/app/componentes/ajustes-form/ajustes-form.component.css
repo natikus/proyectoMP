@@ -1,0 +1,14 @@
+.image-upload-section {
+  max-width: 40%;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+.cropped-preview img {
+  max-width: 40%;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+.scrollable-form {
+  max-height: 90vh;
+  overflow-y: auto;
+}

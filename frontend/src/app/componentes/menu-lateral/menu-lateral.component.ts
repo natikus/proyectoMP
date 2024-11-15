@@ -64,4 +64,10 @@ export class MenuLateralComponent {
     const id_persona = localStorage.getItem('id_persona');
     this.router.navigate(['/inicio/porfile', id_persona]);
   }
+  editarme() {
+    this.menuController.close();
+    const id_persona = localStorage.getItem('id_persona');
+    console.log(localStorage);
+    this.router.navigate([`/inicio/porfile/${id_persona}/settings`]);
+  }
 }

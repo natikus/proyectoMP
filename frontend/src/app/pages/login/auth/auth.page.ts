@@ -99,8 +99,9 @@ export class AuthPage {
       const { user, token } = await this.getGoogleInfo();
       if (user && token) {
         console.log('Datos de Google obtenidos:', { user, token });
-        await this.authService.loginGoogle(user, token);
+        this.authService.loginGoogle(user, token);
         document.dispatchEvent(new Event('authChanged'));
+        console.log('LOCALLLL', localStorage);
       } else {
         console.error(
           'No se encontraron parámetros "user" o "token" en la URL'
