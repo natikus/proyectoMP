@@ -63,7 +63,7 @@ export class MenuLateralComponent {
   }
   miPerfil() {
     this.menuController.close();
-    const id_perspna = localStorage.getItem('id_persona');
-    this.router.navigate(['/inicio/porfile', id_perspna]);
+    const id_persona = localStorage.getItem('id_persona');
+    this.router.navigate(['/inicio/porfile', id_persona]);
   }
 }
