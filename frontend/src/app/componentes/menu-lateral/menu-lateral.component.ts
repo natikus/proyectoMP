@@ -22,7 +22,6 @@ import {
   selector: 'app-menu-lateral',
   standalone: true,
   imports: [
-    IonRouterOutlet,
     CommonModule,
     IonHeader,
     IonToolbar,

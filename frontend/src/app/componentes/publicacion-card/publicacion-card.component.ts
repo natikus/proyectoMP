@@ -21,16 +21,7 @@ import { usuarios } from '../../interface/persona';
 @Component({
   selector: 'app-publicacion-card',
   standalone: true,
-  imports: [
-    IonRow,
-    IonCol,
-    IonGrid,
-    IonContent,
-    CommonModule,
-    IonButton,
-    IonImg,
-    IonText,
-  ],
+  imports: [IonRow, IonCol, CommonModule, IonButton, IonImg, IonText],
   templateUrl: './publicacion-card.component.html',
   styleUrls: ['./publicacion-card.component.css'],
 })
