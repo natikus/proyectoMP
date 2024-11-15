@@ -141,6 +141,58 @@ export const descripcionSchema = Type.Object(
   },
   { additionalProperties: false }
 );
+export const contrasenaSchema = Type.Object(
+  {
+    type: Type.Literal("field", {
+      description: "Tipo de campo, en este caso es un campo de formulario",
+    }),
+    fieldname: Type.String({
+      description: "Nombre del campo del formulario",
+      minLength: 8,
+      maxLength: 100,
+    }),
+    mimetype: Type.String({ description: "Tipo MIME del campo" }),
+    encoding: Type.String({ description: "Codificación del campo" }),
+    value: Type.String({
+      description: "Valor del campo del formulario",
+      minLength: 1,
+      maxLength: 500,
+    }),
+    fieldnameTruncated: Type.Boolean({
+      description: "Indica si el nombre del campo fue truncado",
+    }),
+    valueTruncated: Type.Boolean({
+      description: "Indica si el valor del campo fue truncado",
+    }),
+  },
+  { additionalProperties: false }
+);
+export const telefonoSchema = Type.Object(
+  {
+    type: Type.Literal("field", {
+      description: "Tipo de campo, en este caso es un campo de formulario",
+    }),
+    fieldname: Type.String({
+      description: "Nombre del campo del formulario",
+      minLength: 10,
+      maxLength: 15,
+    }),
+    mimetype: Type.String({ description: "Tipo MIME del campo" }),
+    encoding: Type.String({ description: "Codificación del campo" }),
+    value: Type.String({
+      description: "Valor del campo del formulario",
+      minLength: 11,
+      maxLength: 11,
+    }),
+    fieldnameTruncated: Type.Boolean({
+      description: "Indica si el nombre del campo fue truncado",
+    }),
+    valueTruncated: Type.Boolean({
+      description: "Indica si el valor del campo fue truncado",
+    }),
+  },
+  { additionalProperties: false }
+);
 export const stringSchema = Type.Object(
   {
     type: Type.Literal("field", {

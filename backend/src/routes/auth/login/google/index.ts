@@ -80,14 +80,18 @@ const googleRoutes: FastifyPluginAsync = async (
         }
 
         const user = res.rows[0];
+        console.log("USERRR DEL OAUTH", user);
         const token = fastify.jwt.sign({
           id_persona: user.id,
           email: user.email,
         });
+        console.log("id_persona", user.id_persona, "LA IDDDDDDDDDDD");
         console.log("ESTE ES EL OKEN", token);
-        console.log(`https://localhost/inicio?token=${token}&user=${user.id}`);
+        console.log(
+          `https://localhost/inicio?token=${token}&user=${user.id_persona}`
+        );
         reply.redirect(
-          `https://localhost/auth/login?token=${token}&user=${user.id}`
+          `https://localhost/auth/login?token=${token}&user=${user.id_persona}`
         );
       } catch (error) {
         console.error("Error al obtener el token de acceso:", error);

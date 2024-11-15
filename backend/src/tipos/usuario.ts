@@ -1,10 +1,13 @@
 import { Static, Type } from "@sinclair/typebox";
 import {
+  contrasenaSchema,
+  descripcionSchema,
   emailSchema,
   FileSchema,
   nombreSchema,
   stringArraySchema,
   stringSchema,
+  telefonoSchema,
 } from "./esqyemasFeos.js";
 const cedulaRegex = /^[1-9]{1}\.[0-9]{3}\.[0-9]{3}-[0-9]{1}$/;
 const passwordRegex =
@@ -84,22 +87,10 @@ export const UsuarioPutSchema = Type.Object(
   {
     usuario: stringSchema,
     imagen: FileSchema,
-    intereses: Type.Array(Type.String()),
-    contrasena: Type.String({
-      description: "Contraseña del usuario",
-      minLength: 8,
-      maxLength: 100,
-    }),
-    telefono: Type.String({
-      description: "Teléfono del usuario",
-      minLength: 10,
-      maxLength: 15,
-    }),
-    descripcion: Type.String({
-      description: "Descripción del usuario",
-      minLength: 1,
-      maxLength: 500,
-    }),
+    intereses: stringArraySchema,
+    contrasena: contrasenaSchema,
+    telefono: telefonoSchema,
+    descripcion: descripcionSchema,
   },
   {
     examples: [
@@ -160,10 +151,10 @@ export const UsuarioPostSchema = Type.Object({
   usuario: stringSchema,
   email: emailSchema,
   imagen: FileSchema,
-  descripcion: stringSchema,
+  descripcion: descripcionSchema,
   intereses: stringArraySchema,
-  contrasena: stringSchema,
-  telefono: stringSchema,
+  contrasena: contrasenaSchema,
+  telefono: telefonoSchema,
 });
 
 export type UsuarioIdType = Static<typeof UsuarioIdSchema>;

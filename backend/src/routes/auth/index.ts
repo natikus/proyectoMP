@@ -39,7 +39,7 @@ const usuarioAuthRoute: FastifyPluginAsync = async (
       const email = usuarioPost.email.value;
       const usuario = usuarioPost.usuario.value;
       const descripcion = usuarioPost.descripcion.value;
-      let intereses;
+      let intereses: string[];
       try {
         intereses = JSON.parse(usuarioPost.intereses.value);
       } catch (e) {

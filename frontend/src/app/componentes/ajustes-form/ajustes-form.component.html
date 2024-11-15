@@ -23,6 +23,15 @@
               formControlName="usuario"
               name="Usuario"
             ></ion-input>
+            <ion-note
+              [style.color]="'red'"
+              *ngIf="
+                updateForm.get('usuario')?.hasError('required') &&
+                updateForm.get('usuario')?.touched
+              "
+            >
+              Ingrese un usuario
+            </ion-note>
 
             <!-- Celular -->
             <ion-input
@@ -33,6 +42,16 @@
               formControlName="celular"
               name="celular"
             ></ion-input>
+            <ion-note
+              [style.color]="'red'"
+              *ngIf="
+                updateForm.get('celular')?.hasError('pattern') &&
+                updateForm.get('celular')?.touched
+              "
+            >
+              Tu numero debe de tener la caracteristica del país (+598 xx xxx
+              xxx)
+            </ion-note>
 
             <!-- Contraseña -->
             <ion-input
@@ -114,7 +133,15 @@
                 {{ interest }}
               </div>
             </div>
-
+            <ion-note
+              [style.color]="'red'"
+              *ngIf="
+                updateForm.get('intereses')?.hasError('required') &&
+                updateForm.get('intereses')?.touched
+              "
+            >
+              Ingrese sus intereses
+            </ion-note>
             <div class="selected-interests">
               <div
                 *ngFor="let interest of selectedInterests"
@@ -136,7 +163,15 @@
               formControlName="descripcion"
               name="Descripcion"
             ></ion-input>
-
+            <ion-note
+              [style.color]="'red'"
+              *ngIf="
+                updateForm.get('descripcion')?.hasError('required') &&
+                updateForm.get('descripcion')?.touched
+              "
+            >
+              Cuentanos sobre ti
+            </ion-note>
             <div>
               <input type="file" (change)="fileChangeEvent($event)" />
               <image-cropper

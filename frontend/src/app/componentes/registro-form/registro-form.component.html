@@ -25,10 +25,12 @@
               required
             ></ion-input>
             <ion-note
-            [style.color]="'red'"
-            *ngIf="formGroup.get('nombre')?.hasError('required') &&
-              formGroup.get('nombre')?.touched"
-          >
+              [style.color]="'red'"
+              *ngIf="
+                formGroup.get('nombre')?.hasError('required') &&
+                formGroup.get('nombre')?.touched
+              "
+            >
               Ingrese sus nombres
             </ion-note>
 
@@ -44,8 +46,10 @@
             ></ion-input>
             <ion-note
               [style.color]="'red'"
-              *ngIf="formGroup.get('apellido')?.hasError('required') &&
-                formGroup.get('apellido')?.touched"
+              *ngIf="
+                formGroup.get('apellido')?.hasError('required') &&
+                formGroup.get('apellido')?.touched
+              "
             >
               Ingrese sus apellidos
             </ion-note>
@@ -116,6 +120,16 @@
               "
             >
               Ingrese su número de teléfono
+            </ion-note>
+            <ion-note
+              [style.color]="'red'"
+              *ngIf="
+                formGroup.get('celular')?.hasError('pattern') &&
+                formGroup.get('celular')?.touched
+              "
+            >
+              Tu numero debe de tener la caracteristica del país (+598 xx xxx
+              xxx)
             </ion-note>
             <!-- Contraseña -->
             <ion-input

@@ -111,7 +111,7 @@ export class AuthService {
       if (user && token) {
         localStorage.setItem('token', token);
 
-        localStorage.setItem('user', JSON.stringify(user));
+        localStorage.setItem('id_persona', user);
         this.setToken(token);
         this.router.navigate(['/inicio']);
       } else {

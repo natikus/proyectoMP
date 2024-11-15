@@ -12,6 +12,8 @@ import { publicacionSchema } from "../../tipos/publicacion.js";
 import bcrypt from "bcrypt";
 import path from "path";
 import { writeFileSync } from "fs";
+import { promisify } from "util";
+import fs from "fs";
 const usuariosRoute: FastifyPluginAsync = async (
   fastify: FastifyInstance,
   opts: FastifyPluginOptions
@@ -151,14 +153,29 @@ const usuariosRoute: FastifyPluginAsync = async (
       const userIdFromToken = request.user.id_persona;
       console.log("Cuerpo recibido (raw):", request.body);
 
-      if (userIdFromToken !== id_persona) {
+      if (userIdFromToken != id_persona) {
         return reply
           .code(403)
           .send({ message: "No tienes permiso para modificar este usuario" });
       }
-
+      const currentImageResult = await query(
+        `SELECT imagen FROM usuarios WHERE id_persona = $1`,
+        [id_persona]
+      );
+      let currentImageUrl = currentImageResult.rows[0]?.imagen;
       let imageUrl = "";
+      const unlinkAsync = promisify(fs.unlink);
       if (usuarioPut.imagen) {
+        if (currentImageUrl) {
+          const currentImagePath = path.join(process.cwd(), currentImageUrl);
+          try {
+            await unlinkAsync(currentImagePath);
+            console.log("Imagen anterior eliminada:", currentImagePath);
+          } catch (error) {
+            console.error("Error al eliminar la imagen anterior:", error);
+          }
+        }
+
         // Procesar la imagen si existe en la solicitud
         const fileBuffer = usuarioPut.imagen._buf as Buffer;
         const filepath = path.join(
@@ -175,20 +192,13 @@ const usuariosRoute: FastifyPluginAsync = async (
         ? await bcrypt.hash(usuarioPut.contrasena, 10)
         : undefined;
 
-      const intereses = (() => {
-        try {
-          if (Array.isArray(usuarioPut.intereses)) {
-            return usuarioPut.intereses;
-          } else if (typeof usuarioPut.intereses === "string") {
-            return JSON.parse(usuarioPut.intereses); // Intentar parsear la cadena
-          } else {
-            return []; // Valor por defecto
-          }
-        } catch (error) {
-          console.error("Error al procesar intereses:", error);
-          return []; // O manejar el error adecuadamente
-        }
-      })();
+      let intereses: string[];
+      try {
+        intereses = JSON.parse(usuarioPut.intereses.value);
+      } catch (e) {
+        reply.code(400).send({ message: "Formato de intereses inválido" });
+        return;
+      }
 
       const res = await query(
         `

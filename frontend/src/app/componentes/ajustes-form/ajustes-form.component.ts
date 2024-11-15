@@ -70,12 +70,18 @@ export class AjustesFormComponent {
   passwordStateMatcher = new PasswordStateMatcher();
   updateForm = this._formBuilder.group(
     {
-      usuario: '',
-      celular: '',
+      usuario: ['', Validators.required],
+      celular: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern('/^(+598)[0-9]{8}$/'), // Regex para validar el teléfono
+        ],
+      ],
       contrasena: ['', [customPasswordValidator, Validators.required]],
       confirmContrasena: ['', Validators.required],
-      descripcion: '',
-      intereses: '',
+      descripcion: ['', Validators.required],
+      intereses: ['', Validators.required],
     },
     {
       validators: crossPasswordMatchingValidatior,
@@ -158,32 +164,31 @@ export class AjustesFormComponent {
 
       // Validar y agregar usuario
       const usuario = this.updateForm.get('usuario')?.value;
-      if (usuario !== undefined) {
-        formData.append('usuario', usuario);
-      }
+
+      formData.append('usuario', this.updateForm.get('usuario')?.value || '');
 
       // Validar y agregar teléfono
-      const celular = this.updateForm.get('celular')?.value;
-      if (celular !== undefined) {
-        formData.append('telefono', celular);
-      }
+
+      formData.append('telefono', this.updateForm.get('celular')?.value || '');
 
       // Contraseña siempre obligatoria
-      const contrasena = this.updateForm.get('contrasena')?.value || '';
-      formData.append('contrasena', contrasena);
+      formData.append(
+        'contrasena',
+        this.updateForm.get('contrasena')?.value || ''
+      );
 
       // Validar y agregar descripción
-      const descripcion = this.updateForm.get('descripcion')?.value;
-      if (descripcion !== undefined) {
-        formData.append('descripcion', descripcion);
-      }
+
+      formData.append(
+        'descripcion',
+        this.updateForm.get('descripcion')?.value || ''
+      );
 
       // Validar y agregar intereses
       if (this.selectedInterests.length > 0) {
         formData.append('intereses', JSON.stringify(this.selectedInterests));
       } else {
         console.warn('No se han seleccionado intereses.');
-        formData.append('intereses', '[]'); // Valor por defecto
       }
 
       // Validar y agregar imagen
@@ -191,18 +196,13 @@ export class AjustesFormComponent {
         formData.append('imagen', this._imageBlob, 'profile.jpg');
       }
 
-      // Verificar contenido de FormData
-      formData.forEach((value, key) => {
-        console.log(`${key}:`, value);
-      });
-
       try {
         const response = await this.apiService.update(this.getId(), formData);
         console.log('Respuesta del servidor:', response);
 
         if (response && response.success) {
           console.log('Usuario actualizado con éxito');
-          this.router.navigate(['ruta/de/destino']);
+          this.router.navigate(['auth/login']);
         } else {
           console.error('Error en la actualización:', response?.message);
         }
