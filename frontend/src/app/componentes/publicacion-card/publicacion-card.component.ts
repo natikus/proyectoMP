@@ -32,7 +32,7 @@ export class PublicacionCardComponent {
   id!: number;
   etiquetas?: etiquetas[];
   etiquetasNombres: string[] = [];
-
+  sos: boolean = false;
   constructor(private route: ActivatedRoute) {}
 
   async ngOnInit(): Promise<void> {
@@ -47,14 +47,15 @@ export class PublicacionCardComponent {
     }
 
     try {
-      console.log('ENTRE ++++++++++');
+      console.log('Obtieniendo la publicacion');
       this.publicacion = await this.apiService.get(`publicaciones/${this.id}`);
       console.log(this.publicacion);
     } catch {
-      console.log('Cargando publicación');
+      console.warn('No se puede cargar la publcacion');
     }
 
     try {
+      console.log('obteniendo las etiquetas de la publicacion');
       this.etiquetas = await this.apiService.get(
         `publicaciones/${this.id}/etiquetas`
       );
@@ -68,12 +69,15 @@ export class PublicacionCardComponent {
         console.log('No se encontraron etiquetas');
       }
     } catch {
-      console.log('Cargando etiquetas');
+      console.warn('No se pudo obtener las etiquetas');
     }
   }
   async self() {
     const storedId = localStorage.getItem('id_persona');
     const id_creador = localStorage.getItem('id_creador');
+    if (storedId == id_creador) {
+      this.sos = true;
+    }
   }
   async openWhatsApp() {
     const storedId = localStorage.getItem('id_persona');

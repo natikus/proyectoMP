@@ -172,16 +172,23 @@ export class CrearPublicacionComponent {
         'ubicacion',
         this.Loginform.get('ubicacion')?.value || ''
       );
-      formData.append(
-        'etiquetas',
-        this.Loginform.get('etiquetas')?.value || ''
-      );
-      formData.append('imagenes', this._imageBlob, `${storedId}.jpg`);
 
-      console.log('Datos de FormData antes de enviar:', formData);
+      // Enviar las etiquetas como un array JSON
+      const etiquetas = this.selectedTags; // Asegúrate de que esto sea un array
+      formData.append('etiquetas', JSON.stringify(etiquetas)); // Convertir a string si se usa FormData
+
+      formData.append('imagenes', this._imageBlob, `${storedId}.jpg`);
+      console.log('Etiquetas:', etiquetas);
 
       const response = await this.apiService.postPublicacion(formData);
       console.log('Respuesta del backend:', response);
+
+      // Asegúrate de que el backend espera el arreglo de etiquetas en el formato correcto
+      const etiquetaaa = await this.apiService.post(
+        `publicaciones/${response.id_publicacion}/etiquetas`,
+        etiquetas // Aquí se envía como un array de etiquetas
+      );
+      console.log('Etiquetas enviadas', etiquetaaa);
       this.router.navigate(['/inicio']);
     } catch (error) {
       console.error('Error al guardar la publicación:', error);

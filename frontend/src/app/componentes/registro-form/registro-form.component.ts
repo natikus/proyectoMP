@@ -89,13 +89,7 @@ export class RegistroFormComponent implements OnInit {
           Validators.maxLength(30),
         ],
       ],
-      celular: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern('/^(+598)[0-9]{8}$/'), // Regex para validar el teléfono
-        ],
-      ],
+      celular: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
       contrasena: ['', [customPasswordValidator, Validators.required]],
       confirmContrasena: ['', Validators.required],

@@ -61,9 +61,9 @@ const publicacionesRoute: FastifyPluginAsync = async (
         return;
       }
 
-      const id_persona = res.rows[0].id_persona;
+      const id_publicacion = res.rows[0].id_publicacion;
       reply.code(201).send({
-        id_persona,
+        id_publicacion,
         titulo,
         descripcion,
         imageUrl,
@@ -159,6 +159,120 @@ const publicacionesRoute: FastifyPluginAsync = async (
       } catch (error) {
         console.error("Error al obtener etiquetas:", error);
         reply.code(500).send({ message: "Error interno del servidor." });
+      }
+    },
+  });
+  fastify.post("/:id_publicacion/etiquetas", {
+    schema: {
+      summary: "Asociar etiquetas a una publicación",
+      description:
+        "Asocia una o varias etiquetas a una publicación, creando las etiquetas si no existen.",
+      tags: ["etiqueta"],
+      body: {
+        type: "array",
+        items: {
+          type: "string", // Ahora recibimos el nombre de la etiqueta
+          description: "Nombre de la etiqueta a asociar",
+        },
+        minItems: 1, // Requiere al menos una etiqueta
+      },
+      response: {
+        200: {
+          description: "Etiquetas asociadas correctamente",
+          type: "object",
+          properties: {
+            message: { type: "string" },
+          },
+        },
+        400: {
+          description: "Petición inválida",
+          type: "object",
+          properties: {
+            message: { type: "string" },
+          },
+        },
+        404: {
+          description: "Publicación no encontrada",
+          type: "object",
+          properties: {
+            message: { type: "string" },
+          },
+        },
+        500: {
+          description: "Error interno del servidor",
+          type: "object",
+          properties: {
+            message: { type: "string" },
+          },
+        },
+      },
+    },
+    onRequest: fastify.authenticate,
+    handler: async function (request, reply) {
+      const { id_publicacion } = request.params as { id_publicacion: number };
+      const { etiquetas } = request.body as { etiquetas: string[] };
+      console.log("REQUEST DEL BODYYY", request.body);
+      console.log(etiquetas, "ECONTRE ESTAS ETIQUETAS");
+      if (!etiquetas || etiquetas.length === 0) {
+        reply.code(400).send({
+          message: "Debe proporcionar al menos una etiqueta.",
+        });
+        return;
+      }
+
+      try {
+        // Verifica si la publicación existe
+        const resPublicacion = await query(
+          `SELECT id_publicacion FROM publicaciones WHERE id_publicacion = $1`,
+          [id_publicacion]
+        );
+
+        if (resPublicacion.rows.length === 0) {
+          reply.code(404).send({
+            message: "Publicación no encontrada.",
+          });
+          return;
+        }
+
+        // Para cada etiqueta, verificamos si ya existe en la base de datos
+        const idsEtiquetas: number[] = [];
+        for (const etiqueta of etiquetas) {
+          // Primero, intentamos encontrar la etiqueta por nombre
+          const resEtiqueta = await query(
+            `SELECT id_etiqueta FROM etiquetas WHERE etiqueta = $1`,
+            [etiqueta]
+          );
+
+          if (resEtiqueta.rows.length > 0) {
+            // Si la etiqueta existe, la agregamos a la lista de IDs
+            idsEtiquetas.push(resEtiqueta.rows[0].id_etiqueta);
+          } else {
+            // Si no existe, la creamos y obtenemos su ID
+            const resNuevaEtiqueta = await query(
+              `INSERT INTO etiquetas (etiqueta) VALUES ($1) RETURNING id_etiqueta`,
+              [etiqueta]
+            );
+            idsEtiquetas.push(resNuevaEtiqueta.rows[0].id_etiqueta);
+          }
+        }
+
+        // Insertamos las relaciones entre la publicación y las etiquetas
+        const values = idsEtiquetas
+          .map((etiquetaId) => `(${id_publicacion}, ${etiquetaId})`)
+          .join(", ");
+
+        await query(
+          `INSERT INTO publicacion_etiquetas (id_publicacion, id_etiqueta) VALUES ${values}`
+        );
+
+        reply.code(200).send({
+          message: "Etiquetas asociadas correctamente.",
+        });
+      } catch (error) {
+        console.error("Error al asociar etiquetas:", error);
+        reply.code(500).send({
+          message: "Error interno del servidor.",
+        });
       }
     },
   });

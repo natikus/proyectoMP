@@ -39,9 +39,14 @@
         </div>
 
         <!-- Botón de contacto -->
-        <div class="detalle-footer">
+        <div *ngIf="!sos" class="detalle-footer">
           <ion-button expand="block" color="primary" (click)="openWhatsApp()">
             Contactar por WhatsApp
+          </ion-button>
+        </div>
+        <div *ngIf="sos" class="detalle-footer">
+          <ion-button expand="block" color="primary" (click)="openWhatsApp()">
+            SOS VOSSS
           </ion-button>
         </div>
       </div>
