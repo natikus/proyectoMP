@@ -6,6 +6,7 @@ import bcrypt from "bcrypt";
 import path from "path";
 import { writeFileSync } from "fs";
 
+import { randomUUID } from "crypto";
 const usuarioAuthRoute: FastifyPluginAsync = async (
   fastify: FastifyInstance,
   opts: FastifyPluginOptions
@@ -15,6 +16,8 @@ const usuarioAuthRoute: FastifyPluginAsync = async (
   // Ruta para crear una nueva persona
   fastify.post("/", {
     schema: {
+      summary: "Crear un usuario",
+      description: "Crea un nuevo usuario en la base de datos.",
       tags: ["persona"],
       consumes: ["multipart/form-data"],
       body: UsuarioPostSchema,
@@ -26,13 +29,10 @@ const usuarioAuthRoute: FastifyPluginAsync = async (
       let imageUrl = "";
       if (usuarioPost.imagen) {
         const fileBuffer = usuarioPost.imagen._buf as Buffer;
-        const filepath = path.join(
-          process.cwd(),
-          "uploads",
-          usuarioPost.imagen.filename
-        );
+        const uniqueFilename = `${randomUUID()}_${usuarioPost.imagen.filename}`;
+        const filepath = path.join(process.cwd(), "uploads", uniqueFilename);
         writeFileSync(filepath, fileBuffer);
-        imageUrl = `/uploads/${usuarioPost.imagen.filename}`;
+        imageUrl = `/uploads/${uniqueFilename}`;
       }
       const nombre = usuarioPost.nombre.value;
       const apellido = usuarioPost.apellido.value;

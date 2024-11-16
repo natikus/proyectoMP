@@ -1,35 +1,22 @@
 import { Component, inject } from '@angular/core';
-import {
-  FormsModule,
-  NonNullableFormBuilder,
-  ReactiveFormsModule,
-} from '@angular/forms';
-import { Router } from '@angular/router';
-import { Validators } from '@angular/forms';
-
-import { ValidatorsService } from '../../servicios/validators.service';
-
+import { FormsModule, NgModel } from '@angular/forms';
 import { ApiRestService } from '../../servicios/api-rest.service';
 import {
   IonButton,
   IonCol,
   IonContent,
   IonGrid,
-  IonHeader,
-  IonInput,
-  IonItem,
-  IonLabel,
-  IonList,
   IonRow,
   IonTitle,
-  IonToolbar,
   IonCard,
   IonText,
+  IonInput,
 } from '@ionic/angular/standalone';
 import { publicaciones } from '../../interface/publicacion';
 import { CommonModule } from '@angular/common';
 import { PublicacionComponent } from '../../componentes/publicacion/publicacion.component';
 import { usuarios } from '../../interface/persona';
+
 @Component({
   selector: 'app-buscar',
   standalone: true,
@@ -40,11 +27,13 @@ import { usuarios } from '../../interface/persona';
     IonGrid,
     IonRow,
     IonCol,
+    IonInput,
     FormsModule,
     IonButton,
     IonTitle,
     CommonModule,
     PublicacionComponent,
+    FormsModule,
   ],
   templateUrl: './buscar.page.html',
   styleUrls: ['./buscar.page.scss'],
@@ -54,37 +43,40 @@ export class BuscarPage {
   filtrados: publicaciones[] = [];
   usuarios: usuarios[] = [];
   private apiService: ApiRestService = inject(ApiRestService);
-  private router: Router = inject(Router);
   busquedaRealizada: boolean = false;
+
   async buscar() {
+    console.log('Valor de buscado:', this.buscado); // Verifica si el valor se guarda
+
+    // Limpiar resultados previos
+    this.filtrados = [];
+    this.usuarios = [];
+
     const resultados = await this.apiService.get('publicaciones');
 
-    resultados.forEach(async (resultado: publicaciones) => {
-      // Compara si el título o la descripción contienen la cadena buscada (sin importar mayúsculas o minúsculas)
+    // Verificar los resultados de la API
+    console.log('Resultados de la API:', resultados);
+
+    for (let resultado of resultados) {
       if (
         resultado.titulo.toLowerCase().includes(this.buscado.toLowerCase()) ||
         resultado.descripcion.toLowerCase().includes(this.buscado.toLowerCase())
       ) {
-        // Verifica si el resultado ya existe en `filtrados` antes de añadirlo
-        const existe = this.filtrados.some(
-          (filtrado) => filtrado.id_publicacion === resultado.id_publicacion
+        // Filtrar las publicaciones que coinciden
+        this.filtrados = [...this.filtrados, resultado];
+
+        // Obtener el usuario asociado a la publicación
+        const usuario = await this.apiService.get(
+          `usuario/${resultado.id_creador}`
         );
-
-        if (!existe) {
-          this.filtrados.push(resultado); // Agrega el resultado a la lista filtrada
-
-          // Busca el usuario asociado si la publicación es nueva en `filtrados`
-          const usuario = await this.apiService.get(
-            `usuario/${resultado.id_creador}`
-          );
-
-          this.usuarios.push(usuario);
-        }
+        this.usuarios = [...this.usuarios, usuario];
       }
-      this.busquedaRealizada = true;
-    });
+    }
 
-    console.log(this.filtrados);
-    console.log(this.usuarios);
+    this.busquedaRealizada = true;
+
+    // Verificar si los resultados fueron filtrados correctamente
+    console.log('Publicaciones filtradas:', this.filtrados);
+    console.log('Usuarios asociados:', this.usuarios);
   }
 }
