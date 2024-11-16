@@ -14,18 +14,31 @@
       <!-- Información personal -->
       <div class="perfil-info">
         <ion-text color="dark">
-          <h1 class="perfil-titulo">{{ usuario.email }}</h1>
+          <h1 class="perfil-titulo">
+            {{ usuario.nombre }}{{ usuario.apellido }}
+          </h1>
         </ion-text>
         <ion-text color="medium">
           <p class="perfil-descripcion">{{ usuario.descripcion }}</p>
         </ion-text>
       </div>
 
-      <!-- Información adicional -->
+      <!-- Teléfono (Ubicación) -->
       <div class="perfil-detalles">
         <ion-text color="medium">
-          <p><strong>Ubicación:</strong> {{ usuario.telefono }}</p>
-          <p><strong>Etiquetas:</strong></p>
+          <p><strong>Teléfono:</strong> {{ usuario.telefono }}</p>
+        </ion-text>
+      </div>
+      <div class="perfil-detalles">
+        <ion-text color="medium">
+          <p><strong>E-mail:</strong> {{ usuario.email }}</p>
+        </ion-text>
+      </div>
+
+      <!-- Etiquetas -->
+      <div class="perfil-detalles">
+        <ion-text color="medium">
+          <p><strong>Intereses:</strong></p>
         </ion-text>
         <div
           *ngIf="
@@ -36,9 +49,9 @@
         >
           <ion-text
             color="primary"
-            *ngFor="let etiqueta of usuario.intereses; let isLast = last"
+            *ngFor="let interes of usuario.intereses; let isLast = last"
           >
-            <span>{{ etiqueta }}</span
+            <span>{{ interes }}</span
             ><span *ngIf="!isLast">, </span>
           </ion-text>
         </div>

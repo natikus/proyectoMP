@@ -2,41 +2,8 @@
   margin-top: 2cm;
 }
 
-.perfil-header {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  margin-bottom: 15px;
-}
-
 .perfil-imagen {
   border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  border: 3px solid var(--violet-dark);
-}
-
-.perfil-info h2 {
-  font-size: 22px;
-  color: var(--violet-dark);
-}
-
-.perfil-descripcion {
-  color: var(--text-color);
-  margin: 10px 0;
-}
-
-.perfil-intereses {
-  list-style-type: none;
-  padding: 0;
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.interes-item {
-  background-color: var(--violet-light);
-  color: #fff;
-  padding: 5px 10px;
-  border-radius: 5px;
+  width: 120px;
+  height: 120px;
 }
