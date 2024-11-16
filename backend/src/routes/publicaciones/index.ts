@@ -47,7 +47,7 @@ const publicacionesRoute: FastifyPluginAsync = async (
         writeFileSync(filepath, fileBuffer);
 
         // Crear la URL para la imagen
-        imageUrl = `/uploads/publicaciones/${uniqueFilename}`;
+        imageUrl = `/${uniqueFilename}`;
         console.log(imageUrl);
       }
 
