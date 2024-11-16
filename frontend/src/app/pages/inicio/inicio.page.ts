@@ -37,6 +37,8 @@ export class InicioPage {
   id_persona: string = '';
 
   async ngOnInit() {
+    localStorage.removeItem('id_usuario');
+    localStorage.removeItem('id_publicacion');
     this.publicaciones = await this.apiService.get('publicaciones');
     console.log(this.publicaciones);
     for (const publicacion of this.publicaciones) {

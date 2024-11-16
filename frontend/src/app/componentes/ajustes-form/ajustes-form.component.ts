@@ -71,13 +71,7 @@ export class AjustesFormComponent {
   updateForm = this._formBuilder.group(
     {
       usuario: ['', Validators.required],
-      celular: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern('/^(+598)[0-9]{8}$/'), // Regex para validar el teléfono
-        ],
-      ],
+      celular: ['', Validators.required],
       contrasena: ['', [customPasswordValidator, Validators.required]],
       confirmContrasena: ['', Validators.required],
       descripcion: ['', Validators.required],

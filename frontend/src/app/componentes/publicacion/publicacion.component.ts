@@ -61,7 +61,9 @@ export class PublicacionComponent {
   }
   verUsuario(id_persona: number | undefined) {
     if (id_persona) {
-      this.router.navigate(['/inicio/porfile', id_persona]);
+      console.log(id_persona, 'AAAAAAAAAA');
+      localStorage.setItem('id_usuario', id_persona.toString());
+      this.router.navigate(['/inicio/porfile/', id_persona]);
     }
   }
 }

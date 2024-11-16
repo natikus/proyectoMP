@@ -62,10 +62,20 @@
 
       <!-- Botón de acción -->
       <div class="perfil-acciones">
-        <ion-button expand="block" color="primary" *ngIf="!sos">
+        <ion-button
+          expand="block"
+          color="primary"
+          *ngIf="!sos"
+          (click)="openWhatsApp()"
+        >
           Contactar por WhatsApp
         </ion-button>
-        <ion-button expand="block" color="primary" *ngIf="sos">
+        <ion-button
+          expand="block"
+          color="primary"
+          *ngIf="sos"
+          (click)="editarme()"
+        >
           Editar perfil
         </ion-button>
       </div>
