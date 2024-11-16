@@ -10,8 +10,7 @@
   margin: 0 auto; /* Centrar tarjeta en la columna */
 
   color: whitesmoke;
-  height: 500px; /* Altura fija para todas las tarjetas */
-
+  height: 550px; /* Altura fija para todas las tarjetas */
   flex-direction: column;
   justify-content: space-between; /* Asegura consistencia interna */
 }

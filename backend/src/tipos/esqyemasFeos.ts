@@ -174,15 +174,15 @@ export const telefonoSchema = Type.Object(
     }),
     fieldname: Type.String({
       description: "Nombre del campo del formulario",
-      minLength: 10,
-      maxLength: 15,
+      minLength: 1,
+      maxLength: 50,
     }),
     mimetype: Type.String({ description: "Tipo MIME del campo" }),
     encoding: Type.String({ description: "Codificación del campo" }),
     value: Type.String({
       description: "Valor del campo del formulario",
-      minLength: 11,
-      maxLength: 11,
+      minLength: 9,
+      maxLength: 12,
     }),
     fieldnameTruncated: Type.Boolean({
       description: "Indica si el nombre del campo fue truncado",

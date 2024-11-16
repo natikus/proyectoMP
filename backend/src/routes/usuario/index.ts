@@ -40,7 +40,7 @@ const usuariosRoute: FastifyPluginAsync = async (
     handler: async function (request, reply) {
       const res = await query(`SELECT
         id_persona,
-        ,
+        
         nombre, 
         apellido,
         usuario,
