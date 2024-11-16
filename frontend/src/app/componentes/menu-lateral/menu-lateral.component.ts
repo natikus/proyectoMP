@@ -59,9 +59,16 @@ export class MenuLateralComponent {
     this.apiService.logOut();
   }
   miPerfil() {
+    console.log('Cerrando el menu');
     this.menuController.close();
     const id_persona = localStorage.getItem('id_persona');
-    this.router.navigate(['/inicio/porfile', id_persona]);
+    console.log('id_persona', id_persona);
+    if (id_persona) {
+      console.log('no es null');
+      localStorage.setItem('id_usuario', id_persona);
+      console.log(localStorage);
+      this.router.navigate(['/inicio/porfile/', id_persona]);
+    }
   }
   editarme() {
     this.menuController.close();
