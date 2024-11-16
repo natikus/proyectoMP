@@ -1,8 +1,9 @@
 <ion-content>
   <ion-grid>
     <ion-title>Buscador</ion-title>
+
+    <!-- Fila para el buscador -->
     <ion-row>
-      <!-- Input del buscador -->
       <ion-col>
         <ion-input
           placeholder="Escribe tu búsqueda"
@@ -10,32 +11,40 @@
           clear-input="true"
         >
         </ion-input>
-        <ion-button expand="block" (click)="buscar()"> Buscar </ion-button>
+        <ion-button expand="block" (click)="buscar()">Buscar</ion-button>
       </ion-col>
+    </ion-row>
 
-      <!-- Recorremos las publicaciones -->
-      <ion-col
-        *ngFor="let filtrado of filtrados; let i = index"
-        size="12"
-        size-sm="12"
-        size-md="6"
-        size-lg="4"
-        size-xl="3"
-        class="publicaciones-container"
-        ><ion-list *ngIf="filtrados.length > 0" class="publicaciones-container">
+    <!-- Fila para las publicaciones o mensaje de no resultados -->
+    <ion-row *ngIf="busquedaRealizada">
+      <ng-container *ngIf="filtrados.length > 0; else noResultados">
+        <ion-col
+          *ngFor="let filtrado of filtrados; let i = index"
+          size="12"
+          size-sm="12"
+          size-md="6"
+          size-lg="4"
+          size-xl="3"
+          class="publicaciones-container"
+        >
           <ion-card class="card-container">
             <app-publicacion
               [publicacion]="filtrado"
               [usuario]="usuarios[i]"
               [showLink]="true"
-              class="publicaciones-container"
             ></app-publicacion>
           </ion-card>
-          <ion-item *ngIf="filtrados.length === 0">
-            <ion-label>No se encontraron resultados.</ion-label>
-          </ion-item>
-        </ion-list>
-      </ion-col>
+        </ion-col>
+      </ng-container>
+
+      <!-- Mensaje cuando no hay publicaciones -->
+      <ng-template #noResultados>
+        <ion-col size="12" class="no-resultados">
+          <ion-text>
+            <h1>No se encontraron publicaciones.</h1>
+          </ion-text>
+        </ion-col>
+      </ng-template>
     </ion-row>
   </ion-grid>
 </ion-content>

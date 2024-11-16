@@ -1,3 +1,7 @@
+ion-grid {
+  margin-top: 2cm; /* Ajusta el margen para separar las tarjetas */
+  justify-content: center;
+}
 .publicaciones-container {
   margin-top: 2cm;
   justify-content: center;
@@ -21,6 +25,7 @@
   width: 100%;
   border-radius: 10px 10px 0 0; /* Bordes superiores redondeados */
 }
+
 .card-footer {
   margin-top: auto; /* Empuja el botón al final */
 }

@@ -24,6 +24,7 @@ import {
   IonTitle,
   IonToolbar,
   IonCard,
+  IonText,
 } from '@ionic/angular/standalone';
 import { publicaciones } from '../../interface/publicacion';
 import { CommonModule } from '@angular/common';
@@ -33,6 +34,7 @@ import { usuarios } from '../../interface/persona';
   selector: 'app-buscar',
   standalone: true,
   imports: [
+    IonText,
     IonCard,
     IonContent,
     IonGrid,
@@ -59,6 +61,7 @@ export class BuscarPage {
   usuarios: usuarios[] = [];
   private apiService: ApiRestService = inject(ApiRestService);
   private router: Router = inject(Router);
+  busquedaRealizada: boolean = false;
   async buscar() {
     const resultados = await this.apiService.get('publicaciones');
 
@@ -84,6 +87,7 @@ export class BuscarPage {
           this.usuarios.push(usuario);
         }
       }
+      this.busquedaRealizada = true;
     });
 
     console.log(this.filtrados);
