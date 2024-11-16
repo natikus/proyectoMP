@@ -13,9 +13,9 @@
 
       <!-- Información personal -->
       <div class="perfil-info">
-        <ion-text color="dark">
+        <ion-text color="medium">
           <h1 class="perfil-titulo">
-            {{ usuario.nombre }}{{ usuario.apellido }}
+            {{ usuario.nombre }} {{ usuario.apellido }}
           </h1>
         </ion-text>
         <ion-text color="medium">
@@ -48,7 +48,7 @@
           class="perfil-etiquetas"
         >
           <ion-text
-            color="primary"
+            color="medium"
             *ngFor="let interes of usuario.intereses; let isLast = last"
           >
             <span>{{ interes }}</span

@@ -20,6 +20,7 @@ import {
   IonInput,
   IonNote,
   IonRow,
+  IonContent,
 } from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
 import {
