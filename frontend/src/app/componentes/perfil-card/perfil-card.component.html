@@ -1,62 +1,60 @@
-<ion-row>
+<ion-row class="perfil-contenedor">
   <ion-col size="12" size-md="8" offset-md="2">
-    <div class="detalle-contenido">
-      <!-- Texto de la publicación -->
-      <div class="detalle-texto">
-        <ion-text color="dark">
-          <h1 class="detalle-titulo">{{ usuario.email }}</h1>
-        </ion-text>
-
-        <ion-text color="medium">
-          <p class="detalle-descripcion">{{ usuario.descripcion }}</p>
-        </ion-text>
-
-        <!-- Información adicional -->
-        <div class="detalle-info">
-          <ion-text color="medium">
-            <p><strong>Ubicación:</strong> {{ usuario.intereses }}</p>
-            <p><strong>Etiquetas:</strong></p>
-          </ion-text>
-
-          <div
-            *ngIf="
-              usuario.intereses && usuario.intereses.length > 0;
-              else noEtiquetas
-            "
-          >
-            <ion-text
-              color="primary"
-              *ngFor="let etiqueta of usuario.intereses; let isLast = last"
-            >
-              <span>{{ etiqueta }}</span
-              ><span *ngIf="!isLast">, </span>
-            </ion-text>
-          </div>
-
-          <ng-template #noEtiquetas>
-            <ion-text color="medium">No hay etiquetas disponibles.</ion-text>
-          </ng-template>
-        </div>
-
-        <!-- Botón de contacto -->
-        <div *ngIf="!sos" class="detalle-footer">
-          <ion-button expand="block" color="primary">
-            Contactar por WhatsApp
-          </ion-button>
-        </div>
-        <div *ngIf="sos" class="detalle-footer">
-          <ion-button expand="block" color="primary"> editarme </ion-button>
-        </div>
-      </div>
-
-      <!-- Imagen de la publicación -->
-      <div class="detalle-imagen">
+    <div class="perfil-card">
+      <!-- Imagen del usuario -->
+      <div class="perfil-imagen">
         <ion-img
           *ngIf="usuario?.imagen"
           [src]="'http://localhost/backend/uploads/' + usuario.imagen"
-          alt="Imagen de la publicación"
-          class="post-image"
+          alt="Imagen del usuario"
+          class="perfil-foto"
         ></ion-img>
+      </div>
+
+      <!-- Información personal -->
+      <div class="perfil-info">
+        <ion-text color="dark">
+          <h1 class="perfil-titulo">{{ usuario.email }}</h1>
+        </ion-text>
+        <ion-text color="medium">
+          <p class="perfil-descripcion">{{ usuario.descripcion }}</p>
+        </ion-text>
+      </div>
+
+      <!-- Información adicional -->
+      <div class="perfil-detalles">
+        <ion-text color="medium">
+          <p><strong>Ubicación:</strong> {{ usuario.telefono }}</p>
+          <p><strong>Etiquetas:</strong></p>
+        </ion-text>
+        <div
+          *ngIf="
+            usuario.intereses && usuario.intereses.length > 0;
+            else noEtiquetas
+          "
+          class="perfil-etiquetas"
+        >
+          <ion-text
+            color="primary"
+            *ngFor="let etiqueta of usuario.intereses; let isLast = last"
+          >
+            <span>{{ etiqueta }}</span
+            ><span *ngIf="!isLast">, </span>
+          </ion-text>
+        </div>
+        <ng-template #noEtiquetas>
+          <ion-text color="medium">No hay etiquetas disponibles.</ion-text>
+        </ng-template>
+      </div>
+
+      <!-- Botón de acción -->
+      <div class="perfil-acciones">
+        <ion-button expand="block" color="primary" *ngIf="!sos">
+          Contactar por WhatsApp
+        </ion-button>
+        <ion-button expand="block" color="primary" *ngIf="sos">
+          Editar perfil
+        </ion-button>
       </div>
     </div>
   </ion-col>
