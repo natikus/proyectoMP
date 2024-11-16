@@ -1,24 +1,26 @@
-.contenedor-scroll {
-  overflow-y: auto;
-  max-height: 65vh;
-  padding: 10px;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Centra el contenido horizontalmente */
-}
-
 .publicaciones-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Centra las tarjetas horizontalmente */
-  gap: 16px; /* Espacio entre las tarjetas */
-  width: 100%; /* Ajusta el ancho según tus necesidades */
-  max-width: 600px; /* Tamaño máximo para las tarjetas */
+  margin-top: 2cm;
+  justify-content: center;
 }
 
-.like-button {
-  display: block;
-  margin-top: 16px;
-  text-align: center;
+.card-container {
+  border-radius: 10px;
+  width: 100%; /* Ocupa todo el espacio de la columna */
+  max-width: 400px; /* Máximo ancho */
+  margin: 0 auto; /* Centrar tarjeta en la columna */
+
+  color: whitesmoke;
+  height: 550px; /* Altura fija para todas las tarjetas */
+  flex-direction: column;
+  justify-content: space-between; /* Asegura consistencia interna */
+}
+
+.card-container img {
+  height: 150px; /* Ejemplo de ajuste para imágenes */
+  object-fit: cover; /* Ajusta imágenes dentro de su contenedor */
+  width: 100%;
+  border-radius: 10px 10px 0 0; /* Bordes superiores redondeados */
+}
+.card-footer {
+  margin-top: auto; /* Empuja el botón al final */
 }

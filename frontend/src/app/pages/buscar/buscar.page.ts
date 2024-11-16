@@ -23,6 +23,7 @@ import {
   IonRow,
   IonTitle,
   IonToolbar,
+  IonCard,
 } from '@ionic/angular/standalone';
 import { publicaciones } from '../../interface/publicacion';
 import { CommonModule } from '@angular/common';
@@ -32,6 +33,7 @@ import { usuarios } from '../../interface/persona';
   selector: 'app-buscar',
   standalone: true,
   imports: [
+    IonCard,
     IonContent,
     IonGrid,
     IonRow,

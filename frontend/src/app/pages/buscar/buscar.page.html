@@ -1,7 +1,6 @@
-<ion-title>Buscador</ion-title>
-
 <ion-content>
   <ion-grid>
+    <ion-title>Buscador</ion-title>
     <ion-row>
       <!-- Input del buscador -->
       <ion-col>
@@ -13,28 +12,29 @@
         </ion-input>
         <ion-button expand="block" (click)="buscar()"> Buscar </ion-button>
       </ion-col>
-    </ion-row>
 
-    <ion-row>
-      <!-- Lista de resultados -->
-      <ion-col size="12">
-        <div class="contenedor-scroll">
-          <ion-list
-            *ngIf="filtrados.length > 0"
-            class="publicaciones-container"
-          >
-            <ion-item *ngFor="let filtrado of filtrados; let i = index">
-              <app-publicacion
-                [publicacion]="filtrado"
-                [usuario]="usuarios[i]"
-                [showLink]="true"
-              ></app-publicacion>
-            </ion-item>
-          </ion-list>
+      <!-- Recorremos las publicaciones -->
+      <ion-col
+        *ngFor="let filtrado of filtrados; let i = index"
+        size="12"
+        size-sm="12"
+        size-md="6"
+        size-lg="4"
+        size-xl="3"
+        class="publicaciones-container"
+        ><ion-list *ngIf="filtrados.length > 0" class="publicaciones-container">
+          <ion-card class="card-container">
+            <app-publicacion
+              [publicacion]="filtrado"
+              [usuario]="usuarios[i]"
+              [showLink]="true"
+              class="publicaciones-container"
+            ></app-publicacion>
+          </ion-card>
           <ion-item *ngIf="filtrados.length === 0">
             <ion-label>No se encontraron resultados.</ion-label>
           </ion-item>
-        </div>
+        </ion-list>
       </ion-col>
     </ion-row>
   </ion-grid>
