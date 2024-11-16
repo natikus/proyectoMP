@@ -42,15 +42,13 @@ export class ApiRestService {
 
   async get(url: string) {
     try {
-      console.log('estoy en la pai+++++++++++++');
       const response = await fetch(`${this.API_URL}${url}`, {
         method: 'GET',
         headers: this.getHeaders(),
       });
       const data = await response.json();
       if (response.ok) {
-        console.log('respondi bien**SFGDZ*C********');
-        console.log('SOY LA DSTA', data);
+        console.log('Datos obtenidos :', data);
         return data;
       } else {
         console.error('Error en GET:', data);
@@ -79,6 +77,34 @@ export class ApiRestService {
       return await response.json();
     } catch (error) {
       console.error('Error en postPublicacion:', error);
+      throw error;
+    }
+  }
+  async finPublicacion(id: string) {
+    try {
+      const response = await fetch(
+        `${this.API_URL}publicaciones/${id}/estado`,
+        {
+          method: 'PUT', // Cambiar POST a PUT
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token') || ''}`,
+            'Content-Type': 'application/json', // Establecer el tipo de contenido
+          },
+          body: JSON.stringify({ estado: false }), // Solo el campo "estado" con el valor false
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Error en putPublicacion:', errorData);
+        throw new Error(
+          errorData.message || 'Error al actualizar la publicación'
+        );
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error('Error en putPublicacion:', error);
       throw error;
     }
   }

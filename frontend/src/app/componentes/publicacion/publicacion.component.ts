@@ -46,6 +46,8 @@ export class PublicacionComponent {
   usuario = input<usuarios | undefined>(undefined);
   router: Router = inject(Router);
   verPublicacion(id?: number, creador?: number) {
+    localStorage.removeItem('id_publicacion');
+    localStorage.removeItem('id_creador');
     if (id !== undefined) {
       localStorage.setItem('id_publicacion', id.toString());
       console.log('ID seteada:', id);

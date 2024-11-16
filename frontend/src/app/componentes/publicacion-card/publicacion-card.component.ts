@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ApiRestService } from '../../servicios/api-rest.service';
 import { publicaciones } from '../../interface/publicacion';
 import { PublicacionComponent } from '../../componentes/publicacion/publicacion.component';
@@ -17,6 +17,7 @@ import {
   IonCol,
 } from '@ionic/angular/standalone';
 import { usuarios } from '../../interface/persona';
+import { routes } from '../../app.routes';
 
 @Component({
   selector: 'app-publicacion-card',
@@ -27,6 +28,7 @@ import { usuarios } from '../../interface/persona';
 })
 export class PublicacionCardComponent {
   apiService = inject(ApiRestService);
+  router: Router = inject(Router);
   publicacion?: publicaciones;
   usuario?: usuarios;
   id!: number;
@@ -36,6 +38,7 @@ export class PublicacionCardComponent {
   constructor(private route: ActivatedRoute) {}
 
   async ngOnInit(): Promise<void> {
+    this.self();
     const storedId = localStorage.getItem('id_publicacion');
 
     if (storedId) {
@@ -73,6 +76,7 @@ export class PublicacionCardComponent {
     }
   }
   async self() {
+    console.log('LOCAL STORAGE', localStorage);
     const storedId = localStorage.getItem('id_persona');
     const id_creador = localStorage.getItem('id_creador');
     if (storedId == id_creador) {
@@ -87,5 +91,16 @@ export class PublicacionCardComponent {
     )}`;
 
     window.open(url, '_blank');
+  }
+  async finalizar() {
+    const storedId = localStorage.getItem('id_publicacion');
+    if (storedId) {
+      const response = await this.apiService.finPublicacion(storedId);
+      console.log(response);
+
+      window.alert('Publicacion fenalizada');
+
+      this.router.navigate(['inicio']);
+    }
   }
 }

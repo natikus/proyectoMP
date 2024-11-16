@@ -8,7 +8,7 @@ import {
 import { FastifyPluginAsync, FastifyPluginOptions } from "fastify";
 import { FastifyInstance } from "fastify/types/instance.js";
 import { query } from "../../services/database.js";
-import { Type } from "@sinclair/typebox";
+import { Boolean, Type } from "@sinclair/typebox";
 import path from "path";
 import { writeFileSync } from "fs";
 import { randomUUID } from "crypto";
@@ -402,6 +402,66 @@ const publicacionesRoute: FastifyPluginAsync = async (
 
       if (res.rows.length === 0) {
         reply.code(404).send({ message: "publicación no encontrada" });
+        return;
+      }
+
+      return res.rows[0];
+    },
+  });
+  fastify.put("/:id_publicacion/estado", {
+    schema: {
+      summary: "Actualizar el estado de una publicación",
+      description:
+        "Actualiza el estado de la publicación correspondiente al ID especificado.",
+      tags: ["publicacion"],
+      body: {
+        type: "object",
+        properties: {
+          estado: { type: "boolean" }, // Definir "estado" como booleano
+        },
+        required: ["estado"], // Hacer obligatorio el campo "estado"
+      },
+      response: {
+        200: {
+          description: "Publicación actualizada",
+          type: "object",
+        },
+        404: {
+          description: "Publicación no encontrada",
+          type: "object",
+          properties: {
+            message: { type: "string" },
+          },
+        },
+      },
+    },
+    onRequest: fastify.authenticate,
+    handler: async function (request, reply) {
+      const { id_publicacion } = request.params as { id_publicacion: number };
+      const { estado } = request.body as { estado: boolean };
+
+      // Asegurarnos de que el estado sea explícitamente un valor booleano
+      const estadoVal = estado === true || estado === false ? estado : null;
+
+      if (estadoVal === null) {
+        reply
+          .code(400)
+          .send({ message: 'El campo "estado" debe ser un valor booleano' });
+        return;
+      }
+
+      const res = await query(
+        `
+          UPDATE publicaciones
+          SET estado = false
+          WHERE id_publicacion = $1
+          RETURNING *;
+        `,
+        [id_publicacion] // Pasamos el valor de "estado" como parámetro
+      );
+
+      if (res.rows.length === 0) {
+        reply.code(404).send({ message: "Publicación no encontrada" });
         return;
       }
 
