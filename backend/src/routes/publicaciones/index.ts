@@ -11,6 +11,7 @@ import { query } from "../../services/database.js";
 import { Type } from "@sinclair/typebox";
 import path from "path";
 import { writeFileSync } from "fs";
+import { randomUUID } from "crypto";
 const publicacionesRoute: FastifyPluginAsync = async (
   fastify: FastifyInstance,
   opts: FastifyPluginOptions
@@ -30,18 +31,26 @@ const publicacionesRoute: FastifyPluginAsync = async (
       let imageUrl = "";
       if (publicacion.imagenes) {
         const fileBuffer = publicacion.imagenes._buf as Buffer;
+
+        // Generar un nombre único para la imagen
+        const uniqueFilename = `${randomUUID()}_${
+          publicacion.imagenes.filename
+        }`;
         const filepath = path.join(
           process.cwd(),
           "uploads",
           "publicaciones",
-          publicacion.imagenes.filename
+          uniqueFilename
         );
 
+        // Guardar la imagen en el sistema de archivos
         writeFileSync(filepath, fileBuffer);
 
-        imageUrl = `/${publicacion.imagenes.filename}`;
+        // Crear la URL para la imagen
+        imageUrl = `/uploads/publicaciones/${uniqueFilename}`;
         console.log(imageUrl);
       }
+
       const titulo = publicacion.titulo.value;
       const descripcion = publicacion.descripcion.value;
       const ubicacion = publicacion.ubicacion.value;
@@ -72,7 +81,6 @@ const publicacionesRoute: FastifyPluginAsync = async (
       });
     },
   });
-
   fastify.get("/", {
     schema: {
       summary: "Obtener todas las publicaciones",
@@ -210,7 +218,7 @@ const publicacionesRoute: FastifyPluginAsync = async (
     onRequest: fastify.authenticate,
     handler: async function (request, reply) {
       const { id_publicacion } = request.params as { id_publicacion: number };
-      const { etiquetas } = request.body as { etiquetas: string[] };
+      const etiquetas = request.body as string[];
       console.log("REQUEST DEL BODYYY", request.body);
       console.log(etiquetas, "ECONTRE ESTAS ETIQUETAS");
       if (!etiquetas || etiquetas.length === 0) {

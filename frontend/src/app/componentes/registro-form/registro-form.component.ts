@@ -89,11 +89,21 @@ export class RegistroFormComponent implements OnInit {
           Validators.maxLength(30),
         ],
       ],
-      celular: ['', Validators.required],
+      celular: [
+        '',
+        Validators.required,
+        Validators.minLength(9),
+        Validators.maxLength(9),
+      ],
       email: ['', [Validators.required, Validators.email]],
       contrasena: ['', [customPasswordValidator, Validators.required]],
       confirmContrasena: ['', Validators.required],
-      descripcion: ['', Validators.required],
+      descripcion: [
+        '',
+        Validators.required,
+        Validators.maxLength(200),
+        Validators.minLength(9),
+      ],
       intereses: ['', Validators.required],
     },
     {
