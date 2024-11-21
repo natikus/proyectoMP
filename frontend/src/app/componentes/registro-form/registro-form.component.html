@@ -217,26 +217,16 @@
             <ion-select
               aria-label="Intereses"
               placeholder="Selecciona tus intereses"
-              formControlName="intereses"
               [multiple]="true"
+              formControlName="intereses"
             >
               <ion-select-option
-                *ngFor="let food of availableInterestsList"
-                [value]="food"
-                >{{ food }}</ion-select-option
+                *ngFor="let interest of availableInterestsList"
+                [value]="interest"
+                >{{ interest }}</ion-select-option
               >
             </ion-select>
-            <div class="selected-interests">
-              <div
-                *ngFor="let interest of selectedInterests"
-                class="interest-chip"
-              >
-                {{ interest }}
-                <span class="remove-interest" (click)="removeInterest(interest)"
-                  >&times;</span
-                >
-              </div>
-            </div>
+
             <ion-note
               [style.color]="'red'"
               *ngIf="
@@ -244,7 +234,7 @@
                 formGroup.get('intereses')?.touched
               "
             >
-              Debes seleccionar al menos un interes
+              Debes seleccionar al menos un interés
             </ion-note>
 
             <div>
