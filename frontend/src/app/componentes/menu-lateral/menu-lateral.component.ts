@@ -16,6 +16,7 @@ import {
   IonRouterOutlet,
   MenuController,
   IonIcon,
+  IonText,
 } from '@ionic/angular/standalone';
 
 @Component({
