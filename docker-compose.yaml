@@ -22,6 +22,7 @@ services:
     container_name: frontend
     build:
       context: ./frontend
+      target: development
     #tty: true
     command: sh -c "npm install && npm start"
     volumes:
@@ -31,6 +32,7 @@ services:
     container_name: database
     build:
       context: ./database
+
     environment:
       - POSTGRES_DB=${PGDATABASE}
       - POSTGRES_USER=${PGUSER}

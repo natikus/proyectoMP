@@ -273,7 +273,12 @@
                 <img [src]="croppedImage" *ngIf="croppedImage" />
               </div>
             </div>
-            <ion-button mat-raised-button color="primary" type="submit">
+            <ion-button
+              mat-raised-button
+              color="primary"
+              type="submit"
+              (click)="clickRegister()"
+            >
               Registrarse
             </ion-button>
           </form>
