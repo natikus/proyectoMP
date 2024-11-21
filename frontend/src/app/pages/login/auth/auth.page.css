@@ -7,9 +7,11 @@ body {
 
 ion-col {
   display: flex;
-
   flex-direction: column;
   align-items: center;
   max-width: 400px;
   margin: auto;
+}
+ion-row {
+  margin-top: 2cm;
 }

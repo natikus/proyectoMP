@@ -11,14 +11,15 @@ import { BuscarPage } from './pages/buscar/buscar.page';
 import { AyudaPage } from './pages/ayuda/ayuda.page';
 export const routes: Routes = [
   {
+    path: 'help',
+    component: AyudaPage,
+  },
+  {
     path: '',
     redirectTo: 'auth/login',
     pathMatch: 'full',
   },
-  {
-    path: 'help',
-    component: AuthPage,
-  },
+
   {
     path: 'auth/login',
     component: AuthPage,

@@ -1,129 +1,127 @@
 <ion-row>
   <ion-col>
-    <div class="scrollable-form">
-      <ion-card>
-        <ion-card-header>
-          <ion-card-title class="ion-text-center" style="color: blue"
-            >Crear publicación</ion-card-title
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title class="ion-text-center" style="color: blue"
+          >Crear publicación</ion-card-title
+        >
+      </ion-card-header>
+      <ion-card-content>
+        <form [formGroup]="Loginform" (ngSubmit)="onSubmit()">
+          <!-- Título -->
+          <ion-input
+            type="text"
+            label="Título"
+            label-placement="stacked"
+            fill="outline"
+            formControlName="titulo"
+            name="titulo"
+            required
+          ></ion-input>
+          <ion-note
+            [style.color]="'red'"
+            *ngIf="
+              Loginform.get('titulo')?.invalid &&
+              Loginform.get('titulo')?.touched
+            "
           >
-        </ion-card-header>
-        <ion-card-content>
-          <form [formGroup]="Loginform" (ngSubmit)="onSubmit()">
-            <!-- Título -->
-            <ion-input
-              type="text"
-              label="Título"
-              label-placement="stacked"
-              fill="outline"
-              formControlName="titulo"
-              name="titulo"
-              required
-            ></ion-input>
-            <ion-note
-              [style.color]="'red'"
-              *ngIf="
-                Loginform.get('titulo')?.invalid &&
-                Loginform.get('titulo')?.touched
-              "
+            El título es obligatorio.
+          </ion-note>
+
+          <!-- Descripción -->
+          <ion-input
+            type="text"
+            label="Descripción"
+            label-placement="stacked"
+            fill="outline"
+            formControlName="descripcion"
+            name="Descripcion"
+            required
+          ></ion-input>
+          <ion-note
+            [style.color]="'red'"
+            *ngIf="
+              Loginform.get('descripcion')?.invalid &&
+              Loginform.get('descripcion')?.touched
+            "
+          >
+            La descripción es obligatoria.
+          </ion-note>
+
+          <!-- Ubicación -->
+          <ion-input
+            type="text"
+            label="Ubicación"
+            label-placement="stacked"
+            fill="outline"
+            formControlName="ubicacion"
+            name="Ubicacion"
+            required
+          ></ion-input>
+          <ion-note
+            *ngIf="
+              Loginform.get('ubicacion')?.invalid &&
+              Loginform.get('ubicacion')?.touched
+            "
+          >
+            La ubicación es obligatoria.
+          </ion-note>
+
+          <!-- Etiquetas -->
+          <ion-input
+            type="text"
+            label="Etiquetas"
+            label-placement="stacked"
+            fill="outline"
+            formControlName="etiquetas"
+            name="Etiquetas"
+            required
+            (click)="toggleTagsList()"
+          ></ion-input>
+          <div *ngIf="showTagsList" class="suggestions-list">
+            <div
+              *ngFor="let tag of availableTagsList"
+              class="tag-option"
+              (click)="selectTag(tag.etiqueta)"
             >
-              El título es obligatorio.
-            </ion-note>
-
-            <!-- Descripción -->
-            <ion-input
-              type="text"
-              label="Descripción"
-              label-placement="stacked"
-              fill="outline"
-              formControlName="descripcion"
-              name="Descripcion"
-              required
-            ></ion-input>
-            <ion-note
-              [style.color]="'red'"
-              *ngIf="
-                Loginform.get('descripcion')?.invalid &&
-                Loginform.get('descripcion')?.touched
-              "
-            >
-              La descripción es obligatoria.
-            </ion-note>
-
-            <!-- Ubicación -->
-            <ion-input
-              type="text"
-              label="Ubicación"
-              label-placement="stacked"
-              fill="outline"
-              formControlName="ubicacion"
-              name="Ubicacion"
-              required
-            ></ion-input>
-            <ion-note
-              *ngIf="
-                Loginform.get('ubicacion')?.invalid &&
-                Loginform.get('ubicacion')?.touched
-              "
-            >
-              La ubicación es obligatoria.
-            </ion-note>
-
-            <!-- Etiquetas -->
-            <ion-input
-              type="text"
-              label="Etiquetas"
-              label-placement="stacked"
-              fill="outline"
-              formControlName="etiquetas"
-              name="Etiquetas"
-              required
-              (click)="toggleTagsList()"
-            ></ion-input>
-            <div *ngIf="showTagsList" class="suggestions-list">
-              <div
-                *ngFor="let tag of availableTagsList"
-                class="tag-option"
-                (click)="selectTag(tag.etiqueta)"
-              >
-                {{ tag.etiqueta }}
-              </div>
+              {{ tag.etiqueta }}
             </div>
-            <ion-note *ngIf="Loginform.get('etiquetas')?.hasError('required')">
-              Ingrese sus etiquetas
-            </ion-note>
+          </div>
+          <ion-note *ngIf="Loginform.get('etiquetas')?.hasError('required')">
+            Ingrese sus etiquetas
+          </ion-note>
 
-            <div class="selected-tags">
-              <div *ngFor="let tag of selectedTags" class="tag-chip">
-                {{ tag }}
-                <span class="remove-tag" (click)="removeTag(tag)">&times;</span>
-              </div>
+          <div class="selected-tags">
+            <div *ngFor="let tag of selectedTags" class="tag-chip">
+              {{ tag }}
+              <span class="remove-tag" (click)="removeTag(tag)">&times;</span>
             </div>
+          </div>
 
-            <!-- Selección de imagen -->
-            <div>
-              <input type="file" (change)="fileChangeEvent($event)" />
-              <image-cropper
-                class="image-upload-section"
-                [imageChangedEvent]="imageChangedEvent"
-                [maintainAspectRatio]="true"
-                [aspectRatio]="4 / 3"
-                format="png"
-                (imageCropped)="imageCropped($event)"
-                (imageLoaded)="imageLoaded($event)"
-                (cropperReady)="cropperReady()"
-                (loadImageFailed)="loadImageFailed()"
-              ></image-cropper>
-              <div class="cropped-preview">
-                <img [src]="croppedImage" *ngIf="croppedImage" />
-              </div>
+          <!-- Selección de imagen -->
+          <div>
+            <input type="file" (change)="fileChangeEvent($event)" />
+            <image-cropper
+              class="image-upload-section"
+              [imageChangedEvent]="imageChangedEvent"
+              [maintainAspectRatio]="true"
+              [aspectRatio]="4 / 3"
+              format="png"
+              (imageCropped)="imageCropped($event)"
+              (imageLoaded)="imageLoaded($event)"
+              (cropperReady)="cropperReady()"
+              (loadImageFailed)="loadImageFailed()"
+            ></image-cropper>
+            <div class="cropped-preview">
+              <img [src]="croppedImage" *ngIf="croppedImage" />
             </div>
+          </div>
 
-            <!-- Botones de Enviar y Cancelar -->
-            <ion-button expand="block" (click)="save()">Publicar</ion-button>
-            <ion-button color="primary" (click)="salir()">Cancelar</ion-button>
-          </form>
-        </ion-card-content>
-      </ion-card>
-    </div>
+          <!-- Botones de Enviar y Cancelar -->
+          <ion-button expand="block" (click)="save()">Publicar</ion-button>
+          <ion-button color="primary" (click)="salir()">Cancelar</ion-button>
+        </form>
+      </ion-card-content>
+    </ion-card>
   </ion-col>
 </ion-row>

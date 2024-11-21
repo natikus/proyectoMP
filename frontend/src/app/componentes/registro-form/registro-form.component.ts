@@ -15,6 +15,10 @@ import {
   IonInput,
   IonNote,
   IonRow,
+  IonList,
+  IonItem,
+  IonSelect,
+  IonSelectOption,
 } from '@ionic/angular/standalone';
 import {
   PasswordStateMatcher,
@@ -49,6 +53,8 @@ import { EventListenerFocusTrapInertStrategy } from '@angular/cdk/a11y';
     CommonModule,
     ReactiveFormsModule,
     ImageCropperComponent,
+    IonSelect,
+    IonSelectOption,
   ],
   templateUrl: './registro-form.component.html',
   styleUrls: ['./registro-form.component.scss'],

@@ -22,6 +22,7 @@ import {
   IonInput,
   IonNote,
   IonRow,
+  IonContent,
 } from '@ionic/angular/standalone';
 @Component({
   selector: 'app-crear-publicacion',

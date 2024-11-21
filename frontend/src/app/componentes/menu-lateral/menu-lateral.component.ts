@@ -76,4 +76,9 @@ export class MenuLateralComponent {
     console.log(localStorage);
     this.router.navigate([`/inicio/porfile/${id_persona}/settings`]);
   }
+  ayudaaaa() {
+    this.menuController.close();
+    console.log('ayudando');
+    this.router.navigate([`/help`]);
+  }
 }
