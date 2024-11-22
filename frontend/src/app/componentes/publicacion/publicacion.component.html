@@ -1,5 +1,10 @@
 <ion-content>
-  <ion-grid>
+  <ion-grid
+    (click)="
+      verPublicacion(publicacion()?.id_publicacion, publicacion()?.id_creador)
+    "
+    [routerLink]="['/inicio', publicacion()?.id_publicacion]"
+  >
     <ion-row>
       <ion-col size="12">
         <!-- Cabecera de la tarjeta -->
@@ -32,23 +37,6 @@
               class="post-image"
             ></ion-img>
           </ion-card-content>
-
-          <!-- Botón de acción -->
-          <ion-footer>
-            <ion-button
-              color="dark"
-              (click)="
-                verPublicacion(
-                  publicacion()?.id_publicacion,
-                  publicacion()?.id_creador
-                )
-              "
-              [routerLink]="['/inicio', publicacion()?.id_publicacion]"
-              expand="full"
-            >
-              Ver publicación
-            </ion-button>
-          </ion-footer>
         </ion-card>
       </ion-col>
     </ion-row>
