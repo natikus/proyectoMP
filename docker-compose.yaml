@@ -54,6 +54,7 @@ services:
       - FRONT_PORT=4200
       - FRONTEND_URL=${FRONTEND_URL}
       - BACKEND_URL=${BACKEND_URL}
+      - ip=${ip}
     depends_on:
       - frontend
       - backend
