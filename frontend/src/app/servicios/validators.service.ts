@@ -5,9 +5,11 @@ import { Observable, from } from 'rxjs';
   providedIn: 'root',
 })
 export class ValidatorsService {
+  localhost?: string = '192.168.1.22';
+  API_URL = `https://${this.localhost}/backend/`;
   getUsuarioPorEmail(username: string): Observable<any | null> {
     return from(
-      fetch(`https://localhost/backend/auth`, { method: 'GET' })
+      fetch(`${this.API_URL}auth`, { method: 'GET' })
         .then((response) => {
           if (!response.ok) {
             throw new Error('Error al obtener los usuarios');
@@ -28,7 +30,7 @@ export class ValidatorsService {
   }
   getPublicaciones(buscado: string): Observable<any | null> {
     return from(
-      fetch(`https://localhost/backend/publicaciones`, { method: 'GET' })
+      fetch(`${this.API_URL}publicaciones`, { method: 'GET' })
         .then((response) => {
           if (!response.ok) {
             throw new Error('Error al obtener las publicaciones');

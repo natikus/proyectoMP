@@ -47,7 +47,8 @@ CREATE TABLE IF NOT EXISTS publicacion_etiquetas (
 
 INSERT INTO usuarios (nombre, apellido, usuario, email,  is_Admin, descripcion, imagen, intereses,telefono, contrasena) 
 VALUES 
-('Juan', 'Perez', 'juanp', 'juan.perez@example.com',  FALSE, 'Me gusta ayudar a las personas', '/boris.jpg',ARRAY['tecnología', 'programación'],  '59892070235',crypt('Password123!', gen_salt('bf'))),
+('Juan', 'Perez', 'juanp', 'juan.perez@example.com',  FALSE, 'Me gusta ayudar a las personas', '/boris.jpg',ARRAY['tecnología', 'programación'],  '59892070236',crypt('Password123!', gen_salt('bf'))),
+('Natasha', 'Kusminsky', 'natik', 'natikumy@gmail.com',  TRUE, 'Soy la creadora', '/silla.jpeg',ARRAY['tecnología', 'programación'],  '59892070235',crypt('1234qweR$', gen_salt('bf'))),
 ('Maria', 'Lopez', 'marial', 'maria.lopez@example.com',  TRUE, 'Intento hacer un mundo mejor', '/IMG_20230410_185647_349.jpg',ARRAY['arte', 'diseño'],  '59891265322',crypt('Password123!', gen_salt('bf')));
 
 

@@ -39,6 +39,7 @@
     "@capacitor/cli": "latest",
     "@ionic/angular-toolkit": "latest",
     "@types/jasmine": "~5.1.0",
+    "@types/node": "^22.9.3",
     "@types/nodemailer": "^6.4.16",
     "jasmine-core": "~5.2.0",
     "karma": "~6.4.0",
