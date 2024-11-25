@@ -6,7 +6,8 @@ import { usuarios } from '../interface/persona';
 })
 export class AuthService {
   constructor() {}
-  readonly API_URL = 'https://localhost/backend/auth/';
+  localhost?: string = '192.168.1.22';
+  readonly API_URL = `https://${this.localhost}/backend/auth/`;
   private router: Router = inject(Router);
   setToken(token: string) {
     localStorage.setItem('token', token);
@@ -83,7 +84,7 @@ export class AuthService {
     console.log('SOY EL TOKEN Y ESOY EDITANDO', localStorage.getItem('token'));
     try {
       const response = await fetch(
-        `https://localhost/backend/usuario/${id_persona}`,
+        `https://${this.localhost}/backend/usuario/${id_persona}`,
         {
           method: 'PUT',
           headers: {

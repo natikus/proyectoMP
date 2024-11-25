@@ -10,8 +10,8 @@ export class ApiRestService {
   setToken(token: string) {
     localStorage.setItem('token', token);
   }
-
-  readonly API_URL = 'https://localhost/backend/';
+  localhost?: string = '192.168.1.22';
+  readonly API_URL = `https://${this.localhost}/backend/`;
 
   private getHeaders(): HeadersInit {
     const token = localStorage.getItem('token');
