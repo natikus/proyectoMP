@@ -48,19 +48,28 @@
 
   <ion-content class="ion-padding">
     <ion-list>
-      <ion-item (click)="closeMenu()" [routerLink]="['/inicio']"
+      <ion-item
+        class="no-select"
+        (click)="closeMenu()"
+        [routerLink]="['/inicio']"
         >Inicio</ion-item
       >
-      <ion-item [routerLink]="['/inicio/search']" (click)="closeMenu()"
+      <ion-item
+        class="no-select"
+        [routerLink]="['/inicio/search']"
+        (click)="closeMenu()"
         >Buscar
       </ion-item>
-      <ion-item (click)="closeMenu()" [routerLink]="['/inicio/create']"
+      <ion-item
+        class="no-select"
+        (click)="closeMenu()"
+        [routerLink]="['/inicio/create']"
         >Crear publicacion</ion-item
       >
-      <ion-item (click)="miPerfil()">Mi perfil</ion-item>
-      <ion-item (click)="editarme()">Ajustes</ion-item>
-      <ion-item (click)="logOut()">Salir</ion-item>
-      <ion-item [routerLink]="['help']" (click)="closeMenu()">Ayuda</ion-item>
+      <ion-item class="no-select" (click)="miPerfil()">Mi perfil</ion-item>
+      <ion-item class="no-select" (click)="editarme()">Ajustes</ion-item>
+      <ion-item class="no-select" (click)="logOut()">Salir</ion-item>
+      <ion-item class="no-select" (click)="ayudaaaa()">Ayuda</ion-item>
     </ion-list>
   </ion-content>
 </ion-menu>
@@ -99,14 +108,20 @@
 
   <ion-content class="ion-padding">
     <ion-list>
-      <ion-item (click)="closeMenu()" [routerLink]="['/auth/login']"
+      <ion-item
+        class="no-select"
+        (click)="closeMenu()"
+        [routerLink]="['/auth/login']"
         >Iniciar Sesión</ion-item
       >
-      <ion-item [routerLink]="['/auth/registro']" (click)="closeMenu()"
+      <ion-item
+        class="no-select"
+        [routerLink]="['/auth/registro']"
+        (click)="closeMenu()"
         >Registro</ion-item
       >
 
-      <ion-item [routerLink]="['help']" (click)="closeMenu()">Ayuda</ion-item>
+      <ion-item class="no-select" (click)="ayudaaaa()">Ayuda</ion-item>
     </ion-list>
   </ion-content>
 </ion-menu>

@@ -45,13 +45,3 @@ ion-avatar img {
   border-radius: 8px;
   margin-top: 10px;
 }
-
-.card-footer {
-  display: flex;
-  justify-content: space-around;
-  padding: 10px;
-  border-top: 1px solid;
-}
-ion-button {
-  margin-top: auto; /* Empuja el botón al final */
-}

@@ -16,6 +16,7 @@ import {
   IonRouterOutlet,
   MenuController,
   IonIcon,
+  IonText,
 } from '@ionic/angular/standalone';
 
 @Component({
@@ -78,5 +79,10 @@ export class MenuLateralComponent {
     const id_persona = localStorage.getItem('id_persona');
     console.log(localStorage);
     this.router.navigate([`/inicio/porfile/${id_persona}/settings`]);
+  }
+  ayudaaaa() {
+    this.menuController.close();
+    console.log('ayudando');
+    this.router.navigate([`/help`]);
   }
 }
