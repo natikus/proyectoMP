@@ -1,6 +1,5 @@
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { usuarios } from '../interface/persona';
 @Injectable({
   providedIn: 'root',
 })
