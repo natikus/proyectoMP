@@ -15,8 +15,9 @@ server {
     ssl_certificate /etc/nginx/certs/ucu.crt;
     ssl_certificate_key /etc/nginx/certs/ucu.key;
 
+    # Proxy para el frontend
     location / {
-        proxy_pass http://${ipLocalhost}:4200;
+        proxy_pass http://frontend:4200;  # Nombre de servicio Docker para el frontend
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection 'upgrade';
@@ -24,10 +25,10 @@ server {
         proxy_cache_bypass $http_upgrade;
     }
 
-    
+    # Proxy para el backend
     location /backend/ {
         rewrite  ^/backend(.*)$ $1 break;
-        proxy_pass http://${ipLocalhost}:3000;
+        proxy_pass http://backend:3000;  # Nombre de servicio Docker para el backend
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection 'upgrade';
@@ -37,7 +38,7 @@ server {
     }
 
     location /reference/ {
-        proxy_pass http://${ipLocalhost}:3000;
+        proxy_pass http://backend:3000;  # Nombre de servicio Docker para el backend
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection 'upgrade';

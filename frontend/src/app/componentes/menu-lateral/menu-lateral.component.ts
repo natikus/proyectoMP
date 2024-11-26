@@ -44,9 +44,7 @@ export class MenuLateralComponent {
   private menuController = inject(MenuController);
   router: Router = inject(Router);
   localhost?: string = '192.168.1.22';
-  obtenerid() {
-    return this.localhost;
-  }
+
   toggleMenu() {
     this.menuController.toggle();
   }

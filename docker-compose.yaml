@@ -17,6 +17,10 @@ services:
       - pass=${pass}
       - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
       - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+      - ipLocalhost=${ipLocalhost}
+    ports: # Mapeo del puerto al host
+      - 3000:3000
+
   frontend:
     image: frontend
     container_name: frontend
@@ -27,12 +31,14 @@ services:
     command: sh -c "npm install && npm start"
     volumes:
       - ./frontend/:/frontend
+    ports: # Mapeo del puerto al host
+      - 4200:4200
+
   database:
     image: database
     container_name: database
     build:
       context: ./database
-
     environment:
       - POSTGRES_DB=${PGDATABASE}
       - POSTGRES_USER=${PGUSER}
@@ -40,6 +46,7 @@ services:
       - ipLocalhost=${ipLocalhost}
     ports:
       - 5432:5432
+
   proxy:
     image: proxy
     container_name: proxy
@@ -50,14 +57,11 @@ services:
     volumes:
       - ./proxy/myconf.template:/etc/nginx/templates/default.conf.template
       - ./proxy/certs:/etc/nginx/certs
-
     environment:
       - FRONT_PORT=4200
       - FRONTEND_URL=${FRONTEND_URL}
       - BACKEND_URL=${BACKEND_URL}
-
       - ipLocalhost=${ipLocalhost}
-
     depends_on:
       - frontend
       - backend
