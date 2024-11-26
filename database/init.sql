@@ -47,7 +47,9 @@ CREATE TABLE IF NOT EXISTS publicacion_etiquetas (
 
 INSERT INTO usuarios (nombre, apellido, usuario, email,  is_Admin, descripcion, imagen, intereses,telefono, contrasena) 
 VALUES 
-('Juan', 'Perez', 'juanp', 'juan.perez@example.com',  FALSE, 'Me gusta ayudar a las personas', '/boris.jpg',ARRAY['tecnología', 'programación'],  '59892070235',crypt('Password123!', gen_salt('bf'))),
+('Juan', 'Perez', 'juanp', 'juan.perez@example.com',  FALSE, 'Me gusta ayudar a las personas', '/boris.jpg',ARRAY['tecnología', 'programación'],  '59892070238',crypt('Password123!', gen_salt('bf'))),
+('Jorge', 'Melnik', 'Melnik', 'jmelnik19@gmail.com',  TRUE, 'Lisenciado en tecnologia de la información', '/boris.jpg',ARRAY['informacion', 'Datos'],  '59892070234',crypt('@Jmelnik19.', gen_salt('bf'))),
+('Natasha', 'Kusminksy', 'Kusminsky', 'natasha@kusminsky.com',  FALSE, 'Si Dios quiere, desarrolladora de software', '/boris.jpg',ARRAY['gatos', 'crochet'],  '59892070235',crypt('@KusminskyNatasha1.', gen_salt('bf'))),
 ('Maria', 'Lopez', 'marial', 'maria.lopez@example.com',  TRUE, 'Intento hacer un mundo mejor', '/IMG_20230410_185647_349.jpg',ARRAY['arte', 'diseño'],  '59891265322',crypt('Password123!', gen_salt('bf')));
 
 
