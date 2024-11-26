@@ -5,8 +5,32 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="2b834c54-e3c9-4319-980a-6946e18f2596" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/backend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/backend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/android/.gradle/8.2.1/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/android/.gradle/8.2.1/checksums/checksums.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/android/.gradle/8.2.1/checksums/md5-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/android/.gradle/8.2.1/checksums/md5-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/android/.gradle/8.2.1/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/android/.gradle/8.2.1/checksums/sha1-checksums.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/android/.gradle/8.2.1/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/android/.gradle/8.2.1/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/android/.gradle/8.2.1/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/android/.gradle/8.2.1/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/android/.gradle/8.2.1/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/android/.gradle/8.2.1/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/android/.gradle/8.2.1/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/android/.gradle/8.2.1/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/android/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/android/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/android/app/build/intermediates/assets/debug/capacitor.config.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/android/app/build/intermediates/assets/debug/capacitor.config.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/android/app/build/intermediates/assets/debug/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/android/app/build/intermediates/assets/debug/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/android/app/build/intermediates/assets/debug/public/main-LJYPM57Z.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/android/app/build/intermediates/compressed_assets/debug/out/assets/public/index.html.jar" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/android/app/build/intermediates/compressed_assets/debug/out/assets/public/index.html.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/android/app/build/intermediates/compressed_assets/debug/out/assets/public/main-LJYPM57Z.js.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/android/app/build/intermediates/incremental/debug/packageDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/android/app/build/intermediates/incremental/debug/packageDebugResources/compile-file-map.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/android/app/build/intermediates/incremental/mergeDebugAssets/merger.xml" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/android/app/build/intermediates/incremental/mergeDebugAssets/merger.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/android/app/build/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/android/app/build/intermediates/incremental/packageDebug/tmp/debug/dex-renamer-state.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/android/app/build/intermediates/local_only_symbol_list/debug/R-def.txt" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/android/app/build/intermediates/local_only_symbol_list/debug/R-def.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/android/app/build/intermediates/packaged_res/debug/raw/ucu.crt" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/android/app/build/intermediates/packaged_res/debug/raw/ucu.crt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/android/app/build/intermediates/packaged_res/debug/xml/network_security_config.xml" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/android/app/build/intermediates/packaged_res/debug/xml/network_security_config.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/android/app/build/outputs/apk/debug/app-debug.apk" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/android/app/build/outputs/apk/debug/app-debug.apk" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/android/app/src/main/assets/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/android/app/src/main/assets/public/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/android/app/src/main/assets/public/main-LJYPM57Z.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/android/capacitor-cordova-android-plugins/build/intermediates/incremental/debug/packageDebugResources/compile-file-map.properties" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/android/capacitor-cordova-android-plugins/build/intermediates/incremental/debug/packageDebugResources/compile-file-map.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/servicios/api-rest.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/servicios/api-rest.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/servicios/auth.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/servicios/auth.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/servicios/validators.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/servicios/validators.service.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
