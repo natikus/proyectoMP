@@ -193,49 +193,6 @@
             >
               La contraseña no coincide, verifique
             </ion-note>
-
-            <!-- Campo de selección de intereses -->
-
-            <ion-input
-              type="text"
-              label="Intereses"
-              label-placement="stacked"
-              fill="outline"
-              formControlName="intereses"
-              name="Intereses"
-              (click)="toggleInterestsList()"
-            ></ion-input>
-            <div *ngIf="showInterestsList" class="suggestions-list">
-              <div
-                *ngFor="let interest of availableInterests"
-                class="interest-option"
-                (click)="selectInterest(interest)"
-              >
-                {{ interest }}
-              </div>
-            </div>
-            <ion-note
-              [style.color]="'red'"
-              *ngIf="
-                formGroup.get('intereses')?.hasError('required') &&
-                formGroup.get('intereses')?.touched
-              "
-            >
-              Ingrese sus intereses
-            </ion-note>
-
-            <div class="selected-interests">
-              <div
-                *ngFor="let interest of selectedInterests"
-                class="interest-chip"
-              >
-                {{ interest }}
-                <span class="remove-interest" (click)="removeInterest(interest)"
-                  >&times;</span
-                >
-              </div>
-            </div>
-
             <!-- Descripcion -->
             <ion-input
               type="text"
@@ -256,6 +213,29 @@
               Cuentanos sobre ti
             </ion-note>
 
+            <!-- Campo de selección de intereses -->
+            <ion-select
+              aria-label="Intereses"
+              placeholder="Selecciona tus intereses"
+              [multiple]="true"
+              formControlName="intereses"
+            >
+              <ion-select-option
+                *ngFor="let interest of availableInterestsList"
+                [value]="interest"
+                >{{ interest }}</ion-select-option
+              >
+            </ion-select>
+            <ion-note
+              [style.color]="'red'"
+              *ngIf="
+                formGroup.get('intereses')?.hasError('required') &&
+                formGroup.get('intereses')?.touched
+              "
+            >
+              Debes seleccionar al menos un interés
+            </ion-note>
+
             <div>
               <input type="file" (change)="fileChangeEvent($event)" />
               <image-cropper
@@ -273,7 +253,12 @@
                 <img [src]="croppedImage" *ngIf="croppedImage" />
               </div>
             </div>
-            <ion-button mat-raised-button color="primary" type="submit">
+            <ion-button
+              mat-raised-button
+              color="primary"
+              type="submit"
+              (click)="clickRegister()"
+            >
               Registrarse
             </ion-button>
           </form>

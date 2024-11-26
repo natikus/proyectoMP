@@ -7,3 +7,11 @@
   width: 120px;
   height: 120px;
 }
+.perfil-acciones {
+  .custom-button {
+    font-size: 16px; /* Ajusta el tamaño del texto */
+    height: 50px; /* Ajusta la altura */
+    width: 200px; /* Ajusta el ancho */
+    --border-radius: 12px; /* Opcional: bordes redondeados */
+  }
+}

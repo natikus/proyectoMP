@@ -19,6 +19,7 @@ import {
   IonCardHeader,
   IonCardTitle,
   IonCol,
+  IonContent,
   IonInput,
   IonNote,
   IonRow,

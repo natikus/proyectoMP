@@ -32,7 +32,7 @@ const usuarioAuthRoute: FastifyPluginAsync = async (
         const uniqueFilename = `${randomUUID()}_${usuarioPost.imagen.filename}`;
         const filepath = path.join(process.cwd(), "uploads", uniqueFilename);
         writeFileSync(filepath, fileBuffer);
-        imageUrl = `/uploads/${uniqueFilename}`;
+        imageUrl = `${uniqueFilename}`;
       }
       const nombre = usuarioPost.nombre.value;
       const apellido = usuarioPost.apellido.value;

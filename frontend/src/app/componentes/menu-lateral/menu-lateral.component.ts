@@ -42,7 +42,11 @@ export class MenuLateralComponent {
   apiService: AuthService = inject(AuthService);
   private menuController = inject(MenuController);
   router: Router = inject(Router);
-
+  ayudaaaa() {
+    this.menuController.close();
+    console.log('ayudando');
+    this.router.navigate([`/help`]);
+  }
   toggleMenu() {
     this.menuController.toggle();
   }

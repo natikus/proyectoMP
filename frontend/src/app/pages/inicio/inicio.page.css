@@ -10,7 +10,7 @@
   margin: 0 auto; /* Centrar tarjeta en la columna */
 
   color: whitesmoke;
-  height: 550px; /* Altura fija para todas las tarjetas */
+  height: 500px; /* Altura fija para todas las tarjetas */
   flex-direction: column;
   justify-content: space-between; /* Asegura consistencia interna */
 }
@@ -23,4 +23,7 @@
 }
 .card-footer {
   margin-top: auto; /* Empuja el botón al final */
+}
+ion-row {
+  margin-top: 2cm;
 }

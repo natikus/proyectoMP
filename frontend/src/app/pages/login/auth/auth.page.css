@@ -13,3 +13,6 @@ ion-col {
   max-width: 400px;
   margin: auto;
 }
+ion-row {
+  margin-top: 2cm;
+}

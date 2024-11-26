@@ -15,6 +15,10 @@ import {
   IonInput,
   IonNote,
   IonRow,
+  IonList,
+  IonItem,
+  IonSelect,
+  IonSelectOption,
 } from '@ionic/angular/standalone';
 import {
   PasswordStateMatcher,
@@ -49,6 +53,8 @@ import { EventListenerFocusTrapInertStrategy } from '@angular/cdk/a11y';
     CommonModule,
     ReactiveFormsModule,
     ImageCropperComponent,
+    IonSelect,
+    IonSelectOption,
   ],
   templateUrl: './registro-form.component.html',
   styleUrls: ['./registro-form.component.scss'],
@@ -91,18 +97,18 @@ export class RegistroFormComponent implements OnInit {
       ],
       celular: [
         '',
-        Validators.required,
-        Validators.minLength(9),
-        Validators.maxLength(9),
+        [Validators.required, Validators.minLength(9), Validators.maxLength(9)],
       ],
       email: ['', [Validators.required, Validators.email]],
       contrasena: ['', [customPasswordValidator, Validators.required]],
       confirmContrasena: ['', Validators.required],
       descripcion: [
         '',
-        Validators.required,
-        Validators.maxLength(200),
-        Validators.minLength(9),
+        [
+          Validators.required,
+          Validators.minLength(10),
+          Validators.maxLength(200),
+        ],
       ],
       intereses: ['', Validators.required],
     },
@@ -127,33 +133,10 @@ export class RegistroFormComponent implements OnInit {
     this.availableInterestsList = intereses;
   }
 
-  get availableInterests(): string[] {
-    return this.availableInterestsList.filter(
-      (interest) => !this.selectedInterests.includes(interest)
-    );
-  }
-
-  toggleInterestsList() {
-    this.showInterestsList = !this.showInterestsList;
-  }
-
-  selectInterest(interest: string) {
-    this.selectedInterests.push(interest);
-    this.updateInteresesControl();
-    this.showInterestsList = false;
-  }
-
-  removeInterest(interest: string) {
-    this.selectedInterests = this.selectedInterests.filter(
-      (i) => i !== interest
-    );
-    this.updateInteresesControl();
-  }
-  private updateInteresesControl() {
+  updateInteresesControl(ev: Event) {
+    console.log(JSON.stringify(ev.target));
     // Actualizar el control 'intereses' con los intereses seleccionados en formato de texto
-    this.formGroup
-      .get('intereses')
-      ?.setValue(JSON.stringify(this.selectedInterests));
+    this.formGroup.get('intereses')?.setValue(JSON.stringify(ev.target));
   }
 
   async clickRegister(): Promise<void> {
@@ -176,11 +159,13 @@ export class RegistroFormComponent implements OnInit {
         this.formGroup.get('descripcion')?.value || ''
       );
 
-      // Agregar intereses seleccionados como JSON
-      if (this.selectedInterests.length > 0) {
-        formData.append('intereses', JSON.stringify(this.selectedInterests));
+      // Obtener los intereses seleccionados directamente del control
+      const selectedInterests = this.formGroup.get('intereses')?.value || [];
+      if (selectedInterests.length > 0) {
+        formData.append('intereses', JSON.stringify(selectedInterests));
       } else {
         console.error('No se han seleccionado intereses.');
+        return;
       }
       if (!this._imageBlob) {
         console.error('Imagen o ID no presentes');
@@ -273,7 +258,7 @@ export class RegistroFormComponent implements OnInit {
   }
 
   loadImageFailed() {
-    console.log('Error al cargar la imagen');
+    console.log('Error al cargar la imagen');
   }
   getUserDataFromURL() {
     const urlParams = new URLSearchParams(window.location.search);

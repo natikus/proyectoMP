@@ -17,3 +17,8 @@ ion-toolbar {
   width: 35px; /* Ajusta el tamaño de la imagen */
   height: auto; /* Mantiene la relación de aspecto */
 }
+/* Evitar selección de texto en los ítems del menú */
+.no-select {
+  user-select: none; /* Previene selección de texto */
+  cursor: pointer; /* Asegura que el cursor se muestre como un puntero */
+}
