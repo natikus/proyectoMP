@@ -80,6 +80,26 @@ export class ApiRestService {
       throw error;
     }
   }
+  async postComunidad(formData: FormData) {
+    try {
+      const response = await fetch(`${this.API_URL}comunidades`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token') || ''}`,
+        },
+        body: formData,
+      });
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Error en postcomunidad:', errorData);
+        throw new Error(errorData.message || 'Error al crear la publicación');
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Error en postPublicacion:', error);
+      throw error;
+    }
+  }
   async finPublicacion(id: string) {
     try {
       const response = await fetch(

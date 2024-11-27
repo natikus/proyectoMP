@@ -1,5 +1,11 @@
 import { Static, Type } from "@sinclair/typebox";
-import { FileSchema, numberSchema, stringSchema } from "./esqyemasFeos.js";
+import {
+  booleanSchema,
+  FileSchema,
+  numberSchema,
+  stringSchema,
+} from "./esqyemasFeos.js";
+import { type } from "os";
 
 export const publicacionSchema = Type.Object(
   {
@@ -13,6 +19,11 @@ export const publicacionSchema = Type.Object(
     }),
     estado: Type.Optional(
       Type.Boolean({ description: "Estado de la publicacion" })
+    ),
+    comunidad: Type.Optional(
+      Type.Boolean({
+        description: "Si una publicacion pertenece una comunidad",
+      })
     ),
     id_creador: Type.Number({
       description: "Id del creador de la publicacion",
@@ -32,6 +43,7 @@ export const publicacionSchema = Type.Object(
         id_publicacion: 1,
         titulo: "Post 1",
         estado: true,
+        comunidad: false,
         id_creador: 1,
         descripcion: "Descripción del post 1",
         imagenes: "imagen1.jpg",
@@ -41,6 +53,7 @@ export const publicacionSchema = Type.Object(
         id_publicacion: 2,
         titulo: "Post 2",
         estado: false,
+        comunidad: true,
         id_creador: 1,
         descripcion: "Descripción del post 2",
         imagenes: "imagen3.jpg",
@@ -56,6 +69,7 @@ export const publicacionPostSchema = Type.Object({
   descripcion: stringSchema,
   imagenes: FileSchema,
   ubicacion: stringSchema,
+  comunidad: booleanSchema,
 });
 
 export const publicacionPutSchema = Type.Object(

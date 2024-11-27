@@ -58,8 +58,8 @@ const publicacionesRoute: FastifyPluginAsync = async (
 
       const res = await query(
         `
-          INSERT INTO publicaciones (titulo, descripcion, imagenes, ubicacion, id_creador, estado)
-          VALUES ($1, $2, $3, $4, $5, true)
+          INSERT INTO publicaciones (titulo, descripcion, imagenes, ubicacion, id_creador, estado, comunidad)
+          VALUES ($1, $2, $3, $4, $5, true, false)
           RETURNING *;
         `,
         [titulo, descripcion, imageUrl, ubicacion, id_creador]
@@ -105,13 +105,67 @@ const publicacionesRoute: FastifyPluginAsync = async (
                 descripcion,
                 imagenes,
                 ubicacion
-            FROM publicaciones WHERE estado = true;`);
+            FROM publicaciones WHERE estado = true AND comunidad = false;`);
       if (res.rows.length === 0) {
         reply.code(404).send({ message: "No hay publicaciones registradas" });
         return;
       }
       console.log(res);
       return res.rows;
+    },
+  });
+  fastify.get("/comunidad/:id_comunidad", {
+    schema: {
+      summary: "Obtener las comunidad de la publicación",
+      description: "Obtiene las etiquetas de una publicación por ID.",
+      tags: ["etiqueta"],
+      response: {
+        200: {
+          description: "publicaciones encontradas",
+          type: "array", // Cambiamos a tipo "array" para reflejar que se retorna una lista de etiquetas
+          items: {
+            type: "object",
+            properties: {
+              id_etiqueta: { type: "integer" },
+              etiqueta: { type: "string" },
+            },
+          },
+        },
+        404: {
+          description: "Etiquetas no encontradas",
+          type: "object",
+          properties: {
+            message: { type: "string" },
+          },
+        },
+      },
+    },
+    onRequest: fastify.authenticate,
+    handler: async function (request, reply) {
+      const { id_comunidad } = request.params as { id_comunidad: number };
+
+      try {
+        const res = await query(
+          `
+          SELECT e.id_comunidad, e.comunidad
+          FROM comunidades e
+          JOIN publicacion_comunidad pe ON e.id_comunidad = pe.id_comunidad
+          WHERE pe.id_publicacion = $1;`,
+          [id_comunidad]
+        );
+
+        if (res.rows.length === 0) {
+          reply.code(404).send({
+            message: "No se encontraron etiquetas para esta publicación.",
+          });
+          return;
+        }
+
+        return res.rows;
+      } catch (error) {
+        console.error("Error al obtener etiquetas:", error);
+        reply.code(500).send({ message: "Error interno del servidor." });
+      }
     },
   });
 
@@ -278,6 +332,86 @@ const publicacionesRoute: FastifyPluginAsync = async (
         });
       } catch (error) {
         console.error("Error al asociar etiquetas:", error);
+        reply.code(500).send({
+          message: "Error interno del servidor.",
+        });
+      }
+    },
+  });
+  fastify.post("/comunidad/:id_comunidad", {
+    schema: {
+      summary: "Asociar publicacion a una comunidad",
+      description: "Asocia una publicacion a una comunidad.",
+      tags: ["etiqueta"],
+      body: {
+        type: "array",
+        items: {
+          type: "string", // Ahora recibimos el nombre de la etiqueta
+          description: "Nombre de la comunidad a asociar",
+        },
+        minItems: 1, // Requiere al menos una etiqueta
+      },
+      response: {
+        200: {
+          description: "comunidad asociadas correctamente",
+          type: "object",
+          properties: {
+            message: { type: "string" },
+          },
+        },
+        400: {
+          description: "Petición inválida",
+          type: "object",
+          properties: {
+            message: { type: "string" },
+          },
+        },
+        404: {
+          description: "comunidad no encontrada",
+          type: "object",
+          properties: {
+            message: { type: "string" },
+          },
+        },
+        500: {
+          description: "Error interno del servidor",
+          type: "object",
+          properties: {
+            message: { type: "string" },
+          },
+        },
+      },
+    },
+    onRequest: fastify.authenticate,
+    handler: async function (request, reply) {
+      const { id_publicacion } = request.params as { id_publicacion: number };
+      const comunidad = request.body as string;
+      console.log("PUBLICANDO EN LA COMUNIDAD", request.body);
+
+      try {
+        // Verifica si la comunidad existe
+        const resPublicacion = await query(
+          `SELECT id_comunidad FROM comunidades WHERE id_comunidad = $1`,
+          [id_publicacion]
+        );
+
+        if (resPublicacion.rows.length === 0) {
+          reply.code(404).send({
+            message: "Publicación no encontrada.",
+          });
+          return;
+        }
+
+        const res = await query(
+          `INSERT INTO publicacion_comunidad (id_publicacion, id_comunidad) VALUES ($1, $2) RETURNING *;`,
+          [id_publicacion, comunidad]
+        );
+
+        reply.code(200).send({
+          message: "Publicaicon asociada correctamente.",
+        });
+      } catch (error) {
+        console.error("Error al asociar publicacion:", error);
         reply.code(500).send({
           message: "Error interno del servidor.",
         });
@@ -454,6 +588,67 @@ const publicacionesRoute: FastifyPluginAsync = async (
         `
           UPDATE publicaciones
           SET estado = false
+          WHERE id_publicacion = $1
+          RETURNING *;
+        `,
+        [id_publicacion] // Pasamos el valor de "estado" como parámetro
+      );
+
+      if (res.rows.length === 0) {
+        reply.code(404).send({ message: "Publicación no encontrada" });
+        return;
+      }
+
+      return res.rows[0];
+    },
+  });
+  fastify.put("/:id_publicacion/comunidad", {
+    schema: {
+      summary: "Actualizar si una publicacion pertenece a una comuidad",
+      description:
+        "Actualiza el estado de la publicación correspondiente al ID especificado.",
+      tags: ["publicacion"],
+      body: {
+        type: "object",
+        properties: {
+          estado: { type: "boolean" }, // Definir "estado" como booleano
+        },
+        required: ["estado"], // Hacer obligatorio el campo "estado"
+      },
+      response: {
+        200: {
+          description: "Publicación actualizada",
+          type: "object",
+        },
+        404: {
+          description: "Publicación no encontrada",
+          type: "object",
+          properties: {
+            message: { type: "string" },
+          },
+        },
+      },
+    },
+    onRequest: fastify.authenticate,
+    handler: async function (request, reply) {
+      const { id_publicacion } = request.params as { id_publicacion: number };
+      const { comunidad } = request.body as { comunidad: boolean };
+
+      // Asegurarnos de que el estado sea explícitamente un valor booleano
+      const estadoVal =
+        comunidad === true || comunidad === false ? comunidad : null;
+
+      if (estadoVal === null) {
+        reply
+          .code(400)
+          .send({ message: 'El campo "comunidad" debe ser un valor booleano' });
+        return;
+      }
+
+      const res = await query(
+        `
+          UPDATE publicaciones
+          SET estado = true
           WHERE id_publicacion = $1
           RETURNING *;
         `,

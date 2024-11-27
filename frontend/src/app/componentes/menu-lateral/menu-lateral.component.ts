@@ -80,4 +80,11 @@ export class MenuLateralComponent {
     console.log(localStorage);
     this.router.navigate([`/inicio/porfile/${id_persona}/settings`]);
   }
+  VerComunidad() {
+    console.log('Cerrando el menu');
+    this.menuController.close();
+    localStorage.setItem('id_comunidad', '1');
+
+    this.router.navigate(['/inicio/comunidad/1']);
+  }
 }

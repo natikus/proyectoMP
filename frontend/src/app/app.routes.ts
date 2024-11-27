@@ -9,6 +9,8 @@ import { VerPublicacionPage } from './pages/publicacion/publicacion.page';
 import { AjustesPage } from './pages/ajustes/ajustes.page';
 import { BuscarPage } from './pages/buscar/buscar.page';
 import { AyudaPage } from './pages/ayuda/ayuda.page';
+import { ComunidadFormPage } from './pages/comunidad-form/comunidad-form.page';
+import { ComunidadPage } from './pages/comunidad/comunidad.page';
 export const routes: Routes = [
   {
     path: '',
@@ -35,6 +37,16 @@ export const routes: Routes = [
   {
     path: 'inicio/create',
     component: CrearPage,
+    canActivate: [logueadoGuard],
+  },
+  {
+    path: 'inicio/createComunidad',
+    component: ComunidadFormPage,
+    canActivate: [logueadoGuard],
+  },
+  {
+    path: 'inicio/comunidad/:id_comunidad',
+    component: ComunidadPage,
     canActivate: [logueadoGuard],
   },
   {

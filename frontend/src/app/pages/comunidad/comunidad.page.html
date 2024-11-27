@@ -1,0 +1,31 @@
+<ion-content>
+  <!-- Mensaje cuando no hay publicaciones -->
+  <ion-text *ngIf="publicaciones.length === 0">
+    <h1>Todavía no hay publicaciones</h1>
+  </ion-text>
+
+  <!-- Grilla cuando hay publicaciones -->
+  <ion-grid>
+    <ion-row>
+      <!-- Recorremos las publicaciones -->
+      <ion-col
+        *ngFor="let publicacion of publicaciones; let i = index"
+        size="12"
+        size-sm="12"
+        size-md="6"
+        size-lg="4"
+        size-xl="3"
+        class="publicaciones-container"
+      >
+        <ion-card class="card-container">
+          <app-publicacion
+            [publicacion]="publicacion"
+            [usuario]="usuarios[i]"
+            [showLink]="true"
+            class="publicaciones-container"
+          ></app-publicacion>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

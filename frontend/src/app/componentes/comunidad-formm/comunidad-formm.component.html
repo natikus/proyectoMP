@@ -1,0 +1,38 @@
+<ion-row>
+  <ion-col>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title class="ion-text-center" style="color: blue"
+          >Crear publicación</ion-card-title
+        >
+      </ion-card-header>
+      <ion-card-content>
+        <form [formGroup]="Loginform" (ngSubmit)="onSubmit()">
+          <!-- Título -->
+          <ion-input
+            type="text"
+            label="Nombre de la comunidad"
+            label-placement="stacked"
+            fill="outline"
+            formControlName="comunidad"
+            name="comunidad"
+            required
+          ></ion-input>
+          <ion-note
+            [style.color]="'red'"
+            *ngIf="
+              Loginform.get('nombre')?.invalid &&
+              Loginform.get('nombre')?.touched
+            "
+          >
+            El nombre es obligatorio.
+          </ion-note>
+
+          <!-- Botones de Enviar y Cancelar -->
+          <ion-button expand="block" (click)="save()">Crear</ion-button>
+          <ion-button color="primary" (click)="salir()">Cancelar</ion-button>
+        </form>
+      </ion-card-content>
+    </ion-card>
+  </ion-col>
+</ion-row>
