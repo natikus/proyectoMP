@@ -1,5 +1,5 @@
 import { Component, inject, input } from '@angular/core';
-import { JsonPipe } from '@angular/common';
+import { CommonModule, JsonPipe } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { publicaciones } from '../../interface/publicacion';
 import { usuarios } from '../../interface/persona';
@@ -32,10 +32,10 @@ import {
     IonText,
     IonAvatar,
     IonItem,
-    IonFooter,
     IonLabel,
     IonGrid,
     IonCol,
+    CommonModule,
   ],
   templateUrl: './publicacion.component.html',
   styleUrl: './publicacion.component.css',
@@ -45,6 +45,14 @@ export class PublicacionComponent {
   showLink = input<boolean>(true);
   usuario = input<usuarios | undefined>(undefined);
   router: Router = inject(Router);
+  localhost?: string = '192.168.1.28';
+  get publicacionData(): publicaciones | undefined {
+    return this.publicacion();
+  }
+
+  getImagenUrl(imagen: string | undefined): string {
+    return `${this.localhost}/uploads/publicaciones/${imagen}`;
+  }
   verPublicacion(id?: number, creador?: number) {
     localStorage.removeItem('id_publicacion');
     localStorage.removeItem('id_creador');

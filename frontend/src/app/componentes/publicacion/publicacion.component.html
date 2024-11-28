@@ -29,11 +29,9 @@
               <p>{{ publicacion()?.descripcion }}</p>
             </ion-text>
             <ion-img
-              [src]="
-                'http://localhost/backend/uploads/publicaciones' +
-                publicacion()?.imagenes
-              "
-              alt="Publicación"
+              *ngIf="publicacionData?.imagenes"
+              [src]="getImagenUrl(publicacionData?.imagenes)"
+              alt="Imagen de la publicación"
               class="post-image"
             ></ion-img>
           </ion-card-content>

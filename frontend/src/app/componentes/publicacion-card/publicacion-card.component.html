@@ -55,10 +55,7 @@
       <div class="detalle-imagen">
         <ion-img
           *ngIf="publicacion?.imagenes"
-          [src]="
-            'http://localhost/backend/uploads/publicaciones' +
-            publicacion?.imagenes
-          "
+          [src]="getImagenUrl(publicacion?.imagenes)"
           alt="Imagen de la publicación"
           class="post-image"
         ></ion-img>

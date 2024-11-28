@@ -5,7 +5,7 @@ export interface AuthenticateFunction {
   (request: FastifyRequest, reply: FastifyReply): Promise<void>;
 }
 const server = fastify({
-  bodyLimit: 10485760, // 10 MB
+  bodyLimit: 10 * 1024 * 1024, // 10 MB
 });
 declare module "fastify" {
   interface FastifyInstance {

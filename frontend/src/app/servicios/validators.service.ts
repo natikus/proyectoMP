@@ -5,7 +5,7 @@ import { Observable, from } from 'rxjs';
   providedIn: 'root',
 })
 export class ValidatorsService {
-  localhost?: string = '192.168.1.22';
+  localhost?: string = '192.168.1.28';
   API_URL = `https://${this.localhost}/backend/`;
   getUsuarioPorEmail(username: string): Observable<any | null> {
     return from(

@@ -37,6 +37,10 @@ export class PublicacionCardComponent {
   sos: boolean = false;
   constructor(private route: ActivatedRoute) {}
 
+  localhost?: string = '192.168.1.28';
+  getImagenUrl(imagen: string | undefined): string {
+    return `${this.localhost}/uploads/publicaciones/${imagen}`;
+  }
   async ngOnInit(): Promise<void> {
     this.self();
     const storedId = localStorage.getItem('id_publicacion');
