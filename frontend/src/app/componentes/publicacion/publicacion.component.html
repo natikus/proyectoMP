@@ -10,10 +10,11 @@
         <!-- Cabecera de la tarjeta -->
         <ion-item lines="none" class="card-header">
           <ion-avatar slot="start">
-            <img
-              [src]="'http://localhost/backend/uploads/' + usuario()?.imagen"
-              alt="Avatar"
-            />
+            <ion-img
+              [src]="getImagenPersonaUrl(usuarioData?.imagen)"
+              alt="Imagen de la persona"
+              class="person-image"
+            ></ion-img>
           </ion-avatar>
           <ion-label>
             <ion-text (click)="verUsuario(usuario()?.id_persona)">

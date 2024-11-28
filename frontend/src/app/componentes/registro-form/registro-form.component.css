@@ -1,14 +1,31 @@
 .image-upload-section {
-  max-width: 25%;
+  max-width: 50%;
   border-radius: 10px;
   margin-top: 10px;
 }
 .cropped-preview img {
-  max-width: 25%;
+  max-width: 50%;
   border-radius: 10px;
   margin-top: 10px;
 }
 .scrollable-form {
   max-height: 90vh;
   overflow-y: auto;
+}
+body {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+ion-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 400px;
+  margin: auto;
+}
+ion-row {
+  margin-top: 2cm;
 }

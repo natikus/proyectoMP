@@ -25,7 +25,7 @@
             "
           >
             <ion-text
-              color="primary"
+              color="medium"
               *ngFor="let etiqueta of etiquetasNombres; let isLast = last"
             >
               <span>{{ etiqueta }}</span
@@ -49,10 +49,7 @@
             Maarcar publicacion como finalizada
           </ion-button>
         </div>
-      </div>
 
-      <!-- Imagen de la publicación -->
-      <div class="detalle-imagen">
         <ion-img
           *ngIf="publicacion?.imagenes"
           [src]="getImagenUrl(publicacion?.imagenes)"

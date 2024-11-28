@@ -39,8 +39,16 @@ export class PublicacionCardComponent {
 
   localhost?: string = '192.168.1.28';
   getImagenUrl(imagen: string | undefined): string {
-    return `${this.localhost}/uploads/publicaciones/${imagen}`;
+    const baseUrl = `https://${this.localhost}/backend`; // Cambia a https si el servidor usa HTTPS
+    if (!imagen) {
+      console.error('Imagen no especificada');
+      return '';
+    }
+    const imageUrl = `${baseUrl}/uploads/publicaciones/${imagen}`;
+    console.log(imageUrl, 'LA FOTOO');
+    return imageUrl;
   }
+
   async ngOnInit(): Promise<void> {
     this.self();
     const storedId = localStorage.getItem('id_publicacion');

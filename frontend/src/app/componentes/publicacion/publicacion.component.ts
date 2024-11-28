@@ -49,9 +49,26 @@ export class PublicacionComponent {
   get publicacionData(): publicaciones | undefined {
     return this.publicacion();
   }
-
+  get usuarioData(): usuarios | undefined {
+    return this.usuario();
+  }
   getImagenUrl(imagen: string | undefined): string {
-    return `${this.localhost}/uploads/publicaciones/${imagen}`;
+    const baseUrl = `https://${this.localhost}/backend`; // Cambia a https si el servidor usa HTTPS
+    if (!imagen) {
+      console.error('Imagen no especificada');
+      return '';
+    }
+    const imageUrl = `${baseUrl}/uploads/publicaciones/${imagen}`;
+    return imageUrl;
+  }
+  getImagenPersonaUrl(imagen: string | undefined): string {
+    const baseUrl = `https://${this.localhost}/backend`; // Cambia a https si el servidor usa HTTPS
+    if (!imagen) {
+      console.error('Imagen no especificada');
+      return '';
+    }
+    const imageUrl = `${baseUrl}/uploads/${imagen}`;
+    return imageUrl;
   }
   verPublicacion(id?: number, creador?: number) {
     localStorage.removeItem('id_publicacion');

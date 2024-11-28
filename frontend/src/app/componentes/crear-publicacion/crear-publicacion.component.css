@@ -3,12 +3,12 @@
   overflow-y: auto;
 }
 .image-upload-section {
-  max-width: 25%;
+  max-width: 50%;
   border-radius: 10px;
   margin-top: 10px;
 }
 .cropped-preview img {
-  max-width: 25%;
+  max-width: 50%;
   border-radius: 10px;
   margin-top: 10px;
 }
