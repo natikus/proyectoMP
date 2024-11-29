@@ -73,13 +73,21 @@ export class RegistroFormComponent implements OnInit {
   private _imageBlob: Blob | null | undefined = undefined;
   onChange = (image: Blob) => {};
   onTouched = () => {};
+  celularRegex = /^598\d{6}$/;
   constructor(private sanitizer: DomSanitizer) {}
   //declaracion del fromGrup
   private readonly _formBuilder = inject(NonNullableFormBuilder);
   passwordStateMatcher = new PasswordStateMatcher();
   formGroup = this._formBuilder.group(
     {
-      usuario: ['', Validators.required],
+      usuario: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(4),
+          Validators.maxLength(20),
+        ],
+      ],
       nombre: [
         '',
         [
@@ -98,7 +106,10 @@ export class RegistroFormComponent implements OnInit {
       ],
       celular: [
         '',
-        [Validators.required, Validators.minLength(9), Validators.maxLength(9)],
+        [
+          Validators.required,
+          Validators.pattern(this.celularRegex), // Nuevo validador regex
+        ],
       ],
       email: ['', [Validators.required, Validators.email]],
       contrasena: ['', [customPasswordValidator, Validators.required]],

@@ -54,11 +54,8 @@ export class PublicacionComponent {
   }
   getImagenUrl(imagen: string | undefined): string {
     const baseUrl = `https://${this.localhost}/backend`; // Cambia a https si el servidor usa HTTPS
-    if (!imagen) {
-      console.error('Imagen no especificada');
-      return '';
-    }
-    const imageUrl = `${baseUrl}/uploads/publicaciones/${imagen}`;
+
+    const imageUrl = `${baseUrl}/uploads/${imagen}`;
     return imageUrl;
   }
   getImagenPersonaUrl(imagen: string | undefined): string {
@@ -70,6 +67,10 @@ export class PublicacionComponent {
     const imageUrl = `${baseUrl}/uploads/${imagen}`;
     return imageUrl;
   }
+  detenerPropagacion(event: Event): void {
+    event.stopPropagation();
+  }
+
   verPublicacion(id?: number, creador?: number) {
     localStorage.removeItem('id_publicacion');
     localStorage.removeItem('id_creador');
@@ -86,6 +87,7 @@ export class PublicacionComponent {
       console.error('ID del creador no está definida');
     }
   }
+
   verUsuario(id_persona: number | undefined) {
     if (id_persona) {
       console.log(id_persona, 'AAAAAAAAAA');

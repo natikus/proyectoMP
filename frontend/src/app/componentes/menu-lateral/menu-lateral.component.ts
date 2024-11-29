@@ -60,6 +60,21 @@ export class MenuLateralComponent {
   logOut() {
     this.apiService.logOut();
   }
+  nuevaPublicacion() {
+    this.menuController.close();
+    console.log('yendo a publicar');
+    this.router.navigate([`/inicio/create`]);
+  }
+  buscar() {
+    this.menuController.close();
+    console.log('buscando');
+    this.router.navigate([`/inicio/search`]);
+  }
+  inicio() {
+    this.menuController.close();
+    console.log('yendo al inicio');
+    this.router.navigate([`/inicio`]);
+  }
   miPerfil() {
     console.log('Cerrando el menu');
     this.menuController.close();

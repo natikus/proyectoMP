@@ -34,7 +34,8 @@
     "fastify-cli": "^6.3.0",
     "fastify-plugin": "^4.0.0",
     "nodemailer": "^6.9.16",
-    "pg": "^8.13.0"
+    "pg": "^8.13.0",
+    "sharp": "^0.33.5"
   },
   "devDependencies": {
     "@types/node": "^20.4.4",

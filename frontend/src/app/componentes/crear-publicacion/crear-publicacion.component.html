@@ -2,7 +2,7 @@
   <ion-col>
     <ion-card>
       <ion-card-header>
-        <ion-card-title class="ion-text-center" style="color: blue"
+        <ion-card-title class="ion-text-center" color="medium"
           >Crear publicación</ion-card-title
         >
       </ion-card-header>
@@ -68,35 +68,23 @@
           </ion-note>
 
           <!-- Etiquetas -->
-          <ion-input
-            type="text"
-            label="Etiquetas"
-            label-placement="stacked"
-            fill="outline"
+          <ion-select
+            aria-label="Etiquetas"
+            placeholder="Selecciona las etiquetas"
+            [multiple]="true"
             formControlName="etiquetas"
-            name="Etiquetas"
-            required
-            (click)="toggleTagsList()"
-          ></ion-input>
-          <div *ngIf="showTagsList" class="suggestions-list">
-            <div
+            (ionChange)="onTagsChange($event)"
+          >
+            <ion-select-option
               *ngFor="let tag of availableTagsList"
-              class="tag-option"
-              (click)="selectTag(tag.etiqueta)"
+              [value]="tag.etiqueta"
             >
               {{ tag.etiqueta }}
-            </div>
-          </div>
+            </ion-select-option>
+          </ion-select>
           <ion-note *ngIf="Loginform.get('etiquetas')?.hasError('required')">
             Ingrese sus etiquetas
           </ion-note>
-
-          <div class="selected-tags">
-            <div *ngFor="let tag of selectedTags" class="tag-chip">
-              {{ tag }}
-              <span class="remove-tag" (click)="removeTag(tag)">&times;</span>
-            </div>
-          </div>
 
           <!-- Selección de imagen -->
           <div>

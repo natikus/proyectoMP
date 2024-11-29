@@ -35,22 +35,31 @@ export class InicioPage {
   publicaciones: publicaciones[] = [];
   usuarios: usuarios[] = [];
   id_persona: string = '';
-  recargar: boolean = true;
 
-  async ngOnInit() {
-    if (this.recargar) {
-      localStorage.removeItem('id_usuario');
-      localStorage.removeItem('id_publicacion');
-      this.publicaciones = await this.apiService.get('publicaciones');
-      console.log(this.publicaciones);
-      for (const publicacion of this.publicaciones) {
-        const usuario = await this.creador(publicacion.id_creador);
-        this.usuarios.push(usuario);
-      }
-      console.log(this.usuarios);
-      this.id_persona = localStorage.getItem('id_persona') ?? '';
-      localStorage.removeItem('id_creador');
+  // Se ejecuta cada vez que la página se muestra
+  async ionViewWillEnter() {
+    await this.cargarDatos();
+  }
+
+  // Refactorizamos la lógica de carga de datos
+  private async cargarDatos() {
+    // Limpiar datos almacenados previamente
+    localStorage.removeItem('id_usuario');
+    localStorage.removeItem('id_publicacion');
+    this.publicaciones = await this.apiService.get('publicaciones');
+    console.log(this.publicaciones);
+
+    // Limpiar usuarios previos y cargar nuevos
+    this.usuarios = [];
+    for (const publicacion of this.publicaciones) {
+      const usuario = await this.creador(publicacion.id_creador);
+      this.usuarios.push(usuario);
     }
+    console.log(this.usuarios);
+
+    // Cargar el ID de la persona actual
+    this.id_persona = localStorage.getItem('id_persona') ?? '';
+    localStorage.removeItem('id_creador');
   }
 
   verMiPerfil() {

@@ -12,6 +12,7 @@ import { Boolean, Type } from "@sinclair/typebox";
 import path from "path";
 import { writeFileSync } from "fs";
 import { randomUUID } from "crypto";
+import sharp from "sharp";
 const publicacionesRoute: FastifyPluginAsync = async (
   fastify: FastifyInstance,
   opts: FastifyPluginOptions
@@ -30,25 +31,33 @@ const publicacionesRoute: FastifyPluginAsync = async (
 
       let imageUrl = "";
       if (publicacion.imagenes) {
-        const fileBuffer = publicacion.imagenes._buf as Buffer;
+        try {
+          const fileBuffer = publicacion.imagenes._buf as Buffer;
 
-        // Generar un nombre único para la imagen
-        const uniqueFilename = `${randomUUID()}_${
-          publicacion.imagenes.filename
-        }`;
-        const filepath = path.join(
-          process.cwd(),
-          "uploads",
-          "publicaciones",
-          uniqueFilename
-        );
+          // Generar un nombre único para la imagen en formato JPEG
+          const uniqueFilename = `${randomUUID()}.jpg`;
+          const filepath = path.join(
+            process.cwd(),
+            "uploads",
+            "publicaciones",
+            uniqueFilename
+          );
 
-        // Guardar la imagen en el sistema de archivos
-        writeFileSync(filepath, fileBuffer);
+          // Convertir y guardar la imagen como JPEG usando sharp
+          const processedImage = await sharp(fileBuffer)
+            .jpeg({ quality: 80 }) // Calidad de compresión JPEG
+            .toBuffer();
 
-        // Crear la URL para la imagen
-        imageUrl = `/${uniqueFilename}`;
-        console.log(imageUrl);
+          writeFileSync(filepath, processedImage); // Guardar la imagen procesada en el sistema de archivos
+
+          // Crear la URL para la imagen
+          imageUrl = `/publicaciones/${uniqueFilename}`;
+          console.log("Imagen procesada y guardada:", imageUrl);
+        } catch (err) {
+          console.error("Error al procesar la imagen:", err);
+          reply.code(500).send({ message: "Error al procesar la imagen" });
+          return;
+        }
       }
 
       const titulo = publicacion.titulo.value;
@@ -56,12 +65,13 @@ const publicacionesRoute: FastifyPluginAsync = async (
       const ubicacion = publicacion.ubicacion.value;
       const id_creador = publicacion.id_creador.value;
 
+      // Insertar la publicación en la base de datos
       const res = await query(
         `
-          INSERT INTO publicaciones (titulo, descripcion, imagenes, ubicacion, id_creador, estado)
-          VALUES ($1, $2, $3, $4, $5, true)
-          RETURNING *;
-        `,
+        INSERT INTO publicaciones (titulo, descripcion, imagenes, ubicacion, id_creador, estado)
+        VALUES ($1, $2, $3, $4, $5, true)
+        RETURNING *;
+      `,
         [titulo, descripcion, imageUrl, ubicacion, id_creador]
       );
 
@@ -71,6 +81,8 @@ const publicacionesRoute: FastifyPluginAsync = async (
       }
 
       const id_publicacion = res.rows[0].id_publicacion;
+
+      // Respuesta al cliente con los detalles de la publicación creada
       reply.code(201).send({
         id_publicacion,
         titulo,
@@ -81,6 +93,7 @@ const publicacionesRoute: FastifyPluginAsync = async (
       });
     },
   });
+
   fastify.get("/", {
     schema: {
       summary: "Obtener todas las publicaciones",
@@ -182,7 +195,6 @@ const publicacionesRoute: FastifyPluginAsync = async (
           type: "string", // Ahora recibimos el nombre de la etiqueta
           description: "Nombre de la etiqueta a asociar",
         },
-        minItems: 1, // Requiere al menos una etiqueta
       },
       response: {
         200: {

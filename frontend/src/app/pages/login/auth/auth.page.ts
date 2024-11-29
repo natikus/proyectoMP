@@ -21,6 +21,7 @@ import {
   IonCardContent,
   IonCard,
   IonInput,
+  IonContent,
 } from '@ionic/angular/standalone';
 import { AuthService } from '../../../servicios/auth.service';
 
@@ -28,6 +29,7 @@ import { AuthService } from '../../../servicios/auth.service';
   selector: 'app-auth',
   standalone: true,
   imports: [
+    IonContent,
     IonCard,
     IonCardHeader,
     IonCardTitle,

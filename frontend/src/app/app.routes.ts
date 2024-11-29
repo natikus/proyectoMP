@@ -19,7 +19,11 @@ export const routes: Routes = [
     redirectTo: 'auth/login',
     pathMatch: 'full',
   },
-
+  {
+    path: 'inicio/porfile/:id',
+    component: PerfilPage,
+    canActivate: [logueadoGuard],
+  },
   {
     path: 'auth/login',
     component: AuthPage,
@@ -38,11 +42,7 @@ export const routes: Routes = [
     component: CrearPage,
     canActivate: [logueadoGuard],
   },
-  {
-    path: 'inicio/porfile/:id',
-    component: PerfilPage,
-    canActivate: [logueadoGuard],
-  },
+
   {
     path: 'inicio/search',
     component: BuscarPage,

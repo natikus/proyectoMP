@@ -44,22 +44,9 @@
 
   <ion-content class="ion-padding">
     <ion-list>
-      <ion-item
-        class="no-select"
-        (click)="closeMenu()"
-        [routerLink]="['/inicio']"
-        >Inicio</ion-item
-      >
-      <ion-item
-        class="no-select"
-        [routerLink]="['/inicio/search']"
-        (click)="closeMenu()"
-        >Buscar
-      </ion-item>
-      <ion-item
-        class="no-select"
-        (click)="closeMenu()"
-        [routerLink]="['/inicio/create']"
+      <ion-item class="no-select" (click)="inicio()">Inicio</ion-item>
+      <ion-item class="no-select" (click)="buscar()">Buscar </ion-item>
+      <ion-item class="no-select" (click)="nuevaPublicacion()"
         >Crear publicacion</ion-item
       >
       <ion-item class="no-select" (click)="miPerfil()">Mi perfil</ion-item>

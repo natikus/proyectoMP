@@ -1,67 +1,68 @@
-<ion-row>
-  <ion-col>
-    <ion-card>
-      <ion-card-header>
-        <ion-card-title><h3>Inicio de Sesión</h3></ion-card-title>
-      </ion-card-header>
-      <ion-card-content>
-        <form
-          id="loginForm"
-          [formGroup]="loginForm"
-          (ngSubmit)="clickRegister()"
-        >
-          <!-- Email -->
-          <ion-input
-            type="email"
-            label="Email"
-            label-placement="stacked"
-            fill="outline"
-            formControlName="email"
-            name="email"
-            required
-          ></ion-input>
-          <ion-note
-            [style.color]="'red'"
-            *ngIf="loginForm.get('email')?.hasError('required') && (loginForm.get('email')?.touched || loginForm.get('email')?.dirty)"
+<ion-content
+  ><ion-row>
+    <ion-col>
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title><h3>Inicio de Sesión</h3></ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <form
+            id="loginForm"
+            [formGroup]="loginForm"
+            (ngSubmit)="clickRegister()"
           >
-            Ingrese su e-mail</ion-note
-          >
+            <!-- Email -->
+            <ion-input
+              type="email"
+              label="Email"
+              label-placement="stacked"
+              fill="outline"
+              formControlName="email"
+              name="email"
+              required
+            ></ion-input>
+            <ion-note
+              [style.color]="'red'"
+              *ngIf="loginForm.get('email')?.hasError('required') && (loginForm.get('email')?.touched || loginForm.get('email')?.dirty)"
+            >
+              Ingrese su e-mail</ion-note
+            >
 
-          <!-- Contraseña -->
-          <ion-input
-            type="password"
-            label="Contraseña"
-            label-placement="stacked"
-            fill="outline"
-            formControlName="contrasena"
-            name="contrasena"
-            required
-          ></ion-input>
-          <ion-note
-            [style.color]="'red'"
-            *ngIf="loginForm.get('contrasena')?.hasError('required') && (loginForm.get('contrasena')?.touched || loginForm.get('contrasena')?.dirty)"
-          >
-            Ingrese una contraseña</ion-note
-          >
+            <!-- Contraseña -->
+            <ion-input
+              type="password"
+              label="Contraseña"
+              label-placement="stacked"
+              fill="outline"
+              formControlName="contrasena"
+              name="contrasena"
+              required
+            ></ion-input>
+            <ion-note
+              [style.color]="'red'"
+              *ngIf="loginForm.get('contrasena')?.hasError('required') && (loginForm.get('contrasena')?.touched || loginForm.get('contrasena')?.dirty)"
+            >
+              Ingrese una contraseña</ion-note
+            >
 
-          <ion-button expand="block" (click)="clickRegister()"
-            >Login</ion-button
-          >
-          <a
-            href="https://localhost/backend/auth/login/google"
-            id="btnGoogle"
-            class="go"
-            >Google
-            <img
-              src="https://www.google.com/images/branding/googleg/1x/googleg_standard_color_128dp.png"
-              alt="Google Logo"
-              style="
-                width: 15px;
-                height: 15px;
-                vertical-align: middle;
-                margin-right: 8px;
-              "
-            />
-          </a></form></ion-card-content></ion-card
-  ></ion-col>
-</ion-row>
+            <ion-button expand="block" (click)="clickRegister()"
+              >Login</ion-button
+            >
+            <a
+              href="https://localhost/backend/auth/login/google"
+              id="btnGoogle"
+              class="go"
+              >Google
+              <img
+                src="https://www.google.com/images/branding/googleg/1x/googleg_standard_color_128dp.png"
+                alt="Google Logo"
+                style="
+                  width: 15px;
+                  height: 15px;
+                  vertical-align: middle;
+                  margin-right: 8px;
+                "
+              />
+            </a></form></ion-card-content></ion-card
+    ></ion-col> </ion-row
+></ion-content>

@@ -1,23 +1,18 @@
 import { Component, inject } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { ApiRestService } from '../../servicios/api-rest.service';
 import { publicaciones } from '../../interface/publicacion';
-import { PublicacionComponent } from '../../componentes/publicacion/publicacion.component';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
-import { DatePipe } from '@angular/common';
 import { etiquetas } from '../../interface/etiqueta';
 import {
   IonButton,
-  IonContent,
   IonImg,
   IonText,
-  IonGrid,
   IonRow,
   IonCol,
 } from '@ionic/angular/standalone';
 import { usuarios } from '../../interface/persona';
-import { routes } from '../../app.routes';
 
 @Component({
   selector: 'app-publicacion-card',
@@ -44,7 +39,7 @@ export class PublicacionCardComponent {
       console.error('Imagen no especificada');
       return '';
     }
-    const imageUrl = `${baseUrl}/uploads/publicaciones/${imagen}`;
+    const imageUrl = `${baseUrl}/uploads${imagen}`;
     console.log(imageUrl, 'LA FOTOO');
     return imageUrl;
   }

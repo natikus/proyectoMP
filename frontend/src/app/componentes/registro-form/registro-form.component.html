@@ -19,6 +19,8 @@
               formControlName="nombre"
               name="Nombre"
               required
+              minlength="3"
+              maxlength="20"
             ></ion-input>
             <ion-note
               [style.color]="'red'"
@@ -39,6 +41,8 @@
               formControlName="apellido"
               name="Apellido"
               required
+              minlength="3"
+              maxlength="30"
             ></ion-input>
             <ion-note
               [style.color]="'red'"
@@ -59,6 +63,8 @@
               formControlName="usuario"
               name="Usuario"
               required
+              minlength="4"
+              maxlength="20"
             ></ion-input>
             <ion-note
               [style.color]="'red'"
@@ -138,6 +144,7 @@
               formControlName="contrasena"
               name="contrasena"
               required
+              minlength="8"
             ></ion-input>
             <ion-note
               [style.color]="'red'"
@@ -170,6 +177,7 @@
               formControlName="confirmContrasena"
               name="confirmContrasena"
               required
+              minlength="8"
             ></ion-input>
             <ion-note
               [style.color]="'red'"
@@ -198,6 +206,8 @@
               formControlName="descripcion"
               name="Descripcion"
               required
+              minlength="10"
+              maxlength="200"
             ></ion-input>
             <ion-note
               [style.color]="'red'"

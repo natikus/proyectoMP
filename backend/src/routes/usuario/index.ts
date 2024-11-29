@@ -12,8 +12,9 @@ import { publicacionSchema } from "../../tipos/publicacion.js";
 import bcrypt from "bcrypt";
 import path from "path";
 import { writeFileSync } from "fs";
-import { promisify } from "util";
 import fs from "fs";
+import sharp from "sharp";
+import { randomUUID } from "crypto";
 const usuariosRoute: FastifyPluginAsync = async (
   fastify: FastifyInstance,
   opts: FastifyPluginOptions
@@ -125,72 +126,72 @@ const usuariosRoute: FastifyPluginAsync = async (
       reply.code(200).send({ message: "Usuario eliminado", id_persona });
     },
   });
-
   fastify.put("/:id_persona", {
     schema: {
-      tags: ["usuarios"],
-      summary: "Editar un usuario",
-      description: "Actualiza un usuario por ID",
+      summary: "Actualizar un usuario existente",
+      description: "Actualiza los datos de un usuario, incluyendo su imagen.",
+      tags: ["persona"],
       consumes: ["multipart/form-data"],
-      params: UsuarioIdSchema,
       body: UsuarioPutSchema,
-      response: {
-        200: UsuarioPutSchema,
-        404: {
-          type: "object",
-          properties: {
-            message: { type: "string" },
-          },
-        },
-      },
     },
-    onRequest: fastify.verifySelfOrAdmin,
+
     handler: async function (request, reply) {
-      console.log("Params recibidos:", request.params);
-
-      const { id_persona } = request.params as UsuarioIdType;
       const usuarioPut = request.body as UsuarioPutType;
-      const userIdFromToken = request.user.id_persona;
-      console.log("Cuerpo recibido (raw):", request.body);
+      const { id_persona } = request.params as UsuarioIdType;
 
-      if (userIdFromToken != id_persona) {
-        return reply
-          .code(403)
-          .send({ message: "No tienes permiso para modificar este usuario" });
-      }
-      const currentImageResult = await query(
+      // Validar que el usuario existe
+      const userQuery = await query(
         `SELECT imagen FROM usuarios WHERE id_persona = $1`,
         [id_persona]
       );
-      let currentImageUrl = currentImageResult.rows[0]?.imagen;
-      let imageUrl = "";
-      const unlinkAsync = promisify(fs.unlink);
-      if (usuarioPut.imagen) {
-        if (currentImageUrl) {
-          const currentImagePath = path.join(process.cwd(), currentImageUrl);
-          try {
-            await unlinkAsync(currentImagePath);
-            console.log("Imagen anterior eliminada:", currentImagePath);
-          } catch (error) {
-            console.error("Error al eliminar la imagen anterior:", error);
-          }
-        }
-
-        // Procesar la imagen si existe en la solicitud
-        const fileBuffer = usuarioPut.imagen._buf as Buffer;
-        const filepath = path.join(
-          process.cwd(),
-          "uploads",
-          usuarioPut.imagen.filename
-        );
-        writeFileSync(filepath, fileBuffer);
-        imageUrl = `/uploads/${usuarioPut.imagen.filename}`;
+      if (userQuery.rowCount === 0) {
+        reply.code(404).send({ message: "Usuario no encontrado" });
+        return;
       }
 
-      // Opcionalmente, encriptar la contraseña si se proporciona una nueva
-      const hashedPassword = usuarioPut.contrasena
-        ? await bcrypt.hash(usuarioPut.contrasena, 10)
-        : undefined;
+      const previousImage = userQuery.rows[0].imagen;
+      let newImageUrl = previousImage;
+
+      // Procesar nueva imagen si se incluye
+      if (usuarioPut.imagen) {
+        try {
+          const fileBuffer = usuarioPut.imagen._buf as Buffer;
+
+          // Generar un nuevo nombre único para la imagen
+          const uniqueFilename = `${randomUUID()}.jpg`;
+          const filepath = path.join(process.cwd(), "uploads", uniqueFilename);
+
+          // Procesar y guardar la nueva imagen
+          const processedImage = await sharp(fileBuffer)
+            .jpeg({ quality: 80 }) // Calidad de compresión del JPEG
+            .toBuffer();
+          writeFileSync(filepath, processedImage);
+
+          // Actualizar la URL de la imagen con el nuevo nombre
+          newImageUrl = uniqueFilename;
+
+          // Eliminar la imagen anterior si existe y no es genérica
+          if (previousImage && previousImage !== "default.jpg") {
+            const previousImagePath = path.join(
+              process.cwd(),
+              "uploads",
+              previousImage
+            );
+            if (fs.existsSync(previousImagePath)) {
+              fs.unlinkSync(previousImagePath);
+            }
+          }
+        } catch (err) {
+          console.error("Error al procesar la nueva imagen:", err);
+          reply
+            .code(500)
+            .send({ message: "Error al procesar la nueva imagen" });
+          return;
+        }
+      }
+
+      const usuario = usuarioPut.usuario.value;
+      const descripcion = usuarioPut.descripcion.value;
 
       let intereses: string[];
       try {
@@ -200,40 +201,52 @@ const usuariosRoute: FastifyPluginAsync = async (
         return;
       }
 
-      const res = await query(
-        `
-        UPDATE usuarios
-        SET usuario = COALESCE($1, usuario),
-            imagen = COALESCE($2, imagen),
-            descripcion = COALESCE($3, descripcion),
-            intereses = COALESCE($4, intereses),
-            contrasena = COALESCE($5, contrasena),
-            telefono = COALESCE($6, telefono)
-        WHERE id_persona = $7
-        RETURNING id_persona;`,
-        [
-          usuarioPut.usuario,
-          imageUrl || null,
-          usuarioPut.descripcion,
-          intereses,
-          hashedPassword,
-          usuarioPut.telefono,
-          id_persona,
-        ]
-      );
+      const telefono = usuarioPut.telefono.value;
+      const hashedPassword = await bcrypt.hash(usuarioPut.contrasena.value, 10);
 
-      if (res.rows.length === 0) {
-        return reply.code(404).send({ message: "Usuario no encontrado" });
+      try {
+        // Actualizar los datos del usuario en la base de datos
+        const updateResult = await query(
+          `UPDATE usuarios
+           SET usuario = $1,
+               descripcion = $2,
+               intereses = $3,
+               telefono = $4,
+               contrasena = $5,
+               imagen = $6
+           WHERE id_persona = $7`,
+          [
+            usuario,
+            descripcion,
+            intereses,
+            telefono,
+            hashedPassword,
+            newImageUrl,
+            id_persona,
+          ]
+        );
+
+        if (updateResult.rowCount === 0) {
+          reply.code(500).send({ message: "Error al actualizar el usuario" });
+          return;
+        }
+
+        reply.code(200).send({
+          message: "Usuario actualizado con éxito",
+          usuario: {
+            usuario,
+            descripcion,
+            intereses,
+            telefono,
+            imagen: newImageUrl,
+          },
+        });
+      } catch (error) {
+        console.error("Error al actualizar los datos del usuario:", error);
+        reply
+          .code(500)
+          .send({ message: "Error al actualizar los datos del usuario" });
       }
-
-      reply.code(200).send({
-        id_persona,
-        usuario: usuarioPut.usuario,
-        descripcion: usuarioPut.descripcion,
-        intereses,
-        telefono: usuarioPut.telefono,
-        imagen: imageUrl,
-      });
     },
   });
 

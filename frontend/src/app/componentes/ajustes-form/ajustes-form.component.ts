@@ -21,6 +21,8 @@ import {
   IonNote,
   IonRow,
   IonContent,
+  IonSelect,
+  IonSelectOption,
 } from '@ionic/angular/standalone';
 import { CommonModule } from '@angular/common';
 import {
@@ -49,6 +51,8 @@ import { Router } from '@angular/router';
     ReactiveFormsModule,
     ImageCropperComponent,
     IonInput,
+    IonSelect,
+    IonSelectOption,
   ],
   templateUrl: './ajustes-form.component.html',
   styleUrls: ['./ajustes-form.component.scss'],
@@ -66,16 +70,37 @@ export class AjustesFormComponent {
   availableInterestsList: string[] = [];
   selectedInterests: string[] = [];
   showInterestsList = false;
+  celularRegex = /^598\d{6}$/;
 
   private readonly _formBuilder = inject(NonNullableFormBuilder);
   passwordStateMatcher = new PasswordStateMatcher();
   updateForm = this._formBuilder.group(
     {
-      usuario: ['', Validators.required],
-      celular: ['', Validators.required],
+      usuario: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(4),
+          Validators.maxLength(20),
+        ],
+      ],
+      celular: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(this.celularRegex), // Nuevo validador regex
+        ],
+      ],
       contrasena: ['', [customPasswordValidator, Validators.required]],
       confirmContrasena: ['', Validators.required],
-      descripcion: ['', Validators.required],
+      descripcion: [
+        '',
+        [
+          Validators.required,
+          Validators.minLength(10),
+          Validators.maxLength(200),
+        ],
+      ],
       intereses: ['', Validators.required],
     },
     {
@@ -171,7 +196,10 @@ export class AjustesFormComponent {
         'contrasena',
         this.updateForm.get('contrasena')?.value || ''
       );
-
+      console.log(
+        this.updateForm.get('contrasena')?.value || '',
+        'SOY LA CONTRAAA'
+      );
       // Validar y agregar descripción
 
       formData.append(
@@ -179,11 +207,13 @@ export class AjustesFormComponent {
         this.updateForm.get('descripcion')?.value || ''
       );
 
-      // Validar y agregar intereses
-      if (this.selectedInterests.length > 0) {
-        formData.append('intereses', JSON.stringify(this.selectedInterests));
+      // Obtener los intereses seleccionados directamente del control
+      const selectedInterests = this.updateForm.get('intereses')?.value || [];
+      if (selectedInterests.length > 0) {
+        formData.append('intereses', JSON.stringify(selectedInterests));
       } else {
-        console.warn('No se han seleccionado intereses.');
+        console.error('No se han seleccionado intereses.');
+        return;
       }
 
       // Validar y agregar imagen
@@ -195,7 +225,8 @@ export class AjustesFormComponent {
         const response = await this.apiService.update(this.getId(), formData);
         console.log('Respuesta del servidor:', response);
 
-        if (response && response.success) {
+        // Verificar si la respuesta contiene "exito"
+        if (response.message.includes('éxito')) {
           console.log('Usuario actualizado con éxito');
           this.router.navigate(['auth/login']);
         } else {

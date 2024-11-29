@@ -1,14 +1,15 @@
 <ion-content>
-  <ion-grid
-    (click)="
-      verPublicacion(publicacion()?.id_publicacion, publicacion()?.id_creador)
-    "
-    [routerLink]="['/inicio', publicacion()?.id_publicacion]"
-  >
+  <ion-grid [routerLink]="['/inicio', publicacion()?.id_publicacion]">
     <ion-row>
       <ion-col size="12">
         <!-- Cabecera de la tarjeta -->
-        <ion-item lines="none" class="card-header">
+        <ion-item
+          lines="none"
+          class="card-header"
+          (click)="
+            detenerPropagacion($event); verUsuario(usuario()?.id_persona)
+          "
+        >
           <ion-avatar slot="start">
             <ion-img
               [src]="getImagenPersonaUrl(usuarioData?.imagen)"
@@ -17,14 +18,21 @@
             ></ion-img>
           </ion-avatar>
           <ion-label>
-            <ion-text (click)="verUsuario(usuario()?.id_persona)">
+            <ion-text>
               {{ usuario()?.nombre }} {{ usuario()?.apellido }}
             </ion-text>
           </ion-label>
         </ion-item>
 
         <!-- Contenido de la publicación -->
-        <ion-card>
+        <ion-card
+          (click)="
+            verPublicacion(
+              publicacion()?.id_publicacion,
+              publicacion()?.id_creador
+            )
+          "
+        >
           <ion-card-content>
             <ion-text>
               <p>{{ publicacion()?.descripcion }}</p>

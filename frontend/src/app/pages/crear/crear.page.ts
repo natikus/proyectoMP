@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { CrearPublicacionComponent } from '../../componentes/crear-publicacion/crear-publicacion.component';
+import { IonContent } from '@ionic/angular/standalone';
 
 @Component({
   selector: 'app-crear',
   standalone: true,
-  imports: [CrearPublicacionComponent],
+  imports: [IonContent, CrearPublicacionComponent],
   templateUrl: './crear.page.html',
   styleUrl: './crear.page.css',
 })
