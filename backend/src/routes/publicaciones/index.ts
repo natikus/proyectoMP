@@ -517,6 +517,48 @@ const publicacionesRoute: FastifyPluginAsync = async (
         .send({ message: "publicación eliminada", id_publicacion });
     },
   });
+  // Ruta para ver los detalles de una etiqueta específica
+  fastify.get("/:id_persona/amigos", {
+    schema: {
+      summary: "Obtener las publicaciones de los amigos",
+      description: "Obtiene las publicaciones de sus amigos por ID.",
+      tags: ["amigos"],
+      response: {
+        200: {
+          description: "Publicaciones de amigos encontradas",
+          type: "array",
+        },
+        404: {
+          description: "Publicaciones de tus amigos no encontradas",
+          type: "object",
+        },
+      },
+    },
+    onRequest: fastify.authenticate,
+    handler: async function (request, reply) {
+      const { id_persona } = request.params as { id_persona: number };
+
+      try {
+        const res = await query(
+          `
+          SELECT id_amigo2 FROM amigos WHERE id_amigo1 = $1;`,
+          [id_persona]
+        );
+
+        if (res.rows.length === 0) {
+          reply.code(404).send({
+            message: "No se encontraron las publicaciones de tus amigos",
+          });
+          return;
+        }
+
+        return res.rows;
+      } catch (error) {
+        console.error("Error al obtener las publicaciones:", error);
+        reply.code(500).send({ message: "Error interno del servidor." });
+      }
+    },
+  });
 };
 
 export default publicacionesRoute;

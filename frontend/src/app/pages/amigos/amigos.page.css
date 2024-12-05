@@ -1,0 +1,29 @@
+.publicaciones-container {
+  margin-top: 2cm;
+  justify-content: center;
+}
+
+.card-container {
+  border-radius: 10px;
+  width: 100%; /* Ocupa todo el espacio de la columna */
+  max-width: 400px; /* Máximo ancho */
+  margin: 0 auto; /* Centrar tarjeta en la columna */
+
+  color: whitesmoke;
+  height: 500px; /* Altura fija para todas las tarjetas */
+  flex-direction: column;
+  justify-content: space-between; /* Asegura consistencia interna */
+}
+
+.card-container img {
+  height: 150px; /* Ejemplo de ajuste para imágenes */
+  object-fit: cover; /* Ajusta imágenes dentro de su contenedor */
+  width: 100%;
+  border-radius: 10px 10px 0 0; /* Bordes superiores redondeados */
+}
+.card-footer {
+  margin-top: auto; /* Empuja el botón al final */
+}
+ion-row {
+  margin-top: 2cm;
+}

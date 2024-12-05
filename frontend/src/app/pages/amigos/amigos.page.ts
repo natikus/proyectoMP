@@ -1,10 +1,10 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ApiRestService } from '../../servicios/api-rest.service';
 import { publicaciones } from '../../interface/publicacion';
 import { PublicacionComponent } from '../../componentes/publicacion/publicacion.component';
 
 import { CommonModule } from '@angular/common';
-import { usuarios } from '../../interface/persona';
+import { amigo, usuarios } from '../../interface/persona';
 import {
   IonContent,
   IonGrid,
@@ -15,7 +15,7 @@ import {
 } from '@ionic/angular/standalone';
 
 @Component({
-  selector: 'app-inicio',
+  selector: 'app-amigos',
   standalone: true,
   imports: [
     IonText,
@@ -27,12 +27,15 @@ import {
     PublicacionComponent,
     CommonModule,
   ],
-  templateUrl: './inicio.page.html',
-  styleUrl: './inicio.page.css',
+  templateUrl: './amigos.page.html',
+  styleUrls: ['./amigos.page.scss'],
 })
-export class InicioPage {
+export class AmigosPage {
+  constructor() {}
+
   apiService = inject(ApiRestService);
   publicaciones: publicaciones[] = [];
+  amigos: amigo[] = [];
   usuarios: usuarios[] = [];
   id_persona: string = '';
   recargar: boolean = true;
@@ -41,14 +44,24 @@ export class InicioPage {
     if (this.recargar) {
       localStorage.removeItem('id_usuario');
       localStorage.removeItem('id_publicacion');
-      this.publicaciones = await this.apiService.get('publicaciones');
-      console.log(this.publicaciones);
+      this.id_persona = localStorage.getItem('id_persona') ?? '';
+      this.amigos = await this.apiService.get(
+        `publicaciones/${this.id_persona}/amigos`
+      );
+      console.log('AMIGOSSS', this.amigos);
+      for (const amigos of this.amigos) {
+        console.log(amigos);
+        const amigo = await this.apiService.get(
+          `publicaciones/${amigos}/amigos`
+        );
+        this.publicaciones.push(amigo);
+      }
       for (const publicacion of this.publicaciones) {
         const usuario = await this.creador(publicacion.id_creador);
         this.usuarios.push(usuario);
       }
       console.log(this.usuarios);
-      this.id_persona = localStorage.getItem('id_persona') ?? '';
+
       localStorage.removeItem('id_creador');
     }
   }

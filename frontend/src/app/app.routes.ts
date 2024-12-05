@@ -9,6 +9,7 @@ import { VerPublicacionPage } from './pages/publicacion/publicacion.page';
 import { AjustesPage } from './pages/ajustes/ajustes.page';
 import { BuscarPage } from './pages/buscar/buscar.page';
 import { AyudaPage } from './pages/ayuda/ayuda.page';
+import { AmigosPage } from './pages/amigos/amigos.page';
 export const routes: Routes = [
   {
     path: '',
@@ -40,6 +41,11 @@ export const routes: Routes = [
   {
     path: 'inicio/porfile/:id',
     component: PerfilPage,
+    canActivate: [logueadoGuard],
+  },
+  {
+    path: 'inicio/amigos',
+    component: AmigosPage,
     canActivate: [logueadoGuard],
   },
   {

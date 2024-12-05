@@ -1,5 +1,5 @@
-export interface celular {
-  celular: number;
+export interface amigo {
+  id_amigo2: number;
 }
 
 export interface usuarios {

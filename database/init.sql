@@ -34,7 +34,13 @@ CREATE TABLE IF NOT EXISTS etiquetas (
     id_etiqueta SERIAL PRIMARY KEY,
     etiqueta TEXT NOT NULL UNIQUE
 );
-
+CREATE TABLE IF NOT EXISTS amigos (
+    id_amigo2  INTEGER NOT NULL,
+    id_amigo1  INTEGER NOT NULL,
+    PRIMARY KEY (id_amigo2, id_amigo1),
+    CONSTRAINT fk_amigo1 FOREIGN KEY (id_amigo1) REFERENCES usuarios(id_persona) ON DELETE CASCADE,
+    CONSTRAINT fk_amigo2 FOREIGN KEY (id_amigo2) REFERENCES usuarios(id_persona) ON DELETE CASCADE
+);
 
 CREATE TABLE IF NOT EXISTS publicacion_etiquetas (
     id_publicacion INTEGER NOT NULL,
@@ -48,6 +54,7 @@ CREATE TABLE IF NOT EXISTS publicacion_etiquetas (
 INSERT INTO usuarios (nombre, apellido, usuario, email,  is_Admin, descripcion, imagen, intereses,telefono, contrasena) 
 VALUES 
 ('Juan', 'Perez', 'juanp', 'juan.perez@example.com',  FALSE, 'Me gusta ayudar a las personas', '/boris.jpg',ARRAY['tecnología', 'programación'],  '59892070235',crypt('Password123!', gen_salt('bf'))),
+('Natasha', 'Kusminsky', 'nat', 'natikumy@gmail.com',  TRUE, 'ojala pasar', '/silla.jpeg',ARRAY['sillas', 'animales'],  '59892070215',crypt('1234qweR$', gen_salt('bf'))),
 ('Maria', 'Lopez', 'marial', 'maria.lopez@example.com',  TRUE, 'Intento hacer un mundo mejor', '/IMG_20230410_185647_349.jpg',ARRAY['arte', 'diseño'],  '59891265322',crypt('Password123!', gen_salt('bf')));
 
 
@@ -80,3 +87,10 @@ VALUES
 (1, 2), 
 (2, 3), 
 (2, 4);
+INSERT INTO amigos (id_amigo1, id_amigo2)
+VALUES 
+(1, 1), 
+(1, 2), 
+(2, 1), 
+(2, 3);
+
