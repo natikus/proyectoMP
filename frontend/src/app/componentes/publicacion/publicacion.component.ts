@@ -50,20 +50,17 @@ export class PublicacionComponent {
     localStorage.removeItem('id_creador');
     if (id !== undefined) {
       localStorage.setItem('id_publicacion', id.toString());
-      console.log('ID seteada:', id);
     } else {
       console.error('ID no está definida');
     }
     if (creador !== undefined) {
       localStorage.setItem('id_creador', creador.toString());
-      console.log('ID del creador seteada:', creador);
     } else {
       console.error('ID del creador no está definida');
     }
   }
   verUsuario(id_persona: number | undefined) {
     if (id_persona) {
-      console.log(id_persona, 'AAAAAAAAAA');
       localStorage.setItem('id_usuario', id_persona.toString());
       this.router.navigate(['/inicio/porfile/', id_persona]);
     }

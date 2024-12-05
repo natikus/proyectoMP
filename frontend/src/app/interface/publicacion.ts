@@ -8,7 +8,9 @@ export interface publicaciones {
   ubicacion: string;
   etiqueta: string[];
 }
-
+export interface publicacionId {
+  id_publicacion: number;
+}
 export interface publicacionesPost {
   titulo: string;
   id_creador: number;

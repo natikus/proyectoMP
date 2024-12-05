@@ -43,40 +43,32 @@ export class PublicacionCardComponent {
 
     if (storedId) {
       this.id = parseInt(storedId, 10);
-      console.log('ID de la publicación desde localStorage:', this.id);
     } else {
       console.error('No se encontró el ID de la publicación en localStorage');
       return;
     }
 
     try {
-      console.log('Obtieniendo la publicacion');
       this.publicacion = await this.apiService.get(`publicaciones/${this.id}`);
-      console.log(this.publicacion);
     } catch {
       console.warn('No se puede cargar la publcacion');
     }
 
     try {
-      console.log('obteniendo las etiquetas de la publicacion');
       this.etiquetas = await this.apiService.get(
         `publicaciones/${this.id}/etiquetas`
       );
-      console.log(this.etiquetas);
       if (this.etiquetas) {
         this.etiquetasNombres = this.etiquetas.map(
           (etiqueta) => etiqueta.etiqueta
         );
-        console.log('Nombres de etiquetas:', this.etiquetasNombres);
       } else {
-        console.log('No se encontraron etiquetas');
       }
     } catch {
       console.warn('No se pudo obtener las etiquetas');
     }
   }
   async self() {
-    console.log('LOCAL STORAGE', localStorage);
     const storedId = localStorage.getItem('id_persona');
     const id_creador = localStorage.getItem('id_creador');
     if (storedId == id_creador) {
@@ -96,7 +88,6 @@ export class PublicacionCardComponent {
     const storedId = localStorage.getItem('id_publicacion');
     if (storedId) {
       const response = await this.apiService.finPublicacion(storedId);
-      console.log(response);
 
       window.alert('Publicacion fenalizada');
 

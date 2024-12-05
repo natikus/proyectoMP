@@ -48,7 +48,6 @@ export class ApiRestService {
       });
       const data = await response.json();
       if (response.ok) {
-        console.log('Datos obtenidos :', data);
         return data;
       } else {
         console.error('Error en GET:', data);

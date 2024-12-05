@@ -63,11 +63,11 @@ INSERT INTO publicaciones (titulo, id_creador, descripcion, imagenes, ubicacion)
 VALUES 
 ('Mesa de madera', 1, 'Me sobra esta mesa',  '/mesa.jpg' , 'Quito'),
 ('Silla de madera antigua', 2, 'Me sobra esta silla', '/silla.jpeg' , 'Guayaquil'),
-('Acuarela Inspiradora', 2, 'Intercambio por bicicleta', '/acuarelas.png', 'Cuenca'),
+('Acuarela Inspiradora', 3, 'Intercambio por bicicleta', '/acuarelas.png', 'Cuenca'),
 ('Reproductor de musica', 1, 'Reproductor de muscia perfecto estado', '/musica.png', 'Loja'),
-('Carrito de compras', 2, 'Carrito de compras adquirido legalmente, intercambio por teclado mecanico', '/carrito.png', 'Ambato'),
+('Carrito de compras',3 , 'Carrito de compras adquirido legalmente, intercambio por teclado mecanico', '/carrito.png', 'Ambato'),
 ('Cremas artesanales', 2, 'Doy cremas artensanales para que prueben', '/cremas.png', 'Manta'),
-('Chef gratis!!', 1, 'Coy practicante de chef y necesito expetiencia', '/caldo.png', 'Riobamba'),
+('Chef gratis!!', 3, 'Coy practicante de chef y necesito expetiencia', '/caldo.png', 'Riobamba'),
 ('celulares', 2, 'Telefonos encontrados en una caja, funconan perfectamente', '/telefonos.png', 'Ibarra'),
 ('Colocacion De Vidrios', 1, 'Instalo vidrios, es para ganar experinecia', '/bidrios.png', 'Esmeraldas');
 

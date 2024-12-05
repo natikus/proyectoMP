@@ -285,6 +285,45 @@ const publicacionesRoute: FastifyPluginAsync = async (
     },
   });
 
+  fastify.get("/:id_persona/persona", {
+    schema: {
+      summary: "Obtener todas las publicaciones de una persona específica",
+      description:
+        "Obtiene los detalles de todas las publicaciones de una persona específica por su ID.",
+      tags: ["publicacion"],
+      params: {
+        type: "object",
+        properties: {
+          id_persona: {
+            type: "integer",
+            description: "ID de la persona",
+          },
+        },
+        required: ["id_persona"],
+      },
+    },
+    onRequest: fastify.authenticate,
+    handler: async function (request, reply) {
+      const { id_persona } = request.params as { id_persona: string };
+      console.log("id_publicacion obtenida");
+      const res = await query(
+        `
+            SELECT
+                id_publicacion
+            FROM publicaciones 
+            WHERE id_creador = $1 AND estado = true;
+          `,
+        [id_persona]
+      );
+
+      if (res.rows.length === 0) {
+        reply.code(404).send({ message: "Publicación no encontrada" });
+        return;
+      }
+      console.log("Las publicaciones de este son", res.rows);
+      return res.rows;
+    },
+  });
   fastify.get("/:id_publicacion", {
     schema: {
       summary: "Obtener una publicación específica",
@@ -517,6 +556,7 @@ const publicacionesRoute: FastifyPluginAsync = async (
         .send({ message: "publicación eliminada", id_publicacion });
     },
   });
+
   // Ruta para ver los detalles de una etiqueta específica
   fastify.get("/:id_persona/amigos", {
     schema: {
