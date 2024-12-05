@@ -32,7 +32,7 @@ export class PublicacionCardComponent {
   sos: boolean = false;
   constructor(private route: ActivatedRoute) {}
 
-  localhost?: string = '192.168.1.28';
+  localhost?: string = '10.4.201.163';
   getImagenUrl(imagen: string | undefined): string {
     const baseUrl = `https://${this.localhost}/backend`; // Cambia a https si el servidor usa HTTPS
     if (!imagen) {

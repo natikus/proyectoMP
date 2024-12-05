@@ -4,11 +4,6 @@ import { ApiRestService } from '../../servicios/api-rest.service';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import {
-  IonAvatar,
-  IonContent,
-  IonItem,
-  IonLabel,
-  IonList,
   IonText,
   IonImg,
   IonCol,
@@ -41,7 +36,7 @@ export class PerfilCardComponent {
   id!: string;
   sos: boolean = false;
   router: Router = inject(Router);
-
+  localhost?: string = '10.4.201.163';
   async ngOnInit(): Promise<void> {
     this.self();
     const id_usuario = localStorage.getItem('id_usuario');
@@ -55,6 +50,15 @@ export class PerfilCardComponent {
         console.error('Error al obtener el usuario:', error);
       }
     }
+  }
+  getImagenPersonaUrl(imagen: string | undefined): string {
+    const baseUrl = `https://${this.localhost}/backend`; // Cambia a https si el servidor usa HTTPS
+    if (!imagen) {
+      console.error('Imagen no especificada');
+      return '';
+    }
+    const imageUrl = `${baseUrl}/uploads/${imagen}`;
+    return imageUrl;
   }
   async self() {
     const storedId = localStorage.getItem('id_persona');

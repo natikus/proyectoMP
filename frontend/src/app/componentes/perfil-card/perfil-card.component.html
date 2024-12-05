@@ -5,7 +5,7 @@
       <div class="perfil-imagen">
         <ion-img
           *ngIf="usuario?.imagen"
-          [src]="'http://localhost/backend/uploads/' + usuario.imagen"
+          [src]="getImagenPersonaUrl(usuario.imagen)"
           alt="Imagen del usuario"
           class="perfil-foto"
         ></ion-img>

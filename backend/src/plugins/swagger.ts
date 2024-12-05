@@ -18,6 +18,7 @@ const options: SwaggerOptions = {
     ],
     tags: [
       { name: "usuarios", description: "Datos de usuario" },
+      { name: "etiquetas", description: "Etiquetas de las publicaciones" },
       { name: "auth", description: "Ingreso del usuario a la aplicacion" },
       { name: "publicacion", description: "Publicaciones de la aplicacion" },
     ],

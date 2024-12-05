@@ -19,7 +19,7 @@ const usuarioAuthRoute: FastifyPluginAsync = async (
     schema: {
       summary: "Crear un usuario",
       description: "Crea un nuevo usuario en la base de datos.",
-      tags: ["persona"],
+      tags: ["auth"],
       consumes: ["multipart/form-data"],
       body: UsuarioPostSchema,
     },

@@ -45,7 +45,7 @@ export class PublicacionComponent {
   showLink = input<boolean>(true);
   usuario = input<usuarios | undefined>(undefined);
   router: Router = inject(Router);
-  localhost?: string = '192.168.1.28';
+  localhost?: string = '10.4.201.163';
   get publicacionData(): publicaciones | undefined {
     return this.publicacion();
   }

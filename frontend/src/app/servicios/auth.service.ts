@@ -6,7 +6,7 @@ import { usuarios } from '../interface/persona';
 })
 export class AuthService {
   constructor() {}
-  localhost?: string = '192.168.1.28';
+  localhost?: string = '10.4.201.163';
   readonly API_URL = `https://${this.localhost}/backend/auth/`;
   private router: Router = inject(Router);
   setToken(token: string) {
