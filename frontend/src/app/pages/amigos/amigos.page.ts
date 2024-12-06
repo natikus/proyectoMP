@@ -43,6 +43,7 @@ export class AmigosPage {
 
   async ngOnInit() {
     if (this.recargar) {
+      console.log(localStorage);
       localStorage.removeItem('id_usuario');
       localStorage.removeItem('id_publicacion');
       localStorage.removeItem('id_creador');
@@ -54,10 +55,11 @@ export class AmigosPage {
       );
       console.log('AMIGOSSS', this.amigos); //verifico que son todos
       for (const amigos of this.amigos) {
+        console.log('ID DEL AMIGO', amigos.id_amigo1);
         try {
           console.log('publicaciones del amigo', amigos);
           const amigo = await this.apiService.get(
-            `publicaciones/${amigos.id_amigo2}/persona` //obtengo las id publicaciones de cara persona
+            `publicaciones/${amigos.id_amigo1}/persona` //obtengo las id publicaciones de cara persona
           );
           console.log('el amigo', amigos, 'tiene las publicaicones', amigo);
           this.publicacionesId.push(amigo);

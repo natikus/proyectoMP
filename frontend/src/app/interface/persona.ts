@@ -1,5 +1,5 @@
 export interface amigo {
-  id_amigo2: number;
+  id_amigo1: number;
 }
 
 export interface usuarios {

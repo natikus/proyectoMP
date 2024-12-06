@@ -47,6 +47,31 @@ export class MenuLateralComponent {
     console.log('ayudando');
     this.router.navigate([`/help`]);
   }
+  verAmigos() {
+    this.menuController.close();
+    console.log('ayudando');
+    this.router.navigate([`/inicio/searchAmigo`]);
+  }
+  buscar() {
+    this.menuController.close();
+    console.log('ayudando');
+    this.router.navigate([`/inicio/search`]);
+  }
+  inicio() {
+    this.menuController.close();
+    console.log('ayudando');
+    this.router.navigate([`/inicio`]);
+  }
+  misAmigos() {
+    this.menuController.close();
+    console.log('ayudando');
+    this.router.navigate([`/inicio/misAmigos`]);
+  }
+  PublicacionesAmigas() {
+    this.menuController.close();
+    console.log('ayudando');
+    this.router.navigate([`/inicio/amigos`]);
+  }
   toggleMenu() {
     this.menuController.toggle();
   }

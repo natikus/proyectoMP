@@ -581,7 +581,7 @@ const publicacionesRoute: FastifyPluginAsync = async (
       try {
         const res = await query(
           `
-          SELECT id_amigo2 FROM amigos WHERE id_amigo1 = $1;`,
+          SELECT id_amigo1 FROM amigos WHERE id_amigo2 = $1;`,
           [id_persona]
         );
 

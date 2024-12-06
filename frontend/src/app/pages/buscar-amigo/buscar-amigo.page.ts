@@ -83,6 +83,8 @@ export class BuscarAmigoPage {
         if (solicitud) {
           window.alert('Amigo añadido');
           this.router.navigate(['/inicio']);
+        } else {
+          window.alert('Usuario no encontrado ');
         }
       }
     }
