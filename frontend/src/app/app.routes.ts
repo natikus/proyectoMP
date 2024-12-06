@@ -10,6 +10,8 @@ import { AjustesPage } from './pages/ajustes/ajustes.page';
 import { BuscarPage } from './pages/buscar/buscar.page';
 import { AyudaPage } from './pages/ayuda/ayuda.page';
 import { AmigosPage } from './pages/amigos/amigos.page';
+import { BuscarAmigoPage } from './pages/buscar-amigo/buscar-amigo.page';
+import { VerAmigosPage } from './pages/ver-amigos/ver-amigos.page';
 export const routes: Routes = [
   {
     path: '',
@@ -51,6 +53,16 @@ export const routes: Routes = [
   {
     path: 'inicio/search',
     component: BuscarPage,
+    canActivate: [logueadoGuard],
+  },
+  {
+    path: 'inicio/searchAmigo',
+    component: BuscarAmigoPage,
+    canActivate: [logueadoGuard],
+  },
+  {
+    path: 'inicio/misAmigos',
+    component: VerAmigosPage,
     canActivate: [logueadoGuard],
   },
 

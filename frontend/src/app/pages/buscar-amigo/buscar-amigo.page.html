@@ -1,0 +1,32 @@
+<ion-content>
+  <ion-grid>
+    <ion-title color="medium">Buscador</ion-title>
+
+    <!-- Fila para el buscador -->
+    <ion-row>
+      <ion-col>
+        <ion-input
+          placeholder="Escribe el mail de tu amigo"
+          [(ngModel)]="buscado"
+          clear-input="true"
+        >
+        </ion-input>
+        <ion-button color="medium" expand="block" (click)="buscar()">
+          Añadir
+        </ion-button>
+      </ion-col>
+    </ion-row>
+
+    <!-- Fila para las publicaciones o mensaje de no resultados -->
+    <ion-row *ngIf="busquedaRealizada">
+      <!-- Mensaje cuando no hay publicaciones -->
+      <ng-template #noResultados>
+        <ion-col size="12" class="no-resultados">
+          <ion-text>
+            <h1>No se encontro la persona.</h1>
+          </ion-text>
+        </ion-col>
+      </ng-template>
+    </ion-row>
+  </ion-grid>
+</ion-content>

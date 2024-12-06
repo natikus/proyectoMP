@@ -62,6 +62,24 @@
       </ion-item>
       <ion-item
         class="no-select"
+        [routerLink]="['/inicio/searchAmigo']"
+        (click)="closeMenu()"
+        >Añadir amigos
+      </ion-item>
+      <ion-item
+        class="no-select"
+        [routerLink]="['/inicio/amigos']"
+        (click)="closeMenu()"
+        >Publicaciones amigas
+      </ion-item>
+      <ion-item
+        class="no-select"
+        [routerLink]="['/inicio/amigos']"
+        (click)="closeMenu()"
+        >Mis amigos
+      </ion-item>
+      <ion-item
+        class="no-select"
         (click)="closeMenu()"
         [routerLink]="['/inicio/create']"
         >Crear publicacion</ion-item

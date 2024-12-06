@@ -2,6 +2,8 @@ import { FastifyPluginAsync, FastifyPluginOptions } from "fastify";
 import { FastifyInstance } from "fastify/types/instance.js";
 import { query } from "../../services/database.js";
 import {
+  amigoPostSchema,
+  amigoPostType,
   UsuarioIdSchema,
   UsuarioIdType,
   UsuarioPutSchema,
@@ -91,7 +93,28 @@ const usuariosRoute: FastifyPluginAsync = async (
       return res.rows[0];
     },
   });
-
+  fastify.post("/:id_persona/amigo", {
+    schema: {
+      summary: "Agregar un amigo",
+      description: "Crea una nueva etiqueta.",
+      tags: ["amigos"],
+      body: amigoPostSchema,
+      response: {
+        201: {
+          description: "Amigo añadido con éxito.",
+        },
+      },
+    },
+    onRequest: fastify.authenticate,
+    handler: async function (request, reply) {
+      const { id_amigo1, id_amigo2 } = request.body as amigoPostType;
+      const res = await query(
+        `INSERT INTO amigos (id_amigo1, id_amigo2) VALUES ($1, $2) RETURNING *;`,
+        [id_amigo1, id_amigo2]
+      );
+      reply.code(201).send(res.rows[0]);
+    },
+  });
   // Ruta para eliminar un usuario
   fastify.delete("/:id_persona", {
     schema: {

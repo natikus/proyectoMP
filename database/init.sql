@@ -87,10 +87,6 @@ VALUES
 (1, 2), 
 (2, 3), 
 (2, 4);
-INSERT INTO amigos (id_amigo1, id_amigo2)
-VALUES 
-(1, 1), 
-(1, 2), 
-(2, 1), 
-(2, 3);
+
+
 

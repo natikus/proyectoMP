@@ -1,0 +1,5 @@
+<div>
+  <ion-text color="primary" *ngFor="let etiqueta of amigos; let isLast = last">
+    <span>{{ etiqueta }}</span><span *ngIf="!isLast">, </span>
+  </ion-text>
+</div>

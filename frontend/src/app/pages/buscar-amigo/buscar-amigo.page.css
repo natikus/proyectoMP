@@ -1,0 +1,17 @@
+.scrollable-form {
+  max-height: 90vh;
+  overflow-y: auto;
+}
+.image-upload-section {
+  max-width: 25%;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+.cropped-preview img {
+  max-width: 25%;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+ion-grid {
+  margin-top: 2cm;
+}
